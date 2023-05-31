@@ -1,7 +1,5 @@
 import './globals.css';
-import { Mulish } from 'next/font/google';
-
-const mulish = Mulish({ weight: ['800', '300', '500', '900', '700'], subsets: ['latin'] });
+import { mulish } from '../components/resource';
 
 export const metadata = {
   title: 'Create Next App',
