@@ -1,5 +1,6 @@
 import './globals.css';
 import { mulish } from '../components/resource';
+import Navbar from '@/components/Navabar';
 
 export const metadata = {
   title: 'Create Next App',
@@ -9,7 +10,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={mulish.className}>{children}</body>
+      <body className={mulish.className}>
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

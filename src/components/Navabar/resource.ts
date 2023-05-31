@@ -1,4 +1,6 @@
-export const paths = [
+import { IPath } from './interface/path.interface';
+
+export const paths: IPath[] = [
   {
     label: 'Mascotas',
     route: '/pets',
