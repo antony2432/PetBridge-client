@@ -7,20 +7,19 @@ import { settings } from './Settings';
 import './styles.css';
 import { Cards } from './Cards';
 
-
-
 export default function AnimalesRescatadosRecientes() {
-
-
   return (
-    <section className='flex flex-col justify-center items-center w-screen  mt-24 '>
-    <h2 className='text-center text-[#3C2313] text-4xl font-extrabold'>Conoce a los animalitos rescatados más recientes</h2>
+    <section className="w-full max-w-7xl flex flex-col justify-center items-center">
+      <h2 className="text-2xl text-center font-extrabold text-DarkBrown-900 md:text-4xl">
+        Conoce a los animalitos rescatados más recientes
+      </h2>
 
-    <Slider   {...settings} className=' flex flex-rows justify-center items-center  h-[450px]   w-64 min-[720px]:w-[550px] lg:w-[840px] xl:w-[1110px] '>
-      
+      <Slider
+        {...settings}
+        className="w-64 h-[450px] flex justify-center items-center min-[720px]:w-[550px] lg:w-[840px] xl:w-[1110px] "
+      >
         {Cards}
-
-    </Slider>
+      </Slider>
     </section>
   );
 }
