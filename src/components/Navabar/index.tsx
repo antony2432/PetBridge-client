@@ -34,7 +34,7 @@ function ButtonSection() {
 
 function MobileMenu({ links }: IPathList) {
   return (
-    <section className="w-screen px-8 absolute top-[10vh] right-0 bg-white duration-300 border lg:hidden">
+    <section className="w-full px-8 absolute top-[10vh] right-0 bg-white duration-300 border lg:hidden">
       <ul className="text-sm text-DarkBrown-900 mt-3  flex flex-col items-center gap-1">
         <PathList links={links} />
       </ul>
@@ -49,7 +49,7 @@ function MobileMenu({ links }: IPathList) {
 export default function Navbar() {
   const { isOpen, handleClosed, handleRoot } = useNavBar();
   return (
-    <header className="w-screen h-[10vh] shadow-md flex justify-between lg:justify-center">
+    <header className="w-full h-[10vh] shadow-md flex justify-between lg:justify-center">
       <div className="w-full flex justify-between items-center px-8 max-w-7xl">
         <h1 className={`${leckerli.className} cursor-pointer`} onClick={handleRoot}>
           <span className="text-5xl text-DarkBrown-900">Pet</span>
