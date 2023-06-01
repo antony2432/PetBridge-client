@@ -1,5 +1,5 @@
 export var settings = {
-
+  arrows:false,
   dots: true,
   infinite: true,
   autoplay: true,

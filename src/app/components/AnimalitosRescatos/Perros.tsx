@@ -1,7 +1,7 @@
 
     
 const Perros = [{
-  name: 'perroEjemplo',
+  name: 'ramon',
   sexo: 'macho',
   tamaño: 'mediano',
   peso:0.5,
@@ -10,7 +10,7 @@ const Perros = [{
   Ubicacion: 'Buenos Aires',
 },
 {
-  name: 'perroEjemplo',
+  name: 'tom',
   sexo: 'Hembra',
   tamaño: 'Grande',
   peso:5,
@@ -19,7 +19,7 @@ const Perros = [{
   Ubicacion: 'Lima',
 },
 {
-  name: 'perroEjemplo',
+  name: 'ramon',
   sexo: 'macho',
   tamaño: 'pequeño',
   peso:0.5,
@@ -28,7 +28,7 @@ const Perros = [{
   Ubicacion: 'Centro de mexico',
 },
 {
-  name: 'perroEjemplo',
+  name: 'rico',
   sexo: 'hembra',
   tamaño: 'mediano',
   peso:0.5,
@@ -37,7 +37,7 @@ const Perros = [{
   Ubicacion: 'Buenos Aires',
 },
 {
-  name: 'perroEjemplo',
+  name: 'tom',
   sexo: 'macho',
   tamaño: 'mediano',
   peso:0.5,
@@ -46,7 +46,7 @@ const Perros = [{
   Ubicacion: 'Buenos Aires',
 },
 {
-  name: 'perroEjemplo',
+  name: 'rico',
   sexo: 'macho',
   tamaño: 'mediano',
   peso:0.5,
