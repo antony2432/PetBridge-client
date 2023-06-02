@@ -3,6 +3,7 @@ import SectionMakeDiferrence from './components/SectionMakeDiferrence';
 import SliderLanding from './components/slider';
 import NuestraMision from './components/NuestraMision';
 import AnimalesRescatadosRecientes from './components/AnimalitosRescatos';
+import ReviewsSection from './components/ReviewsSection';
 
 export default function page() {
   return (
@@ -12,6 +13,7 @@ export default function page() {
       <AnimalesRescatadosRecientes/>
       <SectionMakeDiferrence />
       <SectionPost />
+      <ReviewsSection />
     </main>
   );
 }
