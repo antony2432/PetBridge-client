@@ -25,7 +25,7 @@ export default function Posts() {
 
       {ejemploApi.map((api) => (
 
-        <div key={api.id} className='max-w-7xl h-auto py-4 w-5/6 mx-auto relative shadow-lg rounded-lg my-4 bg-white dark:bg-[#242526] dark:text-[#b1b4b7] md:grid-cols-2 2xl:w-full' >
+        <div key={api.id} className='max-w-7xl h-auto py-4 w-5/6 mx-auto relative shadow-lg rounded-lg my-4 bg-white md:grid-cols-2 2xl:w-full' >
 
 
           <div className="flex flex-row ml-[2.5%] ">
