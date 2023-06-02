@@ -1,7 +1,7 @@
 import './globals.css';
-import { Mulish } from 'next/font/google';
-
-const mulish = Mulish({ weight: ['800', '300', '500', '900', '700'], subsets: ['latin'] });
+import { mulish } from '../components/resource';
+import Navbar from '@/components/Navabar';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,7 +11,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={mulish.className}>{children}</body>
+      <body className={`${mulish.className} flex flex-col`}>
+        <Navbar />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
