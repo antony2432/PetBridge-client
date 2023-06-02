@@ -16,7 +16,7 @@ export default function AnimalesRescatadosRecientes() {
 
       <Slider
         {...settings}
-        className="w-64 h-[450px] flex justify-center items-center min-[720px]:w-[550px] lg:w-[840px] xl:w-[1110px] "
+        className=" w-72 h-[450px] flex justify-center items-center min-[720px]:w-[550px] lg:w-[840px] xl:w-[1110px] "
       >
         {Cards}
       </Slider>

@@ -1,9 +1,13 @@
-
-    
+import { AiOutlineMan } from 'react-icons/ai';
+import { BsEmojiSmile } from 'react-icons/bs';
+const macho = <AiOutlineMan/>;
+const simpatico = <BsEmojiSmile/>;
 const Perros = [{
   name: 'ramon',
-  sexo: 'macho',
+  sexoT:  'macho',
+  sexoI:  macho,
   tamaño: 'mediano',
+  humor: simpatico,
   peso:0.5,
   edad: 2,
   pais:'Argentina',
@@ -14,13 +18,15 @@ const Perros = [{
   sexo: 'Hembra',
   tamaño: 'Grande',
   peso:5,
+  humor: simpatico,
   edad: 10,
   pais:'Peru',
   Ubicacion: 'Lima',
 },
 {
   name: 'ramon',
-  sexo: 'macho',
+  sexoT:  'macho',
+  sexoI: macho,
   tamaño: 'pequeño',
   peso:0.5,
   edad: 2,
@@ -38,7 +44,8 @@ const Perros = [{
 },
 {
   name: 'tom',
-  sexo: 'macho',
+  sexoT:  'macho',
+  sexoI: macho,
   tamaño: 'mediano',
   peso:0.5,
   edad: 2,
@@ -47,7 +54,9 @@ const Perros = [{
 },
 {
   name: 'rico',
-  sexo: 'macho',
+  sexoT:  'macho',
+  sexoI: macho,
+  humor: simpatico,
   tamaño: 'mediano',
   peso:0.5,
   edad: 2,
