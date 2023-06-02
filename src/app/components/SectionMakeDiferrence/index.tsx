@@ -44,7 +44,7 @@ function OptionsItem({ title, paragraph, color, orientation }: IOptionsItem) {
 
 export default function SectionMakeDiferrence() {
   return (
-    <article className="w-full flex flex-col gap-16 max-w-7xl">
+    <article className="w-full px-5 lg:px-0 flex flex-col gap-16 max-w-7xl">
       <section className="flex justify-center items-center">
         <h1 className="flex text-DarkBrown-900 w-96 text-xl text-center font-extrabold sm:text-3xl">
           Descubre cómo Pet Bridge puede ayudarte a marcar la diferenciaz

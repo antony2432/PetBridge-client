@@ -1,22 +1,20 @@
 import { NextArrow, PrevArrow } from './Arrows';
 export let settings = {
-    
   infinite: true,
   speed: 1500,
   slidesToShow: 4,
-  slidesToScroll: 1,
+  slidesToScroll: 2,
   initialSlide: 0,
-    
-  nextArrow: <NextArrow className={undefined} style={undefined} onClick={undefined} />,
-  prevArrow: <PrevArrow className={undefined} style={undefined} onClick={undefined} />,
-   
+
+  nextArrow: <NextArrow className={undefined} onClick={undefined}/>,
+  prevArrow: <PrevArrow className={undefined} onClick={undefined} />,
+
   responsive: [
     {
       breakpoint: 720,
       settings: {
         slidesToShow: 1,
         slidesToScroll: 1,
-         
       },
     },
     {

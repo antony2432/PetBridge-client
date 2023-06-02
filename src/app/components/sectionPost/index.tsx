@@ -3,12 +3,12 @@ import React from 'react';
 
 export default function SectionPost() {
   return (
-    <section className="max-w-7xl px-8 mx-5 py-5 bg-OffWhite-500 flex flex-col gap-5 items-center md:flex-row md:justify-center">
+    <section className="max-w-7xl px-8 mx-5 py-10 bg-OffWhite-500 flex flex-col gap-5 items-center md:flex-row md:justify-center lg:mx-0 lg:px-0">
       <div className="md:w-[50%] md:flex md:justify-center">
-        <Image src="/img/perrito2.png" alt="perrito agradable" width="217" height="230" className='lg:w-80'/>
+        <Image src="/img/perrito2.png" alt="perrito agradable" width="217" height="230" className='lg:w-80 object-cover  hover:scale-105 duration-500'/>
       </div>
       <section className="flex flex-col gap-5 md:w-[40%]">
-        <h3 className="text-DarkBrown-900 text-center md:text-left text-xl font-extrabold">
+        <h3 className="text-DarkBrown-900 text-center md:text-left text-xl lg:text-3xl font-extrabold">
           Explora nuestros artículos y consejos para el cuidado de mascotas
         </h3>
         <p className="text-justify md:text-left text-sm">

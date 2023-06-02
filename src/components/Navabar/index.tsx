@@ -11,7 +11,7 @@ function PathList({ links }: IPathList) {
   return (
     <>
       {links.map(({ label, route }, i) => (
-        <li key={i} className="w-full hover:bg-OffWhite-500 px-4 py-1 rounded-md text-center">
+        <li key={i} className="w-full px-4 py-1 rounded-md text-center hover:bg-OffWhite-500">
           <Link href={route}>{label}</Link>
         </li>
       ))}

@@ -8,7 +8,7 @@ export default function NuestraMision() {
         alt="Nuestra mision"
         width="500"
         height="367"
-        className="w-[491px] h-auto m-0 rounded-3xl lg:w-[547px] lg:h-[367px]"
+        className="w-[491px] h-auto m-0 rounded-3xl hover:scale-105 duration-300 lg:w-[547px] lg:h-[367px]"
       />
 
       <section className="flex flex-col gap-8 items-center lg:ml-24">
