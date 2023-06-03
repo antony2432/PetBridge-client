@@ -49,7 +49,7 @@ function MobileMenu({ links }: IPathList) {
 export default function Navbar() {
   const { isOpen, handleClosed, handleRoot } = useNavBar();
   return (
-    <header className="w-full h-[10vh] shadow-md flex justify-between lg:justify-center order-1 z-10">
+    <header className="w-full h-[10vh] shadow-md flex justify-between lg:justify-center z-10">
       <div className="w-full flex justify-between items-center px-8 max-w-7xl">
         <h1 className={`${leckerli.className} cursor-pointer`} onClick={handleRoot}>
           <span className="text-5xl text-DarkBrown-900">Pet</span>
