@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ModalPostSend from './components/modalPostSend';
 
 export default function PostSend() {
   return (
@@ -12,9 +13,12 @@ export default function PostSend() {
         className='border w-16 h-16 rounded-full'
       />
     </section>
-    
-      <input type="text" placeholder='En que estas pensando......' className='bg-[#F1F5F9] col-span-7 h-16 rounded-2xl p-5' />
 
+
+
+
+
+<ModalPostSend />
       
     </div>
   );

@@ -1,21 +1,21 @@
 import Image from 'next/image';
-import { BsFillHandThumbsUpFill } from 'react-icons/bs';
 import { FcLike } from 'react-icons/fc';
-import { BiCommentDetail } from 'react-icons/bi';
+import Likes from './components/likes/likes';
+import Comments from './components/comentarios/Comments';
 export default function Posts() {
 
   const ejemploApi = [{
-    'id': 1, 'name': 'Max', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem", 'imagen':'/img/ImagenesPruebaPost/perrito.jpg', 'meGusta': '20' },
-  { 'id': 2, 'name': 'Antony', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry ', 'imagen':'', 'meGusta': '10' },
+    'id': '1', 'name': 'Max', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem", 'imagen':'/img/ImagenesPruebaPost/perrito.jpg', 'meGusta': '20' },
+  { 'id': '2', 'name': 'Antony', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry ', 'imagen':'', 'meGusta': '10' },
 
-  { 'id': 3, 'name': 'Axel', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'REDMI es tu pasaporte global para conocer nuevas personas y compartir experiencias. Con características de personalización únicas, oportunidades de aprendizaje y una comunidad inclusiva, READMI te permite expresar tu individualidad mientras te conectas con otros. Sumérgete en un mundo de descubrimiento, amistad y diversión. ¡Ven y únete a la aventura en READMI!', 'imagen':'/img/ImagenesPruebaPost/perrito.jpg', 'meGusta': '700' },
+  { 'id':'3', 'name': 'Axel', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'REDMI es tu pasaporte global para conocer nuevas personas y compartir experiencias. Con características de personalización únicas, oportunidades de aprendizaje y una comunidad inclusiva, READMI te permite expresar tu individualidad mientras te conectas con otros. Sumérgete en un mundo de descubrimiento, amistad y diversión. ¡Ven y únete a la aventura en READMI!', 'imagen':'/img/ImagenesPruebaPost/perrito.jpg', 'meGusta': '700' },
    
-  { 'id': 4, 'name': 'Fer', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem", 'imagen':'/img/ImagenesPruebaPost/Adoptame.jpeg', 'meGusta': '20' },
+  { 'id': '4', 'name': 'Fer', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. t has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem", 'imagen':'/img/ImagenesPruebaPost/Adoptame.jpeg', 'meGusta': '20' },
   
-  { 'id': 5, 'name': 'Leo', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'imagen':'/img/ImagenesPruebaPost/gatitos.jpg', 'meGusta': '10' },
+  { 'id': '5', 'name': 'Leo', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'imagen':'/img/ImagenesPruebaPost/gatitos.jpg', 'meGusta': '10' },
   
-  { 'id': 6, 'name': 'Eloy', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'REDMI es tu pasaporte global para conocer nuevas personas y compartir experiencias. Con características de personalización únicas, oportunidades de aprendizaje y una comunidad inclusiva, READMI te permite expresar tu individualidad mientras te conectas con otros. Sumérgete en un mundo de descubrimiento, amistad y diversión. ¡Ven y únete a la aventura en READMI!', 'imagen':'', 'meGusta': '700' },
-  { 'id': 7, 'name': 'fabi', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'imagen':'/img/ImagenesPruebaPost/gatitos.jpg', 'meGusta': '10' },
+  { 'id': '6', 'name': 'Eloy', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'REDMI es tu pasaporte global para conocer nuevas personas y compartir experiencias. Con características de personalización únicas, oportunidades de aprendizaje y una comunidad inclusiva, READMI te permite expresar tu individualidad mientras te conectas con otros. Sumérgete en un mundo de descubrimiento, amistad y diversión. ¡Ven y únete a la aventura en READMI!', 'imagen':'', 'meGusta': '700' },
+  { 'id': '7', 'name': 'fabi', 'fecha':'20 de febrero a las 08:00', 'comentarios': 10, 'post': 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.', 'imagen':'/img/ImagenesPruebaPost/gatitos.jpg', 'meGusta': '10' },
   
   ];
 
@@ -54,13 +54,14 @@ export default function Posts() {
             />
             </section>
 
-            <div className='border-b-2 border-black dark:border-[#94A3B8] flex justify-between w-[95%] items-center pb-3 2xl:text-xl'>
+            <div className='border-b-2  dark:border-[#94A3B8] flex justify-between w-[95%] items-center pb-3 2xl:text-xl'>
               <h3 className='flex gap-4 justify-center items-center'>{api.meGusta} <FcLike/></h3>
               <h3 >{api.comentarios} Comentarios</h3>
             </div>
             <div className='flex justify-between w-[95%] items-center 2xl:text-xl pt-3'>
-              <button className='flex gap-1 mt-1'><BsFillHandThumbsUpFill className='text-teal-500  dark:text-[#b1b4b7]  ' />Me gusta </button>
-              <button className='flex gap-3 justify-center items-center'><BiCommentDetail className='text-3xl'/> Comentar</button>
+              <Likes/>
+              {/* <button className='flex gap-3 justify-center items-center'><BiCommentDetail className='text-3xl'/> Comentar</button> */}
+<Comments name={api.name} fecha={api.fecha} post={api.post} imagen={api.imagen}/>
             </div>
           </div>
         </div>
