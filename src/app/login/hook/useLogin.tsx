@@ -73,7 +73,7 @@ export default function useLogin() {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    router.push('/');
+    router.push('/home');
   };
 
   return {

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { IUserRegistrationFormError, IUserRegistrationForm } from '../interface/IuseUserRegistrationForm';
-
+import {
+  IUserRegistrationFormError,
+  IUserRegistrationForm,
+} from '../interface/IuseUserRegistrationForm';
+import { useRouter } from 'next/navigation';
 
 export default function useUserRegistrationForm() {
   const initialValue: IUserRegistrationForm = {
@@ -29,6 +32,7 @@ export default function useUserRegistrationForm() {
   const [field, setField] = useState(initialValue);
   const [fieldError, setFieldError] = useState(initialError);
   const [enable, setEnable] = useState(true);
+  const router = useRouter();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -86,6 +90,7 @@ export default function useUserRegistrationForm() {
   const submitUserRegistrationForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log({ field, fieldError });
+    router.push('/home');
   };
 
   useEffect(() => {

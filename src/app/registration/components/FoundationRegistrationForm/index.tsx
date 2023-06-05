@@ -20,7 +20,7 @@ function FoundationRegisterStep2() {
       <Input label="Pais" color="brown" />
       <Input label="Telefono" type="tel" color="brown" />
       <Input label="Direccion" color="brown" />
-      <Input label="Imagen" type="file" color="brown" className="text-xs" />
+      <Input label="Imagen" type="file" color="brown" className="text-xs"/>
       <Input label="Inicio de la fundacion" type="date" color="brown" />
     </>
   );
