@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FieldAttributes  } from 'formik';
 import Dropzone from './DropZone';
 import validationSchema from './validationSchema';
 import axios from 'axios';
@@ -55,7 +55,7 @@ const ModalPostSend: React.FC = () => {
       initialValues={{
         description: '',
         file:null,
-        userId:'a342e4b2-aeb6-424b-961e-bca4271f4db3',
+        userId:'4e638e42-e144-4512-8232-cf2f89fe7f8f',
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
@@ -65,7 +65,7 @@ const ModalPostSend: React.FC = () => {
         type="text"
         onClick={handleOpen}
         placeholder="En que estas pensando......"
-        className="bg-[#F1F5F9] col-span-7 h-16 rounded-2xl p-5"
+        className="bg-[#F1F5F9] col-span-7 h-12 w-5/6 lg:h-16 rounded-2xl p-5"
       />
       <Dialog open={open} handler={handleOpen}>
         <div className="flex items-center justify-between">
@@ -81,7 +81,7 @@ const ModalPostSend: React.FC = () => {
       <Form>
       <DialogBody divider>
         <Field name="description">
-          {({ field, form }) => (
+          {({ field }: FieldAttributes<any>) => (
             <div>
               <label htmlFor="description">Descripción:</label>
               <Textarea type="text" id="description" {...field} />
@@ -91,9 +91,9 @@ const ModalPostSend: React.FC = () => {
         </Field>
 
         <Field name="file">
-          {({ field, form }) => (
+          {({ form }: { form: any }) => (
             <div>
-              <label htmlFor="imagen">Imagen:</label>
+              
               <Dropzone form={form} />
               <ErrorMessage name="imagen" component="div" />
             </div>
