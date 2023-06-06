@@ -81,7 +81,7 @@ export default function Page() {
   const { onChange, error, handleSubmit, enabled } = useLogin();
   return (
     <main
-      className="w-full h-full flex flex-grow  justify-center items-center"
+      className="w-full h-full flex flex-grow justify-center items-center"
       style={{ backgroundImage: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)' }}
     >
       <article className="w-full h-full max-w-sm m-5 px-3 py-5 flex gap-5 items-center bg-white rounded-md shadow-lg sm:my-20 md:py-0 md:max-w-6xl md:px-0">
