@@ -34,7 +34,7 @@ export default function Posts() {
 
       {ejemploApi.map((api) => (
             
-        <div key={api.id} className='max-w-7xl  py-4 w-5/6  shadow-lg rounded-lg my-4 bg-white md:grid-cols-2 2xl:w-full' >
+        <div key={api.id} className='max-w-5xl  py-4 w-5/6   rounded-lg my-4 bg-white md:grid-cols-2 2xl:w-full shadow shadow-black' >
 
 
           <div className="flex flex-row ml-[2.5%] ">
