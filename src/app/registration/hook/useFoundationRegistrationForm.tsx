@@ -61,6 +61,16 @@ export default function useFoundationRegistrationForm() {
   const emilValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const router = useRouter();
 
+  const isValidateDAte = (fecha: string) => {
+    const fechaActual: Date = new Date();
+    const fechaMinima: Date = new Date('1950-01-01');
+    const fechaIngresada: Date = new Date(fecha);
+
+    if (fechaIngresada < fechaMinima || fechaIngresada > fechaActual) return false;
+
+    return true;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setField({ ...field, [name]: value });
@@ -75,7 +85,7 @@ export default function useFoundationRegistrationForm() {
     if (name === 'email') {
       setFieldError({
         ...fieldError,
-        password: emilValidation.test(value),
+        email: emilValidation.test(value),
       });
     }
 
@@ -89,14 +99,56 @@ export default function useFoundationRegistrationForm() {
     if (name === 'confirmPassword') {
       setFieldError({
         ...fieldError,
-        password: field.password === value,
+        confirmPassword: field.password === value,
       });
     }
 
-    if (name === 'pais') {
+    if (name === 'country') {
       setFieldError({
         ...fieldError,
-        password: field.password === value,
+        country: value.length !== 0,
+      });
+    }
+
+    if (name === 'phone') {
+      setFieldError({
+        ...fieldError,
+        phone: value.length !== 0 && value.length <= 11,
+      });
+    }
+
+    if (name === 'address') {
+      setFieldError({
+        ...fieldError,
+        address: value.length !== 0,
+      });
+    }
+
+    if (name === 'image') {
+      setFieldError({
+        ...fieldError,
+        image: value.length !== 0,
+      });
+    }
+
+    if (name === 'dateStart') {
+      setFieldError({
+        ...fieldError,
+        dateStart: isValidateDAte(value),
+      });
+    }
+
+    if (name === 'document') {
+      setFieldError({
+        ...fieldError,
+        document: value.length !== 0,
+      });
+    }
+
+    if (name === 'description') {
+      setFieldError({
+        ...fieldError,
+        description: value.length !== 0,
       });
     }
   };
