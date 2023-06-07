@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  IUserRegistrationFormError,
-  IUserRegistrationForm,
-} from '../interface/IuseUserRegistrationForm';
 import { useRouter } from 'next/navigation';
+import {
+  IUserRegistrationForm,
+  IUserRegistrationFormError,
+} from '../interface/IUseUserRegistrationForm.interface';
 
 export default function useUserRegistrationForm() {
   const initialValue: IUserRegistrationForm = {

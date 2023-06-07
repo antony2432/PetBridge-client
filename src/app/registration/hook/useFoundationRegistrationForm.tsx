@@ -1,51 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-
-interface IField {
-  nameOfFoundation: string;
-  email: string;
-  password: string;
-  country: string;
-  phone: number;
-  address: string;
-  image: string;
-  dateStart: string;
-  document: string;
-  description: string;
-}
-
-interface IFieldError {
-  nameOfFoundation: boolean;
-  email: boolean;
-  password: boolean;
-  confirmPassword: boolean;
-  country: boolean;
-  phone: boolean;
-  address: boolean;
-  image: boolean;
-  dateStart: boolean;
-  document: boolean;
-  description: boolean;
-}
+import { IField, IFieldError } from '../interface/IUseFoundationRegistrationForm.interface';
 
 export default function useFoundationRegistrationForm() {
   const initialValue: IField = {
     nameOfFoundation: '',
     email: '',
     password: '',
+    confirmPassword: '',
     country: '',
-    phone: 0,
+    phone: '',
     address: '',
-    image: '',
+    image: null,
     dateStart: '',
-    document: '',
+    document: null,
     description: '',
   };
 
   const initialError: IFieldError = {
     nameOfFoundation: true,
     email: true,
-    password: true,
+    password: {
+      upper: false,
+      especial: false,
+      number: false,
+      isTrue: true,
+      length: false,
+    },
     confirmPassword: true,
     country: true,
     phone: true,
@@ -58,6 +39,7 @@ export default function useFoundationRegistrationForm() {
 
   const [field, setField] = useState(initialValue);
   const [fieldError, setFieldError] = useState(initialError);
+  const [enable, setEnable] = useState(true);
   const emilValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const router = useRouter();
 
@@ -71,10 +53,28 @@ export default function useFoundationRegistrationForm() {
     return true;
   };
 
+  const handleChangeFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const file = e.target.files?.[0];
+    setField({ ...field, [name]: file });
+    if (name === 'image') {
+      setFieldError({
+        ...fieldError,
+        image: file !== undefined,
+      });
+    }
+
+    if (name === 'document') {
+      setFieldError({
+        ...fieldError,
+        document: file !== undefined,
+      });
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setField({ ...field, [name]: value });
-
     if (name === 'nameOfFoundation') {
       setFieldError({
         ...fieldError,
@@ -90,10 +90,23 @@ export default function useFoundationRegistrationForm() {
     }
 
     if (name === 'password') {
-      setFieldError({
-        ...fieldError,
-        password: value.length !== 0,
-      });
+      const isUpperCaseMissing = /[A-Z]/.test(value);
+      const isNumberMissing = /[0-9]/.test(value);
+      const isSpecialCharMissing = /(?=.*?[#?!@$ %^&*-])/.test(value);
+      const isLength = value.length >= 8;
+      const isIsTrue = isUpperCaseMissing && isNumberMissing && isSpecialCharMissing && isLength;
+      setFieldError((prev) => ({
+        ...prev,
+        password: {
+          ...prev.password,
+          upper: isUpperCaseMissing,
+          number: isNumberMissing,
+          especial: isSpecialCharMissing,
+          isTrue: isIsTrue,
+          length: isLength,
+        },
+        confirmPassword: field.password === value,
+      }));
     }
 
     if (name === 'confirmPassword') {
@@ -124,24 +137,10 @@ export default function useFoundationRegistrationForm() {
       });
     }
 
-    if (name === 'image') {
-      setFieldError({
-        ...fieldError,
-        image: value.length !== 0,
-      });
-    }
-
     if (name === 'dateStart') {
       setFieldError({
         ...fieldError,
         dateStart: isValidateDAte(value),
-      });
-    }
-
-    if (name === 'document') {
-      setFieldError({
-        ...fieldError,
-        document: value.length !== 0,
       });
     }
 
@@ -158,8 +157,35 @@ export default function useFoundationRegistrationForm() {
     console.log(field);
     router.push('/home');
   };
+
+  useEffect(() => {
+    if (
+      fieldError.password.especial &&
+      fieldError.password.length &&
+      fieldError.password.number &&
+      fieldError.password.upper &&
+      fieldError.nameOfFoundation &&
+      fieldError.email &&
+      fieldError.confirmPassword &&
+      fieldError.country &&
+      fieldError.phone &&
+      fieldError.image &&
+      fieldError.dateStart &&
+      fieldError.document &&
+      fieldError.description
+    ) {
+      setEnable(false);
+    } else {
+      setEnable(true);
+    }
+  }, [fieldError]);
+
   return {
     handleChange,
     handleSubmit,
+    fieldError,
+    enable,
+    field,
+    handleChangeFiles,
   };
 }
