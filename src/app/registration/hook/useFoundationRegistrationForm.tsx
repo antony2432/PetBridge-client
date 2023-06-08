@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { IField, IFieldError } from '../interface/IUseFoundationRegistrationForm.interface';
 
@@ -152,10 +153,38 @@ export default function useFoundationRegistrationForm() {
     }
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(field);
-    router.push('/home');
+    const formData = new FormData();
+    Object.entries(field).forEach(([key, value]) => {
+      if (key !== 'confirmPassword' && key !== 'document' && key !== 'image' ) {
+        formData.append(key, value);
+      }
+    });
+
+    formData.append('rol', 'fundation');
+    formData.append('image',  field.image!, field.image?.name);
+    try {
+      const response = await axios.post('http://localhost:3000/auth/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 201) router.push('/');
+    } catch (err: any) {
+      const isAxiosError = (some: any): some is AxiosError => {
+        return some.isAxiosError === true;
+      };
+      if (isAxiosError(err)) {
+        if (err.response?.status === 400) {
+          alert(err.response?.data);
+          console.log(err.response);
+        }
+      }
+    }
+
+    console.log(field.image);
   };
 
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import axios, { AxiosError } from 'axios';
 import {
   IUserRegistrationForm,
   IUserRegistrationFormError,
@@ -87,10 +88,31 @@ export default function useUserRegistrationForm() {
     }
   };
 
-  const submitUserRegistrationForm = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const submitUserRegistrationForm = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log({ field, fieldError });
-    router.push('/home');
+    const formData = new FormData();
+    Object.entries(field).forEach(([key, value]) => {
+      if (key !== 'confirmPassword') {
+        formData.append(key, value);
+      }
+    });
+
+    formData.append('rol', 'user');
+    try {
+      const response = await axios.post('http://localhost:3000/auth/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response.status === 201) router.push('/');
+    } catch (err) {
+      const isAxiosError = (some: any): some is AxiosError => {
+        return some.isAxiosError === true;
+      };
+      if (isAxiosError(err)) {
+        if (err.response?.status === 400) alert(err.response?.data);
+      }
+    }
   };
 
   useEffect(() => {
