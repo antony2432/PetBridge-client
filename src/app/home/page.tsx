@@ -1,11 +1,13 @@
 import PostSend from '../components/PostSend';
 import Posts from '../components/posts';
+import FiltersPets from '../components/FiltersPets/Index';
 export default function Home() {
   return (
-      <main className="w-full flex flex-col justify-center items-center gap-2 mb-10 order-2 bg-slate-400">
+      <article className="w-full flex flex-col justify-center items-center gap-2 mb-10 bg-slate-400">
        <PostSend/>
        <Posts/>
-      </main>
+       <FiltersPets/>
+      </article>
   );
 }
   
