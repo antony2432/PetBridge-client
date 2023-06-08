@@ -27,12 +27,12 @@ export default function Posts() {
   }, [data]);
 
   
-  const ejemploApi = data;
+  
 
   return (
     <div className='flex flex-col items-center border w-screen' >
 
-      {ejemploApi.map((api) => (
+      {data.map((api) => (
             
         <div key={api.id} className='max-w-5xl  py-4 w-5/6   rounded-lg my-4 bg-white md:grid-cols-2 2xl:w-full shadow shadow-black' >
 
