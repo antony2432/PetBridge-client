@@ -138,7 +138,7 @@ function FoundationRegisterStep3({
       <Button
         fullWidth
         className="mt-5 bg-GoldenYellow-500 hover:shadow-lg hover:shadow-GoldenYellow-500/50"
-        onSubmit={handleSubmit}
+        onClick={handleSubmit}
         disabled={enable}
       >
         Registrate
@@ -149,13 +149,13 @@ function FoundationRegisterStep3({
 
 export default function FoundationRegistrationForm({
   activeStep,
-  setIsLastStep,
-  setIsFirstStep,
   setActiveStep,
   handleNext,
   handlePrev,
   isFirstStep,
   isLastStep,
+  seterFirst,
+  seterLast,
 }: IFoundationRegisterProps) {
   let componentToShow;
   const { fieldError, handleChange, handleSubmit, enable, field, handleChangeFiles } =
@@ -202,13 +202,13 @@ export default function FoundationRegistrationForm({
       {componentToShow}
       <StepperNavigation
         activeStep={activeStep}
-        setIsLastStep={setIsLastStep}
-        setIsFirstStep={setIsFirstStep}
         setActiveStep={setActiveStep}
         handleNext={handleNext}
         handlePrev={handlePrev}
         isFirstStep={isFirstStep}
         isLastStep={isLastStep}
+        seterFirst={seterFirst}
+        seterLast={seterLast}
       />
     </article>
   );
