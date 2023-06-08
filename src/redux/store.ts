@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-
+import pets from './slice/pets';
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    pets,
+    
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

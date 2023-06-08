@@ -55,7 +55,7 @@ const ModalPostSend: React.FC = () => {
       initialValues={{
         description: '',
         file:null,
-        userId:'4e638e42-e144-4512-8232-cf2f89fe7f8f',
+        userId:'9e795650-56b3-4e3b-bc36-83c8ed8d4583',
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
