@@ -9,23 +9,19 @@ import {
 import Image from 'next/image';
 
 import DetallePet from './detalle/detalle';
-import { useAppSelector } from '@/redux/hook';
-import Paginate from './paginate/paginate';
+
+
 
 
 export default function CardPet({ allPets }:any) {
   const reversedPets = allPets.slice().reverse();
   console.log(reversedPets[0]);
-  const { numPage } = useAppSelector((state) => state.pets);
 
 
-  let from = ((numPage - 1) * 10 );
-  let to = numPage * 10;
-  const pets = allPets.slice(from, to);
 
   return (
 <>
-     { pets.map((info:any) => (<Card key={info.id} className="w-72 h-96 m-6  hover:w-[103%] hover:max-w-[340px] hover:h-[500px]    hover:mx-0 hover:-mt-28 hover:mb-11 hover:z-10" >
+     { reversedPets.map((info:any) => (<Card key={info.id} className="w-72 h-96 m-6  hover:w-[103%] hover:max-w-[340px] hover:h-[500px]    hover:mx-0 hover:-mt-28 hover:mb-11 hover:z-10" >
         <CardHeader floated={false} className="h-80 flex justify-center items-center"> 
         
          {info.image ? <Image
@@ -48,7 +44,7 @@ export default function CardPet({ allPets }:any) {
    
      ))
          }
-         <Paginate/>
+         
 </>
   );
 }

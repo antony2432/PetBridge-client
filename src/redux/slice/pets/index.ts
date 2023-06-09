@@ -8,9 +8,6 @@ export const petsSlice = createSlice({
     open:false,
     allPets:[],
     pet:{},
-    numPage: 1,
-    nextPage:1,
-    prevPage:1,
   },
   reducers:{
     setAllPets:(state, action) => {
@@ -19,15 +16,7 @@ export const petsSlice = createSlice({
     setOpen:(state, action) =>{
       state.open = action.payload;
     },
-    nextPage:(state)=>{
-      state.numPage = state.numPage + 1;
-    },
-    prevPage:(state)=>{
-      state.numPage -= state.prevPage;
-    },
-    page:(state)=>{
-      state.numPage = 1;
-    },
+  
   },
 });
 
@@ -35,7 +24,7 @@ export const { setAllPets, setOpen } = petsSlice.actions;
 
 export default petsSlice.reducer;
 
-export const fetchAllPets = () => (dispatch) =>{
+export const fetchAllPets = () => (dispatch:any) =>{
 
   axios
     .get('http://localhost:3000/animals')
@@ -45,12 +34,12 @@ export const fetchAllPets = () => (dispatch) =>{
 
 };
 
-export const setopen = () => (dispatch) => {
+export const setopen = () => (dispatch:any) => {
 
   dispatch(setOpen(!open));
 };
 
-export const PostPet = (petData) => (dispatch) => {
+export const PostPet = (petData:any) => () => {
   console.log(petData);
   axios
     .post('http://localhost:3000/animals', petData)
@@ -64,13 +53,3 @@ export const PostPet = (petData) => (dispatch) => {
 };
 
 
-export const nextPage = () => (dispatch: any) => {
-  dispatch(nextPage());
-};
-export const prevPage = () => (dispatch: any) => {
-  dispatch(prevPage());
-};
-
-export const page = () => (dispatch: any) => {
-  dispatch(page());
-};

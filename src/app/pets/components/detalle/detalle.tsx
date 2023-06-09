@@ -12,8 +12,16 @@ import {
 } from '@material-tailwind/react';
 import CarouselPet from '../Carousel';
 import './../style.css';
+// import { useAppDispatch } from '@/redux/hook';
+// import { fetchAllPetsId } from '@/redux/slice/pets';
 export default function DetallePet({ info }: any) {
   const [open, setOpen] = useState(false);
+  // const dispatch = useAppDispatch();
+  // const id = info.id;
+  // useEffect(() => {
+  //   dispatch(fetchAllPetsId(id));
+    
+  // }, [dispatch]);
 
   const handleOpen = () => setOpen(!open);
   return (

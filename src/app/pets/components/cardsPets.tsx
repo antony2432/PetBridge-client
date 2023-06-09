@@ -9,10 +9,14 @@ export default function CardsPets() {
 
   const dispatch = useAppDispatch();
   
-  
+ 
   useEffect(() => {
+    
     dispatch(fetchAllPets());
-  }, [dispatch]);
+    
+    
+  
+  }, [allPets]);
 
     
   return (
