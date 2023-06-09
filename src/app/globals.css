@@ -11,3 +11,16 @@ body::-webkit-scrollbar-thumb {
    border-bottom-left-radius: 5px;
    border-bottom-right-radius: 5px;
 }
+
+.scroll-chido::-webkit-scrollbar {
+   width: 20px;
+  background-color: white;
+ 
+}
+
+.scroll-chido::-webkit-scrollbar-thumb {
+   background: #F0A83E;
+   border-bottom-left-radius: 5px;
+   border-bottom-right-radius: 5px;
+   
+}

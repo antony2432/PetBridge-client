@@ -9,24 +9,32 @@ import {
 import Image from 'next/image';
 
 import DetallePet from './detalle/detalle';
+import { useAppSelector } from '@/redux/hook';
+import Paginate from './paginate/paginate';
 
 
 export default function CardPet({ allPets }:any) {
+  const reversedPets = allPets.slice().reverse();
+  console.log(reversedPets[0]);
+  const { numPage } = useAppSelector((state) => state.pets);
 
 
-  
+  let from = ((numPage - 1) * 10 );
+  let to = numPage * 10;
+  const pets = allPets.slice(from, to);
+
   return (
 <>
-     { allPets.map((info:any) => (<Card key={info.id} className="w-72 h-96 m-6  hover:w-[103%] hover:h-[500px]    hover:mx-0 hover:-mt-28 hover:mb-11 hover:z-10" >
+     { pets.map((info:any) => (<Card key={info.id} className="w-72 h-96 m-6  hover:w-[103%] hover:max-w-[340px] hover:h-[500px]    hover:mx-0 hover:-mt-28 hover:mb-11 hover:z-10" >
         <CardHeader floated={false} className="h-80 flex justify-center items-center"> 
         
-         {info.file ? <Image
-           src={info.file} 
+         {info.image ? <Image
+           src={info.image[0]} 
            alt='imagen' 
-           width={300}
-            height={300}
-            className=' w-full max-h-full rounded-2xl  '
-            /> : null}
+           width={200}
+            height={200}
+            className='max-w-full max-h-auto rounded-2xl object-cover absolute top-0 '
+            /> : <p>hola</p>}
         </CardHeader>
       
         <CardFooter className="flex justify-center pt-2">
@@ -40,6 +48,7 @@ export default function CardPet({ allPets }:any) {
    
      ))
          }
+         <Paginate/>
 </>
   );
 }
