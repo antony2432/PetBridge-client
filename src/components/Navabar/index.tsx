@@ -26,7 +26,7 @@ function ButtonSection() {
         Login
       </Link>
       <Link href="/registration" className="px-4 py-1 bg-DarkBrown-900 rounded-full text-white">
-        Sign in
+      Sign Up
       </Link>
     </>
   );
