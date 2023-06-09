@@ -22,8 +22,13 @@ export const petsSlice = createSlice({
 export const { setAllPets, setOpen } = petsSlice.actions;
 
 export default petsSlice.reducer;
+type Action = {
+  type: string;
+  payload?: any;
+};
 
-export const fetchAllPets = () => (dispatch) =>{
+type Dispatch = (action: Action) => void;
+export const fetchAllPets = () => (dispatch:Dispatch) =>{
 
   axios
     .get('http://localhost:3000/animals')
@@ -33,7 +38,7 @@ export const fetchAllPets = () => (dispatch) =>{
 
 };
 
-export const setopen = () => (dispatch) => {
+export const setopen = () => (dispatch:Dispatch) => {
 
   dispatch(setOpen(!open));
 };
