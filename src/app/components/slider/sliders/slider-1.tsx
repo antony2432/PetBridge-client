@@ -5,7 +5,7 @@ export function SliderItem1() {
   return (
       <article className="h-full flex flex-col gap-4 justify-center items-center lg:h-[771px] lg:flex-row">
         <Image
-          src="/img/PerroSlider.png"
+          src="https://lh3.googleusercontent.com/gqCKIFJag3cD9wt2cfoINbk3BGBq6yLovBHEfBlKBOup7EpRId05JF2FJaPvDpHMP3WpVj1K12iI56XjdgsmS6tvHDOSU5rUAd0lN2PaT9cJfIySvYzn0DdCzAMymqCOC8kuKY-yspXugwcs0ZG-TgvoENAqhye7siSLcHlKKhvFFRo6TXT5nDWO9PxEe9f8q5Is3oLyGc1Pb7LyLsOM1JjfYu2aSOGqQXD8rfxzOt5zPvDCzZVUu-RTPYN9u60ndLBOZO_ul9NICO0JXVg5V_mxDJjplSXQAjNrUTZEb5XhgNDJrQ1J9CG_98YxKSDRlLsc0s48mYPz0Urn_t_VK_1DP1hRX_tImhgHGd3uqmXKQ95ie3VAiBol5jVFBT61x1X_0f96do9ieL728OtQBOdKjOzO6E6mbMDZiPBKzoyFOB-4acWSrB7l0ebMnWd1mqlnAy-IVKpdRiIvjVmAuRwFZs_f2uz4jrF5lPRBJNqKg1A_1SecNdiY7JyMeVmHvkXErMxJ3wvhBn2Ilg0syKcbm2Xvz0xoK6umVRs80wf7rShildwB5hCScs6ooaRTva-_N1L6UD5PPbIuQ7X-zXYJNRhguMbbNLnivE36dABjUijkqUwabxno2w6gNt-8tAxVgQJf2RiL7zyGze-FRo8Z1y3aA32wXtMJ4kwj-igQKbaLQoola5VJM9-avO4QctpjtYd5NUT0WyUAGPoerQt39msi6W9O_dLKvTdn5w05yZWPsNncr_aEiOE2LpP2rAqGPAB9ZnTLSm8ewK2R07xv1o8VITvwa0Q0PXLLZ4Mqb7emwN2BNx_eDr-N2UV7EHbcXLaeQQzzGwrYgOwJxs3jgEyV1omIOFu_RNbkbGn1bpj0n0ueoen9HQHJm5J8TG5ORoxH1THkJzwbcLKiQK6E0ZO16RxuDbYzhnBdEOt2Upw=w933-h1386-s-no?authuser=0"
           alt="perro"
           width="200"
           height="180"
@@ -34,7 +34,7 @@ export function SliderItem2() {
   return (
         <article className="h-full flex flex-col gap-4 justify-center items-center lg:h-[771px] lg:flex-row">
           <Image
-            src="/img/imagenesPruebaPost/adoptame.png"
+            src="https://lh3.googleusercontent.com/gqCKIFJag3cD9wt2cfoINbk3BGBq6yLovBHEfBlKBOup7EpRId05JF2FJaPvDpHMP3WpVj1K12iI56XjdgsmS6tvHDOSU5rUAd0lN2PaT9cJfIySvYzn0DdCzAMymqCOC8kuKY-yspXugwcs0ZG-TgvoENAqhye7siSLcHlKKhvFFRo6TXT5nDWO9PxEe9f8q5Is3oLyGc1Pb7LyLsOM1JjfYu2aSOGqQXD8rfxzOt5zPvDCzZVUu-RTPYN9u60ndLBOZO_ul9NICO0JXVg5V_mxDJjplSXQAjNrUTZEb5XhgNDJrQ1J9CG_98YxKSDRlLsc0s48mYPz0Urn_t_VK_1DP1hRX_tImhgHGd3uqmXKQ95ie3VAiBol5jVFBT61x1X_0f96do9ieL728OtQBOdKjOzO6E6mbMDZiPBKzoyFOB-4acWSrB7l0ebMnWd1mqlnAy-IVKpdRiIvjVmAuRwFZs_f2uz4jrF5lPRBJNqKg1A_1SecNdiY7JyMeVmHvkXErMxJ3wvhBn2Ilg0syKcbm2Xvz0xoK6umVRs80wf7rShildwB5hCScs6ooaRTva-_N1L6UD5PPbIuQ7X-zXYJNRhguMbbNLnivE36dABjUijkqUwabxno2w6gNt-8tAxVgQJf2RiL7zyGze-FRo8Z1y3aA32wXtMJ4kwj-igQKbaLQoola5VJM9-avO4QctpjtYd5NUT0WyUAGPoerQt39msi6W9O_dLKvTdn5w05yZWPsNncr_aEiOE2LpP2rAqGPAB9ZnTLSm8ewK2R07xv1o8VITvwa0Q0PXLLZ4Mqb7emwN2BNx_eDr-N2UV7EHbcXLaeQQzzGwrYgOwJxs3jgEyV1omIOFu_RNbkbGn1bpj0n0ueoen9HQHJm5J8TG5ORoxH1THkJzwbcLKiQK6E0ZO16RxuDbYzhnBdEOt2Upw=w933-h1386-s-no?authuser=0"
             alt="adopcion"
             width="200"
             height="180"

@@ -26,7 +26,7 @@ export default function RecentRescuedAnimals() {
  
   useEffect(() => { 
     dispatch(fetchAllPets());
-  }, []);
+  }, [dispatch]);
   return (
     <section className="w-full max-w-7xl flex flex-col justify-center items-center">
       <h3 className="text-2xl text-center font-extrabold text-DarkBrown-900 md:text-4xl">

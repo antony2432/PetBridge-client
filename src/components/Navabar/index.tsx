@@ -12,7 +12,7 @@ function PathList({ links }: IPathList) {
     <>
       {links.map(({ label, route }, i) => (
         <li key={i} className="w-full px-4 py-1 rounded-md text-center hover:bg-OffWhite-500">
-          <Link href={route}>{label}</Link>
+          <Link href={route} prefetch={true}> {label}</Link>
         </li>
       ))}
     </>
@@ -22,10 +22,10 @@ function PathList({ links }: IPathList) {
 function ButtonSection() {
   return (
     <>
-      <Link href="/login" className="px-6 py-1 hover:bg-OffWhite-500 hover:text-black rounded-full">
+      <Link href="/login" className="px-6 py-1 hover:bg-OffWhite-500 hover:text-black rounded-full" prefetch={true}>
         Login
       </Link>
-      <Link href="/registration" className="px-4 py-1 bg-DarkBrown-900 rounded-full text-white">
+      <Link href="/registration" className="px-4 py-1 bg-DarkBrown-900 rounded-full text-white" prefetch={true}>
       Sign Up
       </Link>
     </>
