@@ -104,7 +104,7 @@ export default function useUserRegistrationForm() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      if (response.status === 201) router.push('/');
+      if (response.status === 201) router.push('/login');
     } catch (err) {
       const isAxiosError = (some: any): some is AxiosError => {
         return some.isAxiosError === true;

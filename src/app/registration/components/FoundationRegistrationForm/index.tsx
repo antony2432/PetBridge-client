@@ -102,7 +102,7 @@ function FoundationRegisterStep3({
   return (
     <>
       <InputLabel
-        label="Fecha de inicio"
+        label="Fecha de inicio de fundacion"
         name="dateStart"
         value={value.dateStart}
         type="date"

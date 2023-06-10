@@ -7,6 +7,7 @@ export default function useLogin() {
     email: null,
     password: null,
   };
+
   const initialError: IFieldError = {
     email: {
       error: false,
@@ -22,10 +23,10 @@ export default function useLogin() {
     },
   };
 
-  const router = useRouter();
   const [field, setfiled] = useState(initialField);
   const [error, setError] = useState(initialError);
   const [enabled, setEnabled] = useState(true);
+  const router = useRouter();
   const emilValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +35,7 @@ export default function useLogin() {
 
     if (name === 'email') {
       const isEmailInvalid = !emilValidation.test(value);
+
       setError((prev) => ({
         ...prev,
         email: { error: isEmailInvalid, success: !isEmailInvalid },
@@ -48,6 +50,7 @@ export default function useLogin() {
       const shouldShow = isUpperCaseMissing || isNumberMissing || isSpecialCharMissing || isLength;
       const isSucees =
         !isUpperCaseMissing && !isNumberMissing && !isSpecialCharMissing && !isLength;
+
       setError((prev) => ({
         ...prev,
         password: {
@@ -71,9 +74,26 @@ export default function useLogin() {
     }
   }, [error]);
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    router.push('/home');
+    try {
+      const result = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(field),
+      });
+      const data = await result.json();
+      if (result.ok) {
+        // window.localStorage.setItem('sesionID', JSON.stringify(data));
+        router.push('/home');
+      } else {
+        alert(data.message);
+      }
+    } catch (errore: any) {
+      console.log(errore.message);
+    }
   };
 
   return {

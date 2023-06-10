@@ -171,7 +171,7 @@ export default function useFoundationRegistrationForm() {
         },
       });
 
-      if (response.status === 201) router.push('/');
+      if (response.status === 201) router.push('/login');
     } catch (err: any) {
       const isAxiosError = (some: any): some is AxiosError => {
         return some.isAxiosError === true;
