@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton, Typography } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
+
 export default function Paginate() {
-  const [active, setActive] = React.useState(1);
+  const [active, setActive] = useState(1);
 
-  const next = () => {
+  const next = async () => {
     if (active === 10) return;
-
+   
     setActive(active + 1);
   };
-
+ 
   const prev = () => {
     if (active === 1) return;
 

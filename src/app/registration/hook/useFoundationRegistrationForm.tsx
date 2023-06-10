@@ -104,7 +104,7 @@ export default function useFoundationRegistrationForm() {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log(field);
-    router.push('/home');
+    router.push('/login');
   };
   return {
     handleChange,

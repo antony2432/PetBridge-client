@@ -90,7 +90,7 @@ export default function useUserRegistrationForm() {
   const submitUserRegistrationForm = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     console.log({ field, fieldError });
-    router.push('/home');
+    router.push('/login');
   };
 
   useEffect(() => {

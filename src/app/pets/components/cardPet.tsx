@@ -15,7 +15,7 @@ import DetallePet from './detalle/detalle';
 
 export default function CardPet({ allPets }:any) {
   const reversedPets = allPets.slice().reverse();
-  console.log(reversedPets[0]);
+
 
 
 
@@ -29,7 +29,7 @@ export default function CardPet({ allPets }:any) {
            alt='imagen' 
            width={200}
             height={200}
-            className='max-w-full max-h-auto rounded-2xl object-cover absolute top-0 '
+            className='max-w-full w-full h-full max-h-auto rounded-2xl object-cover absolute top-0 '
             /> : <p>hola</p>}
         </CardHeader>
       
