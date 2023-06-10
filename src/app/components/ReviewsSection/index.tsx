@@ -31,11 +31,11 @@ export default function ReviewsSection() {
   return (
     <article className="w-full max-w-7xl flex flex-col gap-5 items-center">
       <h3 className="text-lg text-center font-extrabold text-DarkBrown-900 sm:text-2xl lg:text-4xl">
-        Descubre cómo Puppy Pet ha cambiado vidas
+        Descubre cómo Pet Bridge ha cambiado vidas
       </h3>
       <h4 className="w-2/3 my-5 text-GoldenYellow-500 text-center">
         Conoce las historias de éxito de aquellos que han adoptado mascotas o colaborado con
-        fundaciones a través de Puppy Pet
+        fundaciones a través de Pet Bridge
       </h4>
       <Card setLoaded={setLoading} loaded={loading} data={dataSlide}></Card>
       <ButtonsSlider Next={next} Previous={previous}></ButtonsSlider>

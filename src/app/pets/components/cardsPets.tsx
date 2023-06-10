@@ -16,7 +16,7 @@ export default function CardsPets() {
     
     
   
-  }, [allPets]);
+  }, [allPets, dispatch]);
 
     
   return (

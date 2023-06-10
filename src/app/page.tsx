@@ -6,6 +6,7 @@ import RecentRescuedAnimals from './components/RecentRescuedAnimals';
 import ReviewsSection from './components/ReviewsSection';
 
 export default function page() {
+  
   return (
     <main className="w-full flex flex-col flex-grow justify-center items-center gap-20 mb-10">
       <SliderLanding />

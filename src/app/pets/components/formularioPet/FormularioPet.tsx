@@ -6,7 +6,9 @@ import { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 type FormData = {
   nombre: string;
-  ciudad: string;
+  city: string;
+  state: string;
+  country: string;
   edad: number;
   descripcion: string;
   files: FileList | null;
@@ -16,13 +18,16 @@ type FormData = {
   telefono: string;
   email: string;
   otros: string;
+  edadUnidad: string;
 };
 
 export default function Formulario() {
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
-    ciudad: '',
+    city: '',
+    country: '',
+    state: '',
     edad: 0,
     descripcion: '',
     files: null,
@@ -32,6 +37,7 @@ export default function Formulario() {
     telefono: '',
     email: '',
     otros: '',
+    edadUnidad: '',
   });
   const router = useRouter();
   const [imagenPreviaUrls, setImagenPreviaUrls] = useState<string[]>([]);
@@ -45,7 +51,7 @@ export default function Formulario() {
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    const { name, value } = e.target;
+    const { name } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: files }));
   
     if (files) {
@@ -70,15 +76,17 @@ export default function Formulario() {
 
     const PetData = {
       name: formData.nombre,
-      city: formData.ciudad,
+      city: formData.city,
       description: formData.descripcion,
       specie: formData.especie,
-      gender: 'male',
+      gender: formData.genero,
       status: 'homeless',
-      country: 'mexico',
-      state: 'tabasco',
-      as_id: '095957e4-d979-4379-8603-6b1e89a21d13',
-     
+      country: formData.country,
+      state: formData.state,
+      as_id: 'd9308d02-abf7-4772-881b-76c36a48c2df',
+      weight: formData.tamaño,
+      age_M: formData.edadUnidad === 'mounth' ? formData.edad : 0,
+      age_Y: formData.edadUnidad === 'year' ? formData.edad : 0,
     };
 
     const formDataToSend = new FormData();
@@ -93,12 +101,16 @@ export default function Formulario() {
         formDataToSend.append('file', formData.files[i]);
       }
     }
-
+    console.log(PetData);
+    console.log(formDataToSend);
     dispatch(PostPet(formDataToSend));
     router.push('/pets');
      
   };
-
+  const handleEdadUnidad = (e:ChangeEvent < HTMLSelectElement> ) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  }; 
   const handleBrowseClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -106,8 +118,8 @@ export default function Formulario() {
   };
 
   return (
-    <section className='flex justify-center w-screen '>
-      <form onSubmit={handleSubmit} className='mt-20 max-w-7xl border bg-white  rounded-xl text-start '>
+    <section className='flex justify-center w-[90vw] '>
+      <form onSubmit={handleSubmit} className='mt-20 max-w-7xl w-screen border bg-white  rounded-xl text-start '>
         <Typography className='text-4xl md:text-5xl text-center p-5 font-bold text-[#f0a83e]'>
           Formulario para la Mascota
         </Typography>
@@ -116,8 +128,19 @@ export default function Formulario() {
             <h3 className='text-2xl text-center sm:text-start my-5'>Información de la mascota</h3>
             <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-10 pb-10'>
               <Input label='Nombre de la mascota' type='text' id='nombre' name='nombre' onChange={handleChange} required />
-              <Input label='Ciudad' type='text' id='ciudad' name='ciudad' onChange={handleChange} required />
-              <Input label='Edad' type='number' id='edad' name='edad' onChange={handleChange} required />
+              <Input label='Pais' type='text' id='country' name='country' onChange={handleChange} required />
+              <Input label='Estado' type='text' id='state' name='state' onChange={handleChange} required />
+              <Input label='Ciudad' type='text' id='city' name='city' onChange={handleChange} required />
+
+         <div className='grid grid-cols-2 justify-end border gap-10 '>
+           <Input className=' w-28' label='Edad' type='number' id='edad' name='edad' onChange={handleChange} required />
+           <select  className=' flex  float-right border border-blue-gray-400 rounded-lg h-10 text-center' name="edadUnidad" id="edadUnidad" onChange={handleEdadUnidad}>
+           <option value="" hidden>Unidad</option>
+           <option value="mounth">Meses</option>
+           <option value="year">Años</option>
+           </select>
+           
+           </div>    
 
               <Input label='Tamaño en Kg' type='number' id='tamaño' name='tamaño' onChange={handleChange} required />
               <Textarea label='Descripcion - historia' id='descripcion' name='descripcion' onChange={handleChange} required />
@@ -161,7 +184,7 @@ export default function Formulario() {
                 onChange={handleChange}
                 required
               >
-                <option disabled>Selecciona la especie</option>
+                <option hidden>Selecciona la especie</option>
                 <option>Gato</option>
                 <option>Perro</option>
                 <option>Otra Especie</option>
@@ -174,10 +197,9 @@ export default function Formulario() {
                 onChange={handleChange}
                 required
               >
-                <option disabled>Seleccione un género</option>
-                <option value='masculino'>Masculino</option>
-                <option value='femenino'>Femenino</option>
-                <option value='otro'>Otro</option>
+                <option hidden>Seleccione un género</option>
+                <option value='male'>Macho</option>
+                <option value='female'>Hembra</option>
               </select>
             </div>
           </div>
