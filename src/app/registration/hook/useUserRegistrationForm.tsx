@@ -99,7 +99,7 @@ export default function useUserRegistrationForm() {
 
     formData.append('rol', 'user');
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', formData, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BACK!}/auth/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

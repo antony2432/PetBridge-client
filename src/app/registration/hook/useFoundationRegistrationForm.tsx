@@ -165,7 +165,7 @@ export default function useFoundationRegistrationForm() {
     formData.append('rol', 'fundation');
     formData.append('image',  field.image!, field.image?.name);
     try {
-      const response = await axios.post('http://localhost:3000/auth/register', formData, {
+      const response = await axios.post(`${process.env.API_BACK}/auth/register`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
