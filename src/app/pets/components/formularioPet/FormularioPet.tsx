@@ -3,7 +3,8 @@ import { PostPet } from '@/redux/slice/pets';
 import { Button, Input, Textarea, Typography } from '@material-tailwind/react';
 import Image from 'next/image';
 import { useState, ChangeEvent, FormEvent, useRef } from 'react';
-import { useRouter } from 'next/navigation';
+
+import ButtonSend from './AlertSend';
 type FormData = {
   nombre: string;
   city: string;
@@ -23,6 +24,7 @@ type FormData = {
 
 export default function Formulario() {
   const dispatch = useAppDispatch();
+  const [isFormComplete, setIsFormComplete] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
     city: '',
@@ -39,7 +41,37 @@ export default function Formulario() {
     otros: '',
     edadUnidad: '',
   });
-  const router = useRouter();
+  const checkFormCompletion = () => {
+    const {
+      nombre,
+      city,
+      country,
+      state,
+      edad,
+      descripcion,
+      tamaño,
+      especie,
+      genero,
+      telefono,
+      email,
+    } = formData;
+  
+    const isComplete =
+      nombre.trim() !== '' &&
+      city.trim() !== '' &&
+      country.trim() !== '' &&
+      state.trim() !== '' &&
+      edad !== 0 &&
+      descripcion.trim() !== '' &&
+      tamaño !== '' &&
+      especie !== '' &&
+      genero !== '' &&
+      telefono.trim() !== '' &&
+      email.trim() !== '';
+  
+    setIsFormComplete(isComplete);
+  };
+
   const [imagenPreviaUrls, setImagenPreviaUrls] = useState<string[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -47,6 +79,7 @@ export default function Formulario() {
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
+    checkFormCompletion();
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -91,8 +124,12 @@ export default function Formulario() {
 
     const formDataToSend = new FormData();
 
+    // for (const key in PetData) {
+    //   formDataToSend.append(key, PetData[key]);
+    // }
     for (const key in PetData) {
-      formDataToSend.append(key, PetData[key]);
+      const value = PetData[key as keyof typeof PetData].toString();
+      formDataToSend.append(key, value);
     }
 
     // Agregar las imágenes al FormData
@@ -104,7 +141,7 @@ export default function Formulario() {
     console.log(PetData);
     console.log(formDataToSend);
     dispatch(PostPet(formDataToSend));
-    router.push('/pets');
+    
      
   };
   const handleEdadUnidad = (e:ChangeEvent < HTMLSelectElement> ) => {
@@ -119,22 +156,24 @@ export default function Formulario() {
 
   return (
     <section className='flex justify-center w-[90vw] '>
-      <form onSubmit={handleSubmit} className='mt-20 max-w-7xl w-screen border bg-white  rounded-xl text-start '>
+      <form onSubmit={handleSubmit} className='mt-20 max-w-7xl w-full border bg-white  rounded-xl text-start pb-10 mb-2 '>
         <Typography className='text-4xl md:text-5xl text-center p-5 font-bold text-[#f0a83e]'>
           Formulario para la Mascota
         </Typography>
         <div className='grid  gap-10 '>
-          <div className='px-10'>
-            <h3 className='text-2xl text-center sm:text-start my-5'>Información de la mascota</h3>
-            <div className='grid sm:grid-cols-2 lg:grid-cols-3 gap-10 pb-10'>
-              <Input label='Nombre de la mascota' type='text' id='nombre' name='nombre' onChange={handleChange} required />
+          <div className='sm:px-10 flex flex-col justify-center items-center'>
+            <h3 className='text-2xl text-center sm:text-start '>Información de la mascota</h3>
+            <p className='mb-5'>(rellanar todos los campos)</p>
+            <div className='flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-10  pb-10 w-11/12'>
+              <Input  label='Nombre de la mascota' type='text' id='nombre' name='nombre' onChange={handleChange} required />
               <Input label='Pais' type='text' id='country' name='country' onChange={handleChange} required />
               <Input label='Estado' type='text' id='state' name='state' onChange={handleChange} required />
               <Input label='Ciudad' type='text' id='city' name='city' onChange={handleChange} required />
 
-         <div className='grid grid-cols-2 justify-end border gap-10 '>
-           <Input className=' w-28' label='Edad' type='number' id='edad' name='edad' onChange={handleChange} required />
-           <select  className=' flex  float-right border border-blue-gray-400 rounded-lg h-10 text-center' name="edadUnidad" id="edadUnidad" onChange={handleEdadUnidad}>
+         <div className='grid grid-cols-2 sm:min-w-[190px] sm:justify-center gap-0 '>
+           
+            <input className='border w-full sm:min-w-[90px] border-blue-gray-400 rounded-lg h-10 text-center' placeholder='Edad' type='number' id='edad' name='edad' onChange={handleChange} required />
+           <select  className='   border w-full sm:min-w-[90px] border-blue-gray-400 rounded-lg h-10 text-center' name="edadUnidad" id="edadUnidad" onChange={handleEdadUnidad}>
            <option value="" hidden>Unidad</option>
            <option value="mounth">Meses</option>
            <option value="year">Años</option>
@@ -213,9 +252,12 @@ export default function Formulario() {
           </div>
         </div>
         <div className='flex justify-center'>
-          <Button className='m-10 bg-GoldenYellow-500 hover:shadow-lg hover:shadow-GoldenYellow-500/50' type='submit' value='Enviar'>
-            Registrar mascota
-          </Button>
+        {isFormComplete && (
+            // <Button className='m-10 bg-GoldenYellow-500 hover:shadow-lg hover:shadow-GoldenYellow-500/50' type='submit' value='Enviar'>
+            //   Registrar mascota
+            // </Button>
+            <ButtonSend datosEnviados={formData}/>
+        )}
         </div>
       </form>
     </section>

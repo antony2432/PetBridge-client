@@ -6,9 +6,9 @@ export default function NuestraMision() {
       <Image
         src="/img/perroEjemplo.jpg"
         alt="Nuestra mision"
-        width="500"
-        height="367"
-        className="w-[491px] h-auto m-0 rounded-3xl hover:scale-105 duration-300 lg:w-[547px] lg:h-[367px]"
+        width={500}
+        height={367}
+        className=" m-0 rounded-3xl hover:scale-105 duration-300 lg:w-auto lg:h-80"
       />
 
       <section className="flex flex-col gap-8 items-center lg:ml-24">

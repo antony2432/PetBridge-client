@@ -38,7 +38,7 @@ function OptionsItem({ title, paragraph, color, orientation, img }: IOptionsItem
       className={`w-full py-10 grid grid-cols-2  items-center justify-center ${color} ${style.justify} ${style.self} lg:w-3/4 lg:px-8 gap-10`}
     > 
     <div className='w-full '>
-      <Image width={200} height={200} alt='imagenes' className=' float-right '   src={`/img/imagenesPruebaPost/${img}`}/>
+      <Image width={200} height={200} alt='imagenes' className=' float-right w-48 '   src={`/img/imagenesPruebaPost/${img}`}/>
      </div>
       <div className='flex flex-col justify-center h-full'>
       <h3 className="text-2xl font-extrabold mb-5 md:text-4xl">{title}</h3>
