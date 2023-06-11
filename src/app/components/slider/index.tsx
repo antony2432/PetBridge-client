@@ -2,13 +2,13 @@
 import React from 'react';
 import Slider from 'react-slick';
 import Image from 'next/image';
-import { settings } from './settings';
+import { settings } from './Settings';
 
 function SliderItem() {
   return (
     <article className="h-full flex flex-col gap-4 justify-center items-center lg:h-[771px] lg:flex-row">
       <Image
-        src="/img/PerroSlider.png"
+        src="/img/maxDog.png"
         alt="perro"
         width="200"
         height="180"
@@ -19,7 +19,7 @@ function SliderItem() {
         <h2 className="text-2xl font-extrabold text-DarkBrown-700 lg:text-4xl">
           Animales disponibles para adopción
         </h2>
-        <h3 className='text-justify'>
+        <h3 className="text-justify">
           Encuentra tu compañero de vida en Puppy Pet. Adopta y brinda amor y un hogar a un animal
           necesitado. Juntos, hacemos la diferencia.
         </h3>
@@ -30,7 +30,6 @@ function SliderItem() {
     </article>
   );
 }
-
 
 export default function SliderLanding() {
   return (

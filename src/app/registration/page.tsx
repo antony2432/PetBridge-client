@@ -12,13 +12,13 @@ export default function Page() {
     loading,
     isChecked,
     activeStep,
-    setIsLastStep,
-    setIsFirstStep,
     setActiveStep,
     handleNext,
     handlePrev,
     isFirstStep,
     isLastStep,
+    seterFirst,
+    seterLast,
   } = useRegistrationFlow();
 
   const renderRegistrationForm = () => {
@@ -28,13 +28,13 @@ export default function Page() {
       return (
         <FoundationRegistrationForm
           activeStep={activeStep}
-          setIsLastStep={setIsLastStep}
-          setIsFirstStep={setIsFirstStep}
           setActiveStep={setActiveStep}
           handleNext={handleNext}
           handlePrev={handlePrev}
           isFirstStep={isFirstStep}
           isLastStep={isLastStep}
+          seterFirst={seterFirst}
+          seterLast={seterLast}
         />
       );
     } else {

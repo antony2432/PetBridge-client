@@ -1,10 +1,4 @@
-interface IPassword {
-  upper: boolean;
-  especial: boolean;
-  number: boolean;
-  isTrue: boolean;
-  length: boolean;
-}
+import { IFieldPassword } from '@/components/InputPassword/interface/IInputPassword.interface';
 
 export interface IUserRegistrationForm {
   firstName: string;
@@ -18,6 +12,6 @@ export interface IUserRegistrationFormError {
   firstName: boolean | null;
   lastName: boolean | null;
   email: boolean | null;
-  password: IPassword;
+  password: IFieldPassword;
   confirmPassword: boolean | null;
 }

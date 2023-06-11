@@ -1,51 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-
-interface IField {
-  nameOfFoundation: string;
-  email: string;
-  password: string;
-  country: string;
-  phone: number;
-  address: string;
-  image: string;
-  dateStart: string;
-  document: string;
-  description: string;
-}
-
-interface IFieldError {
-  nameOfFoundation: boolean;
-  email: boolean;
-  password: boolean;
-  confirmPassword: boolean;
-  country: boolean;
-  phone: boolean;
-  address: boolean;
-  image: boolean;
-  dateStart: boolean;
-  document: boolean;
-  description: boolean;
-}
+import { IField, IFieldError } from '../interface/IUseFoundationRegistrationForm.interface';
 
 export default function useFoundationRegistrationForm() {
   const initialValue: IField = {
     nameOfFoundation: '',
     email: '',
     password: '',
+    confirmPassword: '',
     country: '',
-    phone: 0,
+    phone: '',
     address: '',
-    image: '',
+    image: null,
     dateStart: '',
-    document: '',
+    document: null,
     description: '',
   };
 
   const initialError: IFieldError = {
     nameOfFoundation: true,
     email: true,
-    password: true,
+    password: {
+      upper: false,
+      especial: false,
+      number: false,
+      isTrue: true,
+      length: false,
+    },
     confirmPassword: true,
     country: true,
     phone: true,
@@ -58,13 +40,42 @@ export default function useFoundationRegistrationForm() {
 
   const [field, setField] = useState(initialValue);
   const [fieldError, setFieldError] = useState(initialError);
+  const [enable, setEnable] = useState(true);
   const emilValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
   const router = useRouter();
+
+  const isValidateDAte = (fecha: string) => {
+    const fechaActual: Date = new Date();
+    const fechaMinima: Date = new Date('1950-01-01');
+    const fechaIngresada: Date = new Date(fecha);
+
+    if (fechaIngresada < fechaMinima || fechaIngresada > fechaActual) return false;
+
+    return true;
+  };
+
+  const handleChangeFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const file = e.target.files?.[0];
+    setField({ ...field, [name]: file });
+    if (name === 'image') {
+      setFieldError({
+        ...fieldError,
+        image: file !== undefined,
+      });
+    }
+
+    if (name === 'document') {
+      setFieldError({
+        ...fieldError,
+        document: file !== undefined,
+      });
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setField({ ...field, [name]: value });
-
     if (name === 'nameOfFoundation') {
       setFieldError({
         ...fieldError,
@@ -75,39 +86,135 @@ export default function useFoundationRegistrationForm() {
     if (name === 'email') {
       setFieldError({
         ...fieldError,
-        password: emilValidation.test(value),
+        email: emilValidation.test(value),
       });
     }
 
     if (name === 'password') {
-      setFieldError({
-        ...fieldError,
-        password: value.length !== 0,
-      });
+      const isUpperCaseMissing = /[A-Z]/.test(value);
+      const isNumberMissing = /[0-9]/.test(value);
+      const isSpecialCharMissing = /(?=.*?[#?!@$ %^&*-])/.test(value);
+      const isLength = value.length >= 8;
+      const isIsTrue = isUpperCaseMissing && isNumberMissing && isSpecialCharMissing && isLength;
+      setFieldError((prev) => ({
+        ...prev,
+        password: {
+          ...prev.password,
+          upper: isUpperCaseMissing,
+          number: isNumberMissing,
+          especial: isSpecialCharMissing,
+          isTrue: isIsTrue,
+          length: isLength,
+        },
+        confirmPassword: field.password === value,
+      }));
     }
 
     if (name === 'confirmPassword') {
       setFieldError({
         ...fieldError,
-        password: field.password === value,
+        confirmPassword: field.password === value,
       });
     }
 
-    if (name === 'pais') {
+    if (name === 'country') {
       setFieldError({
         ...fieldError,
-        password: field.password === value,
+        country: value.length !== 0,
+      });
+    }
+
+    if (name === 'phone') {
+      setFieldError({
+        ...fieldError,
+        phone: value.length !== 0 && value.length <= 11,
+      });
+    }
+
+    if (name === 'address') {
+      setFieldError({
+        ...fieldError,
+        address: value.length !== 0,
+      });
+    }
+
+    if (name === 'dateStart') {
+      setFieldError({
+        ...fieldError,
+        dateStart: isValidateDAte(value),
+      });
+    }
+
+    if (name === 'description') {
+      setFieldError({
+        ...fieldError,
+        description: value.length !== 0,
       });
     }
   };
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log(field);
-    router.push('/home');
+    const formData = new FormData();
+    Object.entries(field).forEach(([key, value]) => {
+      if (key !== 'confirmPassword' && key !== 'document' && key !== 'image' ) {
+        formData.append(key, value);
+      }
+    });
+
+    formData.append('rol', 'fundation');
+    formData.append('image',  field.image!, field.image?.name);
+    try {
+      const response = await axios.post(`${process.env.API_BACK}/auth/register`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (response.status === 201) router.push('/login');
+    } catch (err: any) {
+      const isAxiosError = (some: any): some is AxiosError => {
+        return some.isAxiosError === true;
+      };
+      if (isAxiosError(err)) {
+        if (err.response?.status === 400) {
+          alert(err.response?.data);
+          console.log(err.response);
+        }
+      }
+    }
+
+    console.log(field.image);
   };
+
+  useEffect(() => {
+    if (
+      fieldError.password.especial &&
+      fieldError.password.length &&
+      fieldError.password.number &&
+      fieldError.password.upper &&
+      fieldError.nameOfFoundation &&
+      fieldError.email &&
+      fieldError.confirmPassword &&
+      fieldError.country &&
+      fieldError.phone &&
+      fieldError.image &&
+      fieldError.dateStart &&
+      fieldError.document &&
+      fieldError.description
+    ) {
+      setEnable(false);
+    } else {
+      setEnable(true);
+    }
+  }, [fieldError]);
+
   return {
     handleChange,
     handleSubmit,
+    fieldError,
+    enable,
+    field,
+    handleChangeFiles,
   };
 }
