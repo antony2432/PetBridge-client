@@ -2,6 +2,7 @@ import './globals.css';
 import { mulish } from '../components/resource';
 import Navbar from '@/components/Navabar';
 import Footer from '@/components/Footer';
+import ReduxProvider from '@/redux/provider/ReduxProvider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,11 +12,13 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${mulish.className} min-h-screen flex flex-col`}>
-        <Navbar />
-        {children}
-        <Footer />
-      </body>
+      <ReduxProvider>
+        <body className={`${mulish.className} min-h-screen flex flex-col`}>
+          <Navbar />
+          {children}
+          <Footer />
+        </body>
+      </ReduxProvider>
     </html>
   );
 }
