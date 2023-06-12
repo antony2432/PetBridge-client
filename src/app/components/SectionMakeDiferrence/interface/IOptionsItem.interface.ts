@@ -3,4 +3,5 @@ export interface IOptionsItem {
   paragraph: string;
   color: string;
   orientation: 'start' | 'end';
+  img:string;
 }

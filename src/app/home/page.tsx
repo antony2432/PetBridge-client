@@ -1,12 +1,10 @@
 import PostSend from '../components/PostSend';
-
 import Posts from '../components/posts';
-
-export default function Page() {
+export default function Home() {
   return (
-    <main className="flex-grow w-full h-full flex flex-col justify-center items-center gap-2">
-      <PostSend />
-      <Posts />
-    </main>
+      <article className="w-full flex flex-col justify-center items-center gap-2 mb-10 bg-slate-400">
+       <PostSend/>
+       <Posts/>
+      </article>
   );
 }

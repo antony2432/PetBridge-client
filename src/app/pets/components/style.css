@@ -1,0 +1,8 @@
+.carousel-pet button {
+    background-color: rgba(255, 0, 0, 0.467);
+    /* Otros estilos personalizados */
+  }
+  .carousel-pet button:hover {
+    background-color: black !important;
+    /* Otros estilos personalizados */
+  }

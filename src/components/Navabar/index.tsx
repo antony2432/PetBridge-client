@@ -12,7 +12,7 @@ function PathList({ links }: IPathList) {
     <>
       {links.map(({ label, route }, i) => (
         <li key={i} className="w-full px-4 py-1 rounded-md text-center hover:bg-OffWhite-500">
-          <Link href={route}>{label}</Link>
+          <Link href={route} prefetch={true}> {label}</Link>
         </li>
       ))}
     </>
@@ -22,11 +22,11 @@ function PathList({ links }: IPathList) {
 function ButtonSection() {
   return (
     <>
-      <Link href="/login" className="px-6 py-1 hover:bg-OffWhite-500 hover:text-black rounded-full">
+      <Link href="/login" className="px-6 py-1 hover:bg-OffWhite-500 hover:text-black rounded-full" prefetch={true}>
         Login
       </Link>
-      <Link href="/registration" className="px-4 py-1 bg-DarkBrown-900 rounded-full text-white">
-        Sign in
+      <Link href="/registration" className="px-4 py-1 bg-DarkBrown-900 rounded-full text-white" prefetch={true}>
+      Sign Up
       </Link>
     </>
   );
@@ -49,7 +49,7 @@ function MobileMenu({ links }: IPathList) {
 export default function Navbar() {
   const { isOpen, handleClosed, handleRoot } = useNavBar();
   return (
-    <header className="w-full h-[10vh] shadow-md flex justify-between lg:justify-center z-10">
+    <header className="w-full h-[10vh] shadow-md flex justify-between lg:justify-center z-10 bg-white">
       <div className="w-full flex justify-between items-center px-8 max-w-7xl">
         <h1 className={`${leckerli.className} cursor-pointer`} onClick={handleRoot}>
           <span className="text-5xl text-DarkBrown-900">Pet</span>

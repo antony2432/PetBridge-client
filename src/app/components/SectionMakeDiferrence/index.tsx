@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { IOptionsItem } from './interface/IOptionsItem.interface';
 import { IStyle } from './interface/IStyle.interface';
 
@@ -30,14 +31,20 @@ function optionsItemStyle(orientation: string) {
   return style;
 }
 
-function OptionsItem({ title, paragraph, color, orientation }: IOptionsItem) {
+function OptionsItem({ title, paragraph, color, orientation, img }: IOptionsItem) {
   let style: IStyle = optionsItemStyle(orientation);
   return (
     <article
-      className={`w-full py-10 flex flex-col items-center ${color} ${style.justify} ${style.self} lg:w-3/4 lg:px-8`}
-    >
+      className={`w-full py-10 grid grid-cols-2  items-center justify-center ${color} ${style.justify} ${style.self} lg:w-3/4 lg:px-8 gap-10`}
+    > 
+    <div className='w-full '>
+      <Image width={200} height={200} alt='imagenes' className=' float-right w-48 '   src={`/img/imagenesPruebaPost/${img}`}/>
+     </div>
+      <div className='flex flex-col justify-center h-full'>
       <h3 className="text-2xl font-extrabold mb-5 md:text-4xl">{title}</h3>
       <p className={`w-72 text-justify ${style.text} lg:w-96 text-sm lg:text-base`}>{paragraph}</p>
+      </div>
+      
     </article>
   );
 }
@@ -57,6 +64,7 @@ export default function SectionMakeDiferrence() {
           paragraph="Explora las fundaciones y organizaciones de rescate de mascotas en nuestra plataforma."
           color="bg-SkyBlue-500"
           orientation="start"
+          img="pet-trust1.png"
         />
 
         <OptionsItem
@@ -65,6 +73,7 @@ export default function SectionMakeDiferrence() {
           específicas."
           color="bg-LightOlive-500"
           orientation="end"
+          img="pet-trust2.png"
         />
 
         <OptionsItem
@@ -73,6 +82,7 @@ export default function SectionMakeDiferrence() {
           te interesa."
           color="bg-SkyBlue-500"
           orientation="start"
+          img="pet-trust3.png"
         />
 
         <OptionsItem
@@ -81,6 +91,7 @@ export default function SectionMakeDiferrence() {
           de adopción responsable."
           color="bg-LightOlive-500"
           orientation="end"
+          img="pet-trust1.png"
         />
       </section>
     </article>
