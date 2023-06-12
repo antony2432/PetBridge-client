@@ -13,13 +13,31 @@ interface Res {
   status: (arg0: number) => {
     (): any;
     new (): any;
-    json: { (arg0: { message: string }): void; new (): any };
+    json: {
+      (arg0: { message: string; errorMessage?: string; userInformation?: IUser }): void;
+      new (): any;
+    };
   };
 }
 interface IResult {
   token: string;
   id: string;
   message: string;
+}
+
+interface IUser {
+  id: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  email: string | null;
+  image?: string | null;
+  country?: string | null;
+  phone?: string | null;
+}
+interface IJwtPayload {
+  email: string;
+  id: string;
+  [key: string]: any;
 }
 
 export default async function handlerLogin(req: Req, res: Res) {
@@ -38,7 +56,7 @@ export default async function handlerLogin(req: Req, res: Res) {
     const data: IResult = await result.json();
 
     if (result.ok) {
-      const very = jwt.verify(data.token, process.env.JWT_SECRET_KEY!);
+      const very = jwt.verify(data.token, process.env.JWT_SECRET_KEY!) as IJwtPayload;
       if (very) {
         const sesionCookie = serialize('access token', JSON.stringify(data), {
           httpOnly: true,
@@ -46,13 +64,19 @@ export default async function handlerLogin(req: Req, res: Res) {
           path: '/',
         });
         res.setHeader('Set-Cookie', sesionCookie);
-        res.status(200).json({ message: 'inicio de sesion success' });
+        res.status(200).json({
+          message: 'inicio de sesion success',
+          userInformation: {
+            id: data.id,
+            email: very.email,
+          },
+        });
       }
     } else {
       res.status(401).json({ message: data.message });
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
-    res.status(401).json({ message: 'server error' });
+    res.status(401).json({ message: 'server error', errorMessage: error.message });
   }
 }
