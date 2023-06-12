@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/components/Paginate/Paginate.jsx", "src/redux/thunk.js", "src/redux/Paginado/Index.tsx", "src/app/components/FiltersPets/Index.jsx"],
   "exclude": ["node_modules"]
 }
