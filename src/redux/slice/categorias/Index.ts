@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Filter } from '../thunk';
-import { getCategories } from '../thunk';
+import { Filter } from '../../thunk';
+import { getCategories } from '../../thunk';
 let initialState = {
   categorias: [],
 };

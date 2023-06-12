@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import pets from './slice/pets';
-import { categoriasSlice } from './categorias/Index';
+import { categoriasSlice } from './slice/categorias/Index';
 export const store = configureStore({
   reducer: {
     pets,

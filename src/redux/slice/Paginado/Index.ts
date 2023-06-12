@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Paginate } from '../thunk';
+import { Paginate } from '../../thunk';
 let initialState = {
   componentes: [],
 };

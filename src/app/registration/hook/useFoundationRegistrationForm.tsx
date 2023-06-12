@@ -157,21 +157,29 @@ export default function useFoundationRegistrationForm() {
     e.preventDefault();
     const formData = new FormData();
     Object.entries(field).forEach(([key, value]) => {
-      if (key !== 'confirmPassword' && key !== 'document' && key !== 'image' ) {
+      if (key !== 'confirmPassword' && key !== 'document' && key !== 'image') {
         formData.append(key, value);
       }
     });
 
     formData.append('rol', 'fundation');
-    formData.append('image',  field.image!, field.image?.name);
+    formData.append('image', field.image!, field.image?.name);
     try {
-      const response = await axios.post(`${process.env.API_BACK}/auth/register`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BACK}/auth/register`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      });
+      );
 
-      if (response.status === 201) router.push('/login');
+      if (response.status === 201) {
+        router.push('/login');
+      } else {
+        console.log(await response.data);
+      }
     } catch (err: any) {
       const isAxiosError = (some: any): some is AxiosError => {
         return some.isAxiosError === true;
@@ -183,8 +191,6 @@ export default function useFoundationRegistrationForm() {
         }
       }
     }
-
-    console.log(field.image);
   };
 
   useEffect(() => {

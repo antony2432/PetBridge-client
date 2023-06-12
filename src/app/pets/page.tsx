@@ -6,20 +6,15 @@ import FiltersPets from '../components/FiltersPets/Index';
 import Paginate from '../components/Paginate/Paginate';
 // import SearchBar from '../components/SearchBar/Index';
 
-
-
 export default async function Pets() {
-
-
   return (
-    <div className='bg-[#f9f4f1] m-0  flex flex-col justify-center items-center '>
-     
-      <FiltersPets/>
-   <Link href="/registroPet">   
-   <Button className='mt-5'>Formulario para dar en adopción</Button>
-</Link>
+    <div className="bg-[#f9f4f1] m-0  flex flex-col justify-center items-center ">
+      <FiltersPets />
+      <Link href="/registroPet">
+        <Button className="mt-5">Formulario para dar en adopción</Button>
+      </Link>
       <CardsPets />
-      <Paginate/>
+      <Paginate />
     </div>
   );
 }
