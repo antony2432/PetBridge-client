@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Filter, Paginatee } from '../../thunk';
+import { Filter, Paginatee } from '@/redux/thunk';
 const componentes: any = [];
 const Filters: any = [];
 const initialState = {

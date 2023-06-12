@@ -13,7 +13,7 @@ export default function CardsPets() {
   }, []);
 
   return (
-    <section className="max-w-screen grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-20">
+    <section className="flex-grow w-full grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-20">
       <CardPet allPets={Filters.length ? Filters : paginado} />
     </section>
   );
