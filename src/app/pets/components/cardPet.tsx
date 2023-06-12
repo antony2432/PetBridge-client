@@ -9,6 +9,7 @@ import {
 import Image from 'next/image';
 
 import DetallePet from './detalle/detalle';
+import ButtonOpcion from './EdicionPets/buttonOpcion';
 
 
 
@@ -38,7 +39,7 @@ export default function CardPet({ allPets }:any) {
             
           
         </CardFooter>
-       
+       <ButtonOpcion/>
        
       </Card>
    
