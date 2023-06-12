@@ -1,4 +1,4 @@
-import { IUserRegistrationFormError } from './IuseUserRegistrationForm';
+import { IUserRegistrationFormError } from './IUseUserRegistrationForm.interface';
 
 export interface IItemPasswordSection {
   error: boolean;

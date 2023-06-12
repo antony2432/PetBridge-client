@@ -18,6 +18,8 @@ export default function useRegistrationFlow() {
 
   const handleNext = () => !isLastStep && setActiveStep((cur) => cur + 1);
   const handlePrev = () => !isFirstStep && setActiveStep((cur) => cur - 1);
+  const seterLast = (value: boolean) => setIsLastStep(value);
+  const seterFirst = (value: boolean) => setIsFirstStep(value);
 
   return {
     loading,
@@ -31,5 +33,7 @@ export default function useRegistrationFlow() {
     isLastStep,
     isFirstStep,
     setActiveStep,
+    seterFirst,
+    seterLast,
   };
 }
