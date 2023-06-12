@@ -2,9 +2,12 @@
 import { Button, Input, Textarea, Typography } from '@material-tailwind/react';
 import Image from 'next/image';
 import { useState, ChangeEvent, FormEvent, useRef } from 'react';
-import useRegistroPet from '@/app/pets/components/EdicionPets/hooks/useRegistroPet';
 
-import ButtonSend from './AlertSend';
+import ButtonSend from '../pets/components/formularioPet/AlertSend';
+import useEditPet from '../pets/components/EdicionPets/hooks/useEditPet';
+import { useAppSelector } from '@/redux/hook';
+
+
 type FormData = {
   nombre: string;
   city: string;
@@ -16,30 +19,39 @@ type FormData = {
   tamaño: string;
   especie: string;
   genero: string;
-  telefono: string;
-  email: string;
   otros: string;
   edadUnidad: string;
+  asid:string;
 };
 
 export default function Formulario() {
-  const { PostPet } = useRegistroPet();
+
+  const { petId } = useAppSelector(state => state.pets);
+
+  console.log(petId);
+  const info = petId;
+  const { PutPet } = useEditPet();
+
+
+  
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [formData, setFormData] = useState<FormData>({
-    nombre: '',
-    city: '',
-    country: '',
-    state: '',
+    nombre: info.name,
+    city: info.city,
+    country: info.country,
+    state: info.state,
     edad: 0,
-    descripcion: '',
+    descripcion: info.description,
     files: null,
-    tamaño: '',
-    especie: '',
-    genero: '',
-    telefono: '',
-    email: '',
-    otros: '',
+    tamaño: info.weight,
+    especie: info.specie,
+    genero: info.gender,
+
+ 
+    otros: info.otros,
     edadUnidad: '',
+    asid: info.as_id,
+  
   });
 
   const checkFormCompletion = () => {
@@ -53,8 +65,7 @@ export default function Formulario() {
       tamaño,
       especie,
       genero,
-      telefono,
-      email,
+     
     } = formData;
 
     const isComplete =
@@ -67,9 +78,6 @@ export default function Formulario() {
       tamaño !== '' &&
       especie !== '' &&
       genero !== '' &&
-      telefono.trim() !== '' &&
-      email.trim() !== '';
-
     setIsFormComplete(isComplete);
   };
 
@@ -116,13 +124,13 @@ export default function Formulario() {
       description: formData.descripcion,
       specie: formData.especie,
       gender: formData.genero,
-      status: 'homeless',
       country: formData.country,
       state: formData.state,
-      as_id: 'd9308d02-abf7-4772-881b-76c36a48c2df',
+      as_id: formData.asid,
       weight: formData.tamaño,
       age_M: formData.edadUnidad === 'mounth' ? formData.edad : 0,
       age_Y: formData.edadUnidad === 'year' ? formData.edad : 0,
+      
     };
 
     const formDataToSend = new FormData();
@@ -143,7 +151,7 @@ export default function Formulario() {
     }
     console.log(PetData);
     console.log(formDataToSend);
-    const response = await PostPet(formDataToSend);
+    const response = await PutPet(info.id, PetData);
     console.log(response);
   };
   const handleEdadUnidad = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -167,13 +175,14 @@ export default function Formulario() {
         </Typography>
         <div className="grid  gap-10 ">
           <div className="sm:px-10 flex flex-col justify-center items-center">
-            <h3 className="text-2xl text-center sm:text-start ">Información de la mascota</h3>
+            <h3 className="text-2xl text-center sm:text-start ">Edita a tu mascota</h3>
             <p className="mb-5">(rellanar todos los campos)</p>
             <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-10  pb-10 w-11/12">
               <Input
                 label="Nombre de la mascota"
                 type="text"
                 id="nombre"
+                defaultValue={info.name}
                 name="nombre"
                 onChange={handleChange}
                 required
@@ -183,6 +192,7 @@ export default function Formulario() {
                 type="text"
                 id="country"
                 name="country"
+                defaultValue={info.country}
                 onChange={handleChange}
                 required
               />
@@ -190,6 +200,7 @@ export default function Formulario() {
                 label="Estado"
                 type="text"
                 id="state"
+                defaultValue={info.state}
                 name="state"
                 onChange={handleChange}
                 required
@@ -197,6 +208,7 @@ export default function Formulario() {
               <Input
                 label="Ciudad"
                 type="text"
+                defaultValue={info.city}
                 id="city"
                 name="city"
                 onChange={handleChange}
@@ -232,6 +244,7 @@ export default function Formulario() {
                 type="number"
                 id="tamaño"
                 name="tamaño"
+                defaultValue={info.weight}
                 onChange={handleChange}
                 required
               />
@@ -239,6 +252,7 @@ export default function Formulario() {
                 label="Descripcion - historia"
                 id="descripcion"
                 name="descripcion"
+                defaultValue={info.description}
                 onChange={handleChange}
                 required
               />
@@ -284,7 +298,7 @@ export default function Formulario() {
                 className="border border-blue-gray-400 rounded-lg h-10 text-center"
                 id="especie"
                 name="especie"
-                value={formData.especie}
+                defaultValue={formData.especie}
                 onChange={handleChange}
                 required
               >
@@ -297,7 +311,7 @@ export default function Formulario() {
                 className="border border-blue-gray-400 rounded-lg h-10 text-center xl:mb-40"
                 id="genero"
                 name="genero"
-                value={formData.genero}
+                defaultValue={formData.genero}
                 onChange={handleChange}
                 required
               >
@@ -347,4 +361,3 @@ export default function Formulario() {
     </section>
   );
 }
-

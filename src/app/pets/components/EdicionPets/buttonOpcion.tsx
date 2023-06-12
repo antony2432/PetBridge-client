@@ -3,46 +3,46 @@ import {
   SpeedDial,
   SpeedDialHandler,
   SpeedDialContent,
-  SpeedDialAction,
   Typography,
+  SpeedDialAction,
+ 
 } from '@material-tailwind/react';
 import {
-  PlusIcon,
-  HomeIcon,
   CogIcon,
-  Square3Stack3DIcon,
-  TrashIcon,
+  PlusIcon,
 } from '@heroicons/react/24/outline';
 
-export default function ButtonOpcion() {
-  const labelProps = {
-    variant: 'small',
-    color: 'blue-gray',
-    className: 'absolute w-16 top-2/4 -left-2/4 -translate-y-2/4 -translate-x-3/4 font-normal',
+
+
+import Link from 'next/link';
+import { useAppDispatch } from '@/redux/hook';
+import { setId } from '@/redux/slice/pets';
+import Eliminar from './components/deletePet/Eliminar';
+import { labelProps } from './components/labelProps';
+
+
+export default function ButtonOpcion({ idPet }: any) {
+  const dispatch = useAppDispatch();
+  const handleId = ()=>{
+    dispatch(setId(idPet));
+    console.log(idPet);
   };
 
   return (
-    <div className="relative h-80 w-full ">
+    <div className=" h-80 w-full absolute bottom-0 ">
       <div className="absolute bottom-0 right-0">
         <SpeedDial>
           <SpeedDialHandler>
-            <IconButton size="lg" className="rounded-full">
+            <IconButton size="sm" color='orange' className="rounded-full">
               <PlusIcon className="h-5 w-5 transition-transform group-hover:rotate-45" />
             </IconButton>
           </SpeedDialHandler>
           <SpeedDialContent>
-            <SpeedDialAction className="relative">
-              <TrashIcon className="h-5 w-5" />
-              <Typography {...labelProps}>Eliminar</Typography>
-            </SpeedDialAction>
-            <SpeedDialAction className="relative">
-              <CogIcon className="h-5 w-5" />
-              <Typography {...labelProps}>Editar</Typography>
-            </SpeedDialAction>
-            <SpeedDialAction className="relative">
-              <Square3Stack3DIcon className="h-5 w-5" />
-              <Typography {...labelProps}>Pages</Typography>
-            </SpeedDialAction>
+            <Eliminar idPet={idPet}/>
+          <Link href='/editPet'>   <SpeedDialAction className="relative">
+             <CogIcon className="h-5 w-5" onClick={handleId} />
+              <Typography {...labelProps} ><p className='bg-black text-white rounded-xl'>Editar</p></Typography>
+            </SpeedDialAction></Link>
           </SpeedDialContent>
         </SpeedDial>
       </div>
