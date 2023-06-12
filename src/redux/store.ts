@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import pets from './slice/pets';
-import { categoriasSlice } from './categorias/Index';
+import { paginadoSlice } from './Paginado/Index';
 export const store = configureStore({
   reducer: {
     pets,
-    categorias: categoriasSlice.reducer,
+    paginado: paginadoSlice.reducer,
   },
 });
 
