@@ -14,9 +14,13 @@ export default function FiltersPets() {
     const { value } = e.target;
     dispatch(setCategorias(value));
   } */
-  function handleSpecies(e: React.MouseEvent<HTMLButtonElement>, value: string) {
-    e.preventDefault();
-    dispatch(Filter(value));
+  function handleSpecies(e: React.ChangeEvent<HTMLInputElement>, value: any) {
+    const { checked } = e.target;
+    var obj = {
+      value,
+      checked,
+    };
+    dispatch(Filter(obj));
   }
 
   function reset() {
@@ -47,35 +51,31 @@ export default function FiltersPets() {
           >
             <div
               id="1"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'dog')}>
-                Perros
-              </button>
+              <h1>Perros</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'dog')}></input>
             </div>
             <div
               id="2"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'cat')}>
-                Gatos
-              </button>
+              <h1>Gatos</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'cat')}></input>
             </div>
             <div
               id="3"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'bird')}>
-                Pajaros
-              </button>
+              <h1>Pajaros</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'bird')}></input>
             </div>
             <div
               id="4"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'snake')}>
-                Vivoras
-              </button>
+              <h1>Vivoras</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'snake')}></input>
             </div>
             <div className="flex justify-center items-center w-32">
               <Button color="orange" onClick={reset}>

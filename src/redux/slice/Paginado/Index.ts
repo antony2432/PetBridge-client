@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { Filter, Paginatee } from '@/redux/thunk';
 const componentes: any = [];
 const Filters: any = [];
-const initialState = {
+let initialState = {
   componentes,
   Filters,
 };
@@ -14,8 +14,15 @@ export const paginadoSlice = createSlice({
     builder.addCase(Paginatee.fulfilled, (state, action) => {
       state.componentes = [...action.payload];
     });
-    builder.addCase(Filter.fulfilled, (state, action) => {
-      state.Filters = [...action.payload];
+    builder.addCase(Filter.fulfilled, (state, { payload }) => {
+      if (payload.checked) {
+        state.Filters = [...state.Filters, ...payload.data];
+      } else {
+        const filter = [...state.Filters];
+        console.log(filter);
+        const filter2 = filter.filter((f: any) => f.specie !== payload.value);
+        state.Filters = filter2;
+      }
     });
   },
 });
