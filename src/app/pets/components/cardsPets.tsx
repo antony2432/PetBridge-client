@@ -6,15 +6,15 @@ import usePets from '../hook/usePets';
 
 export default function CardsPets() {
   const { fetchAllPets } = usePets();
-  const { allPets } = useAppSelector((state) => state.pets);
-
+  const paginado = useAppSelector((state) => state.paginado.componentes);
+  const Filters = useAppSelector((state) => state.paginado.Filters);
   useEffect(() => {
     fetchAllPets();
   }, [allPets]);
 
   return (
-    <section className="max-w-screen grid gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-20">
-      <CardPet allPets={allPets} />
+    <section className="flex-grow w-full grid gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-20 md:max-w-6xl ">
+      <CardPet allPets={Filters.length ? Filters : paginado} />
     </section>
   );
 }

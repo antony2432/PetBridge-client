@@ -1,15 +1,23 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const Filter = createAsyncThunk('categorias/Filter', async (arr) => {
-  const response = await axios.post('https://dealer-code.fly.dev/filter', { categories: arr });
+export const Filter = createAsyncThunk('categorias/Filter', async (categoria: string) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/specie?specie=${categoria}`,
+  );
   return response.data;
 });
-export const Paginate = createAsyncThunk('categorias/Paginate', async () => {
-  const response = await axios.post('https://dealer-code.fly.dev/filter');
-  return response.data;
-});
-export const getCategories = createAsyncThunk('categorias/getCategories', async () => {
-  const response = await axios.get('https://dealer-code.fly.dev/category');
-  return response.data;
+
+interface Obj {
+  active: string;
+  elements: string;
+}
+
+export const Paginatee = createAsyncThunk('categorias/Paginate', async (obj: Obj) => {
+  console.log(obj);
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/paginate?currentPage=${obj.active}&slicePage=${obj.elements}`,
+  );
+  const filter = response.data.filter((r: any) => r.name !== undefined);
+  return filter;
 });

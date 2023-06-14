@@ -1,20 +1,17 @@
 'use client';
-import { Button } from '@material-tailwind/react';
 import CardsPets from './components/cardsPets';
-import Link from 'next/link';
 import FiltersPets from '../components/FiltersPets/Index';
 import Paginate from '../components/Paginate/Paginate';
-// import SearchBar from '../components/SearchBar/Index';
 
 export default async function Pets() {
   return (
-    <div className="bg-[#f9f4f1] m-0  flex flex-col justify-center items-center ">
+    <main
+      className="w-full h-full flex-grow flex flex-col items-center"
+      style={{ backgroundImage: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)' }}
+    >
       <FiltersPets />
-      <Link href="/registroPet">
-        <Button className="mt-5">Formulario para dar en adopción</Button>
-      </Link>
       <CardsPets />
       <Paginate />
-    </div>
+    </main>
   );
 }
