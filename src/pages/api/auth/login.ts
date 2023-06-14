@@ -37,6 +37,12 @@ interface IUser {
 interface IJwtPayload {
   email: string;
   id: string;
+  firstName: string,
+  lastName: string,
+  image: string | null,
+  country: string | null,
+  phone: string | null,
+  rol: string;
   [key: string]: any;
 }
 
@@ -69,6 +75,11 @@ export default async function handlerLogin(req: Req, res: Res) {
           userInformation: {
             id: data.id,
             email: very.email,
+            firstName: very.firstName,
+            lastName: very.lastName,
+            image: very.image,
+            country: very.country,
+            phone: very.phone,
           },
         });
       }
