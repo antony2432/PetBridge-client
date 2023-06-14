@@ -6,6 +6,25 @@ export const petsSlice = createSlice({
     open: false,
     allPets: [],
     pet: {},
+    petId:{
+      name:'',
+      city: '',
+      country: '',
+      state: '',
+      edad: 0,
+      description: '',
+      files: null,
+      weight: '',
+      specie: '',
+      gender: '',
+      phone: '',
+      email: '',
+      otros: '',
+      age_M:null,
+      age_Y:null,
+      as_id:'',
+      id:'',
+    },
   },
   reducers: {
     setAllPets: (state, action) => {
@@ -14,8 +33,11 @@ export const petsSlice = createSlice({
     setOpen: (state, action) => {
       state.open = action.payload;
     },
+    setId:(state, action)=>{
+      state.petId = action.payload;
+    },
   },
 });
 
-export const { setAllPets, setOpen } = petsSlice.actions;
+export const { setAllPets, setOpen, setId } = petsSlice.actions;
 export default petsSlice.reducer;

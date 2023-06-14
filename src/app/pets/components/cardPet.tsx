@@ -32,7 +32,7 @@ export default function CardPet({ allPets }: any) {
           <CardFooter className="flex justify-center pt-2">
             <DetallePet info={info} />
           </CardFooter>
-          <ButtonOpcion />
+          <ButtonOpcion idPet={info} />
         </Card>
       ))}
     </>
