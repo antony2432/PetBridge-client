@@ -66,6 +66,7 @@ export default async function handlerLogin(req: Req, res: Res) {
       if (very) {
         const sesionCookie = serialize('access token', JSON.stringify(data), {
           httpOnly: true,
+          sameSite: 'lax',
           maxAge: 29 * 24 * 60 * 60 * 1000,
           path: '/',
         });
