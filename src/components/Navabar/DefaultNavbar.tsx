@@ -26,11 +26,12 @@ interface ILoginSectionProps {
 }
 
 function LoginSection({ image, fullname }: ILoginSectionProps) {
+  const { logout } = useNavBar();
   return (
     <>
       <p>{fullname}</p>
       <Avatar src={image ? image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'} alt={fullname} size='sm'/>
-      <button className='rounded-md border duration-200 px-4 py-2 text-red-600 border-red-400 hover:border-red-600 hover:bg-red-100'>Log out</button>
+      <button className='rounded-md border duration-200 px-4 py-2 text-red-600 border-red-400 hover:border-red-600 hover:bg-red-100' onClick={logout}>Log out</button>
     </>
   );
 }

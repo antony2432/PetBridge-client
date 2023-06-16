@@ -64,7 +64,7 @@ export default async function handlerLogin(req: Req, res: Res) {
     if (result.ok) {
       const very = jwt.verify(data.token, process.env.JWT_SECRET_KEY!) as IJwtPayload;
       if (very) {
-        const sesionCookie = serialize('access token', JSON.stringify(data), {
+        const sesionCookie = serialize('accessToken', JSON.stringify(data), {
           httpOnly: true,
           sameSite: 'lax',
           maxAge: 29 * 24 * 60 * 60 * 1000,

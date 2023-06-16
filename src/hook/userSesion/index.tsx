@@ -23,11 +23,11 @@ export default function useUserSesion() {
 
   const signoffSesion = () => {
     setSesion(null);
+    localStorage.removeItem('userSesion');
   };
 
   return {
     sesion,
-    setSesion,
     signoffSesion,
   };
 }
