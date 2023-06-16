@@ -38,7 +38,6 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 
 function ButtonSection() {
   const { sesion } = useUserSesion();
-  console.log(sesion?.image);
   return (
     <>
       {sesion ? (
