@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import useResetFlow from './hook/useResetFlow';
 
 export default function Page() {
@@ -5,15 +6,22 @@ export default function Page() {
         activeStep,
         setActiveStep,
         isLastStep,
-        setIsLastStep,
         isFirstStep,
-        setIsFirstStep,
-        handleNext,
-        handlePrev,
         seterLast,
         seterFirst,
+        handleNext,
+        handlePrev,
     } = useResetFlow();
     return (
-        <article></article>
+        <main>
+            <article>
+                <div>
+                    <Image src='#' alt='animalitos coloridos'/>
+                </div>
+                <form>
+                    <h1>Cambio de Contraseña</h1>
+                </form>
+            </article>
+        </main>
     )
 }
