@@ -1,3 +1,4 @@
+'use client';
 import PostSend from '../components/PostSend';
 import Posts from '../components/posts';
 export default function Home() {

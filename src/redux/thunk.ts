@@ -10,7 +10,6 @@ export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => 
     data: response.data,
   };
   return obj;
-  
 });
 
 interface Obj {
@@ -25,4 +24,17 @@ export const Paginatee = createAsyncThunk('categorias/Paginate', async (obj: Obj
   );
   const filter = response.data.filter((r: any) => r.name !== undefined);
   return filter;
+});
+
+export const GetByName = createAsyncThunk('user/Users', async () => {
+  const response = await axios.get('https://deploy-petsbridge.vercel.app/users');
+
+  return response.data;
+});
+export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) => {
+  const response = await axios.patch(
+    `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
+    obj.file,
+  );
+  return response.data;
 });
