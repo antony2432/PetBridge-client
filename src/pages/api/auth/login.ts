@@ -34,6 +34,7 @@ interface IUser {
   country?: string | null;
   phone?: string | null;
   rol: string;
+  token: string;
 }
 interface IJwtPayload {
   email: string;
@@ -83,6 +84,7 @@ export default async function handlerLogin(req: Req, res: Res) {
             country: very.country,
             phone: very.phone,
             rol: very.rol,
+            token: data.token,
           },
         });
       }
