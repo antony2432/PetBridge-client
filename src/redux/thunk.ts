@@ -1,16 +1,21 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const Filter = createAsyncThunk('categorias/Filter', async (categoria: string) => {
+export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_BACK}/animals/specie?specie=${categoria}`,
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/specie?specie=${obj.value}`,
   );
-  return response.data;
+  obj = {
+    ...obj,
+    data: response.data,
+  };
+  return obj;
+  
 });
 
 interface Obj {
-  active: string;
-  elements: string;
+  active: number;
+  elements: number;
 }
 
 export const Paginatee = createAsyncThunk('categorias/Paginate', async (obj: Obj) => {
