@@ -1,6 +1,6 @@
 
 
-export default function animals() {
+export default function Animals() {
   return (
     <div>
       <h1>animals</h1>

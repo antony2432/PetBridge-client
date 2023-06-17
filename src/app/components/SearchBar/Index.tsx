@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function SearchBar() {
+  const [ toSearch, setToSearch ] = useState()
+  
   return (
     <form className="flex items-center mt-5">   
     <label htmlFor="simple-search" className="sr-only">Search</label>
