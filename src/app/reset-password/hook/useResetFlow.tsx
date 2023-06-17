@@ -14,12 +14,10 @@ export default function useResetFlow() {
         activeStep,
         setActiveStep,
         isLastStep,
-        setIsLastStep,
         isFirstStep,
-        setIsFirstStep,
-        handleNext,
-        handlePrev,
         seterLast,
         seterFirst,
+        handleNext,
+        handlePrev,
     }
 }
