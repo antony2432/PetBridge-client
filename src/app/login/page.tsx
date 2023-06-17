@@ -138,7 +138,7 @@ export default function Page() {
                 color="gray"
                 className="mt-3 font-medium transition-colors hover:text-blue-500"
               >
-                <Link href="#">Olvidaste tu contraseña?</Link>
+                <Link href="/reset-password">¿Olvidaste tu contraseña?</Link>
               </Typography>
             </section>
           </section>
