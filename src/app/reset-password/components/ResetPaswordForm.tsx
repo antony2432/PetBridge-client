@@ -2,10 +2,12 @@ import InputLabel from "@/components/InputLabel";
 import { IResetPasswordProps, ISetProps } from "../interface/IResetPasswordProps";
 import InputPassword from "@/components/InputPassword";
 import useResetForm from "../hook/useResetForm";
+import StepperReset from './stepper'
 
 function ResetPasswordStep1({ fieldError, handleChange, value }:ISetProps) {
     return (
         <>
+            <h2>Introduzca la dirección de correo electrónico que usó al registrarse</h2>
             <InputLabel 
             value={value.email}
             label='Email del usuario' 
@@ -20,7 +22,8 @@ function ResetPasswordStep1({ fieldError, handleChange, value }:ISetProps) {
 
 function ResetPasswordStep2({ fieldError, handleChange, value }:ISetProps) {
     return (
-        <>
+        <>  
+            <h2>Le hemos enviado un token de verificación. Cópielo y luego péguelo en el campo requerido.</h2>
             <InputLabel 
             value={value.token}
             label='Token de verificación' 
@@ -36,6 +39,7 @@ function ResetPasswordStep2({ fieldError, handleChange, value }:ISetProps) {
 function ResetPasswordStep3({ fieldError, handleChange, value }:ISetProps) {
     return (
         <> 
+            <h2>Por último, crea tu nueva contraseña.</h2>
             <InputPassword fieldPassword={fieldError.password} handleChange={handleChange} value={value.password}/>
             <InputLabel 
             value={value.confirmPassword}
@@ -51,7 +55,7 @@ function ResetPasswordStep3({ fieldError, handleChange, value }:ISetProps) {
 
 
 export default function ResetPasswordForm(
-  /*   {
+     {
         activeStep,
         setActiveStep,
         isLastStep,
@@ -60,12 +64,10 @@ export default function ResetPasswordForm(
         seterFirst,
         handleNext,
         handlePrev,
-    }: IResetPasswordProps */
+    }: IResetPasswordProps
 ) {
     let componentToShow;
     const { handleChange, field, fieldError } = useResetForm();
-    
-    const activeStep:number = 0;
 
     switch (activeStep) {
         case 0:
@@ -82,6 +84,16 @@ export default function ResetPasswordForm(
     return (
         <article className="flex flex-col items-center gap-3 ">
             {componentToShow}
+            <StepperReset 
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            isLastStep={isLastStep}
+            isFirstStep={isFirstStep}
+            seterLast={seterLast}
+            seterFirst={seterFirst}
+            handleNext={handleNext}
+            handlePrev={handlePrev}
+            />
         </article>
     )
 }
