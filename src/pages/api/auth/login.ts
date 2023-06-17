@@ -37,6 +37,12 @@ interface IUser {
 interface IJwtPayload {
   email: string;
   id: string;
+  firstName: string,
+  lastName: string,
+  image: string | null,
+  country: string | null,
+  phone: string | null,
+  rol: string;
   [key: string]: any;
 }
 
@@ -58,8 +64,9 @@ export default async function handlerLogin(req: Req, res: Res) {
     if (result.ok) {
       const very = jwt.verify(data.token, process.env.JWT_SECRET_KEY!) as IJwtPayload;
       if (very) {
-        const sesionCookie = serialize('access token', JSON.stringify(data), {
+        const sesionCookie = serialize('accessToken', JSON.stringify(data), {
           httpOnly: true,
+          sameSite: 'lax',
           maxAge: 29 * 24 * 60 * 60 * 1000,
           path: '/',
         });
@@ -69,6 +76,11 @@ export default async function handlerLogin(req: Req, res: Res) {
           userInformation: {
             id: data.id,
             email: very.email,
+            firstName: very.firstName,
+            lastName: very.lastName,
+            image: very.image,
+            country: very.country,
+            phone: very.phone,
           },
         });
       }

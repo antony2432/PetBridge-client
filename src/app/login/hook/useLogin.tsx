@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { IField, IFieldError } from '../interface/IHook.interface';
-import { useAppDispatch } from '@/redux/hook';
-import { setUser } from '@/redux/slice/user.slice';
 
 export default function useLogin() {
   const initialField: IField = {
@@ -29,7 +27,6 @@ export default function useLogin() {
   const [error, setError] = useState(initialError);
   const [enabled, setEnabled] = useState(true);
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const emilValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +76,7 @@ export default function useLogin() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
     try {
       const result = await fetch('/api/auth/login', {
         method: 'POST',
@@ -90,7 +88,7 @@ export default function useLogin() {
       const data = await result.json();
       if (result.ok) {
         const dataUser = data.userInformation;
-        dispatch(setUser(dataUser));
+        localStorage.setItem('userSesion', JSON.stringify(dataUser));
         router.push('/home');
       } else {
         alert(data.message);
@@ -98,6 +96,7 @@ export default function useLogin() {
     } catch (errore: any) {
       console.log(errore.message);
     }
+
   };
 
   return {
