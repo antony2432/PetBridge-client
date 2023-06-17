@@ -1,19 +1,26 @@
 'use client';
 import { Card, CardHeader, CardFooter } from '@material-tailwind/react';
 import Image from 'next/image';
+import DetallePet from './../../pets/components/detalle/detalle';
+import ButtonOpcion from './EdicionPets/buttonOpcion';
+import useUserSesion from '@/hook/userSesion';
+import { useAppSelector } from '@/redux/hook';
 
-import DetallePet from './detalle/detalle';
 
-
-export default function CardPet({ allPets }: any) {
+export default function CardPet() {
+  const { allPets } = useAppSelector((state)=> state.pets);
+  const { sesion } = useUserSesion(); 
+  console.log(sesion);
   const reversedPets = allPets.slice().reverse();
-
+  console.log(reversedPets);
+  const petsId = reversedPets.filter((element:any) => element.as_id === sesion?.id );
+  console.log(petsId);
   return (
     <>
-      {reversedPets.map((info: any) => (
+      {petsId.map((info: any) => (
         <Card
           key={info.id}
-          className="w-72 h-96 m-6  hover:w-[140%] hover:max-w-[440px] hover:h-[500px]     hover:-mt-28 hover:mb-11 hover:z-10"
+          className="w-72 h-96 mb-2  hover:w-[140%] hover:max-w-[440px] hover:h-[500px]     hover:-mt-28 hover:mb-0 hover:z-10"
         >
           <CardHeader floated={false} className="h-80 flex justify-center items-center">
             {info.image ? (
@@ -31,6 +38,7 @@ export default function CardPet({ allPets }: any) {
 
           <CardFooter className="flex justify-center pt-2">
             <DetallePet info={info} />
+            <ButtonOpcion idPet={info}/>
           </CardFooter>
          
         </Card>

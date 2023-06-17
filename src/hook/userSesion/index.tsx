@@ -16,9 +16,7 @@ export default function useUserSesion() {
   useEffect(() => {
     if (sesion) {
       localStorage.setItem('userSesion', JSON.stringify(sesion));
-    } else {
-      localStorage.removeItem('userSesion');
-    }
+    } 
   }, [sesion]);
 
   const signoffSesion = () => {

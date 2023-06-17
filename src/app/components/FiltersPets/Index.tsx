@@ -28,7 +28,7 @@ export default function FiltersPets() {
     router.push('/registroPet');
   };
   return (
-    <nav className="w-full p-5 flex items-start justify-between bg-transparent">
+    <nav className="w-full max-w-6xl  flex items-start justify-between  bg-transparent">
       <section>
         <div>
           <Button
