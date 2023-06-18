@@ -67,7 +67,7 @@ export default function ResetPasswordForm(
     }: IResetPasswordProps
 ) {
     let componentToShow;
-    const { handleChange, field, fieldError } = useResetForm();
+    const { handleChange, field, fieldError, enabled, submitEmail, submitPassword, submitToken } = useResetForm();
 
     switch (activeStep) {
         case 0:
@@ -93,6 +93,10 @@ export default function ResetPasswordForm(
             seterFirst={seterFirst}
             handleNext={handleNext}
             handlePrev={handlePrev}
+            enabled={enabled}
+            submitEmail={submitEmail}
+            submitPassword={submitPassword}
+            submitToken={submitToken}
             />
         </article>
     )
