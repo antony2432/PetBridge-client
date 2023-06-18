@@ -9,7 +9,7 @@ export default function CardsPets() {
   const { fetchAllPets } = usePets();
   useEffect(() => {
     fetchAllPets();
-  }, []);
+  }, [fetchAllPets]);
 
 
 

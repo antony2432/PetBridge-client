@@ -29,7 +29,7 @@ export default function ButtonOpcion({ idPet }: any) {
   };
 
   return (
-    <div className=" h-80 w-full absolute bottom-0 ">
+    <div className=" h-80 w-full absolute bottom-0 right-0 ">
       <div className="absolute bottom-0 right-0">
         <SpeedDial>
           <SpeedDialHandler>

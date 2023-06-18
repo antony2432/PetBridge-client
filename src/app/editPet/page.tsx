@@ -2,10 +2,12 @@
 import { Button, Input, Textarea, Typography } from '@material-tailwind/react';
 import Image from 'next/image';
 import { useState, ChangeEvent, FormEvent, useRef } from 'react';
-import useRegistroPet from '@/app/registroPet/hooks/useRegistroPet';
 
-import ButtonSend from './AlertSend';
-import useUserSesion from '@/hook/userSesion';
+import ButtonSend from '../pets/components/formularioPet/AlertSend';
+import useEditPet from '../myPets/components/EdicionPets/hooks/useEditPet';
+import { useAppSelector } from '@/redux/hook';
+
+
 type FormData = {
   nombre: string;
   city: string;
@@ -17,34 +19,39 @@ type FormData = {
   tamaño: string;
   especie: string;
   genero: string;
-  // telefono: string;
-  // email: string;
-  // otros: string;
-  // edadUnidad: string;
+  asid?:string;
 };
 
 export default function Formulario() {
-  const { sesion } = useUserSesion();
-  const { PostPet } = useRegistroPet();
-  const [isFormComplete, setIsFormComplete] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
-    nombre: '',
-    city: '',
-    country: '',
-    state: '',
-    edad: 0,
-    descripcion: '',
-    files: null,
-    tamaño: '',
-    especie: '',
-    genero: '',
-    // telefono: '',
-    // email: '',
-    // otros: '',
-    // edadUnidad: '',
-  });
+
+  const { petId } = useAppSelector(state => state.pets);
+
+  console.log(petId);
+  const info = petId;
+  const { PutPet } = useEditPet();
+
 
   
+  const [isFormComplete, setIsFormComplete] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    nombre: info.name,
+    city: info.city,
+    country: info.country,
+    state: info.state,
+    edad: 0,
+    descripcion: info.description,
+    files: null,
+    tamaño: info.weight,
+    especie: info.specie,
+    genero: info.gender,
+
+ 
+    
+    // edadUnidad: '',
+    asid: info.as_id,
+  
+  });
+
   const checkFormCompletion = () => {
     const {
       nombre,
@@ -56,8 +63,7 @@ export default function Formulario() {
       tamaño,
       especie,
       genero,
-      // telefono,
-      // email,
+     
     } = formData;
 
     const isComplete =
@@ -70,16 +76,13 @@ export default function Formulario() {
       tamaño !== '' &&
       especie !== '' &&
       genero !== '';
-      // telefono.trim() !== '' &&
-      // email.trim() !== '';
-
     setIsFormComplete(isComplete);
   };
 
   const [imagenPreviaUrls, setImagenPreviaUrls] = useState<string[]>([]);
-
+  console.log(imagenPreviaUrls[0]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
+  
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
   ) => {
@@ -116,35 +119,37 @@ export default function Formulario() {
     const PetData:any = {
       name: formData.nombre,
       city: formData.city,
-      country: formData.country,
-      state: formData.state,
       description: formData.descripcion,
       specie: formData.especie,
       gender: formData.genero,
-      status: 'homeless',
-      as_id: sesion?.id,
+      country: formData.country,
+      state: formData.state,
+      as_id: formData.asid,
       weight: formData.tamaño,
+      // age_M: formData.edadUnidad === 'mounth' ? formData.edad : 0,
+      // age_Y: formData.edadUnidad === 'year' ? formData.edad : 0,
+      
     };
 
     const formDataToSend = new FormData();
 
-    for (const key in PetData) {
-      formDataToSend.append(key, PetData[key]);
-    }
     // for (const key in PetData) {
-    //   const value = PetData[key as keyof typeof PetData].toString();
-    //   formDataToSend.append(key, value);
+    //   formDataToSend.append(key, PetData[key]);
     // }
-    console.log(formDataToSend);
+    for (const key in PetData) {
+      const value = PetData[key as keyof typeof PetData].toString();
+      formDataToSend.append(key, value);
+    }
+
     // Agregar las imágenes al FormData
-    console.log(formData.files);
+    
     if (formData.files) {
       for (let i = 0; i < Math.min(formData.files.length, 5); i++) {
         formDataToSend.append('file', formData.files[i]);
       }
     }
    
-    const response = await PostPet(formDataToSend);
+    const response = await PutPet(info.id, formDataToSend);
     console.log(response);
   };
   const handleEdadUnidad = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -168,13 +173,14 @@ export default function Formulario() {
         </Typography>
         <div className="grid  gap-10 ">
           <div className="sm:px-10 flex flex-col justify-center items-center">
-            <h3 className="text-2xl text-center sm:text-start ">Información de la mascota</h3>
+            <h3 className="text-2xl text-center sm:text-start ">Edita a tu mascota</h3>
             <p className="mb-5">(rellanar todos los campos)</p>
             <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-10  pb-10 w-11/12">
               <Input
                 label="Nombre de la mascota"
                 type="text"
                 id="nombre"
+                defaultValue={info.name}
                 name="nombre"
                 onChange={handleChange}
                 required
@@ -184,6 +190,7 @@ export default function Formulario() {
                 type="text"
                 id="country"
                 name="country"
+                defaultValue={info.country}
                 onChange={handleChange}
                 required
               />
@@ -191,6 +198,7 @@ export default function Formulario() {
                 label="Estado"
                 type="text"
                 id="state"
+                defaultValue={info.state}
                 name="state"
                 onChange={handleChange}
                 required
@@ -198,6 +206,7 @@ export default function Formulario() {
               <Input
                 label="Ciudad"
                 type="text"
+                defaultValue={info.city}
                 id="city"
                 name="city"
                 onChange={handleChange}
@@ -233,6 +242,7 @@ export default function Formulario() {
                 type="number"
                 id="tamaño"
                 name="tamaño"
+                defaultValue={info.weight}
                 onChange={handleChange}
                 required
               />
@@ -240,13 +250,14 @@ export default function Formulario() {
                 label="Descripcion - historia"
                 id="descripcion"
                 name="descripcion"
+                defaultValue={info.description}
                 onChange={handleChange}
                 required
               />
               <div className="file-input-container flex items-center flex-col min-w-[320px] col-span-2 lg:row-span-2 lg:col-span-1">
                 <input
                   type="file"
-                  id="imagenes"
+                  id="files"
                   name="files"
                   accept="image/*"
                   multiple
@@ -285,7 +296,7 @@ export default function Formulario() {
                 className="border border-blue-gray-400 rounded-lg h-10 text-center"
                 id="especie"
                 name="especie"
-                value={formData.especie}
+                defaultValue={formData.especie}
                 onChange={handleChange}
                 required
               >
@@ -298,7 +309,7 @@ export default function Formulario() {
                 className="border border-blue-gray-400 rounded-lg h-10 text-center xl:mb-40"
                 id="genero"
                 name="genero"
-                value={formData.genero}
+                defaultValue={formData.genero}
                 onChange={handleChange}
                 required
               >
