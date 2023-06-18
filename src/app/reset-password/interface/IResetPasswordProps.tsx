@@ -10,6 +10,10 @@ export interface IResetPasswordProps {
     seterFirst:(value: boolean) => void;
     handleNext:() => void;
     handlePrev:() => void;
+    enabled?:boolean;
+    submitEmail:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    submitPassword:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    submitToken:(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export interface ISetProps {
