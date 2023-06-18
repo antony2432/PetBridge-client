@@ -3,6 +3,7 @@ import { IResetPasswordProps, ISetProps } from "../interface/IResetPasswordProps
 import InputPassword from "@/components/InputPassword";
 import useResetForm from "../hook/useResetForm";
 import StepperReset from './stepper'
+import { useEffect } from "react";
 
 function ResetPasswordStep1({ fieldError, handleChange, value }:ISetProps) {
     return (
@@ -67,7 +68,34 @@ export default function ResetPasswordForm(
     }: IResetPasswordProps
 ) {
     let componentToShow;
-    const { handleChange, field, fieldError, enabled, submitEmail, submitPassword, submitToken } = useResetForm();
+    const { handleChange, field, fieldError, enabled, setEnabled, submitEmail, submitPassword, submitToken } = useResetForm();
+
+    //Por ser el único módulo en el que convergen las propiedades enabled, fieldError y activeStep
+    useEffect(()=>{
+        if (activeStep === 0) {
+            if (fieldError.email && field.email.length) {
+                setEnabled(false)
+            } else {
+                setEnabled(true)
+            }
+         } else if (activeStep === 1) {
+            if ( fieldError.token) {
+                setEnabled(false)
+            } else {
+                setEnabled(true)
+            }
+         } else if(activeStep === 2) {
+            if (fieldError.password.especial &&
+                fieldError.password.length &&
+                fieldError.password.number &&
+                fieldError.password.upper &&
+                fieldError.confirmPassword
+                ) {
+                    setEnabled(false)
+                } else { setEnabled(true) }
+         }
+        
+    }, [fieldError])
 
     switch (activeStep) {
         case 0:
