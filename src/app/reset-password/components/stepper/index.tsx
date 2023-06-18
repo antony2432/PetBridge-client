@@ -25,29 +25,33 @@ export default function StepperReset({
         submitEmail(e);
        }
       }
-      disabled={(enabled)}
+      disabled={enabled}
       size="sm"
       className="bg-amber-500 hover:shadow-lg hover:shadow-amber-500/50">
         Siguiente</Button>
+      break;
     case 1:
       button=<Button onClick={(e)=>{
         handleNext();
         submitToken(e);
         }
       }
-      disabled={(enabled)}
+      disabled={enabled}
       size="sm"
       className="bg-amber-500 hover:shadow-lg hover:shadow-amber-500/50">
+        Siguiente
       </Button>
+      break;
     case 2:
       button=<Button onClick={(e)=>{
         submitPassword(e);
         }
       }
-      disabled={(enabled)}
+      disabled={enabled}
       size="sm"
       className="bg-amber-500 hover:shadow-lg hover:shadow-amber-500/50">
-      </Button>
+        Crear Contraseña</Button>
+    break;
   }
 
     return (
