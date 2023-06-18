@@ -12,12 +12,12 @@ export default function CardPet() {
   const { sesion } = useUserSesion(); 
   console.log(sesion);
   const reversedPets = allPets.slice().reverse();
-  console.log(reversedPets);
+
   const petsId = reversedPets.filter((element:any) => element.as_id === sesion?.id );
   console.log(petsId);
   return (
     <>
-      {petsId.map((info: any) => (
+      {petsId[0] ? petsId.map((info: any) => (
         <Card
           key={info.id}
           className="w-72 h-96 mb-2  hover:w-[140%] hover:max-w-[440px] hover:h-[500px]     hover:-mt-28 hover:mb-0 hover:z-10"
@@ -42,7 +42,9 @@ export default function CardPet() {
           </CardFooter>
          
         </Card>
-      ))}
+      )) : <section className='w-screen max-w-6xl h-[50vh] flex justify-center text-center   '>
+      <h2 className='w-full h-10'>No tenes mascotas por el momento. Para agregar haz click en el boton <b>&quot;formulario para dar en adopcion&quot;</b></h2>
+        </section>}
     </>
   );
 }
