@@ -71,7 +71,7 @@ export default function useResetForm() {
         if (name === 'token') {
             setFieldError({
                 ...fieldError,
-                token: value.length === 389
+                token: value.length === 251
             })
         }
     }
@@ -79,7 +79,7 @@ export default function useResetForm() {
     const submitEmail = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       try {
-        const response = await axios.post('localhost:3000/auth/forgot-password', {email:field.email})
+        const response = await axios.post('http://localhost:3000/auth/forgot-password', {email:field.email})
       } catch (err) {
          const isAxiosError = (some: any): some is AxiosError => {
           return some.isAxiosError === true;
@@ -96,13 +96,13 @@ export default function useResetForm() {
     const submitToken = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       try {
-        const response = await axios.post('localhost:3000/auth/verify-token',null,{
+        const response = await axios.post('http://localhost:3000/auth/verify-token',null,{
           headers:{
             'Content-Type': 'multipart/form-data',
             'code':`${field.token}`
           }
         })
-
+        console.log(response);
         if (response.status >= 200) {
           const userData = response.data;
           localStorage.setItem('resetPasswordSession', JSON.stringify(userData));
@@ -124,7 +124,12 @@ export default function useResetForm() {
     const submitPassword = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       try {
-        //const response = await axios.
+        const response = await axios.patch('http://localhost:3000/auth/change-password', {newPassword:field.password}, {
+          headers:{
+            "Content-Type":'multipart/form-data'
+            ""
+          }
+        })
       } catch (err) {
         const isAxiosError = (some: any): some is AxiosError => {
           return some.isAxiosError === true;
@@ -138,27 +143,12 @@ export default function useResetForm() {
       }
     }
 
-    useEffect(() => {
-        if (
-          fieldError.password.especial &&
-          fieldError.password.length &&
-          fieldError.password.number &&
-          fieldError.password.upper &&
-          fieldError.email &&
-          fieldError.confirmPassword &&
-          fieldError.token
-        ) {
-          setEnabled(false);
-        } else {
-          setEnabled(true);
-        }
-      }, [fieldError]);
-
     return {
         handleChange,
         field,
         fieldError,
         enabled,
+        setEnabled,
         submitEmail,
         submitPassword,
         submitToken,
