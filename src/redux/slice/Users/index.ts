@@ -10,10 +10,10 @@ export const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(GetByName.fulfilled, (state, action) => {
-      state.User = [...action.payload];
+      state.User = [action.payload];
     });
     builder.addCase(UpdateById.fulfilled, (state, { payload }) => {
-      state.User = [...payload];
+      state.User = [payload];
     });
   },
 });

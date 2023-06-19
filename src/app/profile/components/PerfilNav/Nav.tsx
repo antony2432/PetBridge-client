@@ -1,6 +1,5 @@
 import { BsPersonFill } from 'react-icons/bs';
 import { GiPadlock } from 'react-icons/gi';
-import { FiMessageSquare } from 'react-icons/fi';
 const Nav = (Props: {
   setPages: (arg0: { General: boolean; Security: boolean; Notifications: boolean }) => void;
   pages: { General: any; Security: any; Notifications: any };
@@ -40,23 +39,6 @@ const Nav = (Props: {
       >
         <GiPadlock className="mr-2 ml-2" />
         Seguridad
-      </button>
-      <button
-        onClick={() =>
-          Props.setPages({
-            Notifications: true,
-            General: false,
-            Security: false,
-          })
-        }
-        className={
-          Props.pages.Notifications
-            ? 'flex pb-5 pt-5 items-center text-[#8E5500] font-semibold pr-7 border-b border-[#8E5500]'
-            : 'flex pb-5 pt-5 items-center text-[#F0A73E] font-semibold pr-7 border-b border-[#8E5500]'
-        }
-      >
-        <FiMessageSquare className="mr-2 ml-2" />
-        Notificaciones
       </button>
     </div>
   );

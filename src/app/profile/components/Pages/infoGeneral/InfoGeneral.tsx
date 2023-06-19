@@ -10,12 +10,23 @@ import { UpdateById } from '@/redux/thunk';
 export default function InfoGeneral({ User }: any) {
   const dispatch = useAppDispatch();
   const Guardar = (value: any) => {
+    if (User[0].country === value.direccion && User[0].phone === value.numeroTelefonico && User[0].firstName === value.Nombres && User[0].lastName === value.Apellidos) {
+      return alert('Haz un cambio para actualizar');
+    }
     console.log(value);
+    const obj2 = {
+      first_Name:value.Nombres,
+      last_Name:value.Apellidos,
+      country: value.direccion,
+      phone: value.numeroTelefonico,
+    };
     const obj = {
       id: User[0].id,
-      file: value,
+      file: obj2,
+      tipe: 'obj',
     };
     dispatch(UpdateById(obj));
+    alert('Actualizado');
   };
   //  const [data] = useState(user);
   console.log(User);

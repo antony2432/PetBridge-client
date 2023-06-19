@@ -7,12 +7,18 @@ const ImageUploader = ({ User }: any) => {
   const dispatch = useAppDispatch();
   const handleImageUpload = async (event: any) => {
     const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('id', User[0].id);
-    dispatch(UpdateById(formData));
+    const data = new FormData();
+    data.append('profilePic', file);
+    var obj = {
+      file: data,
+      id: User[0].id,
+      tipe: 'image',
+    };
+    console.log(User[0].id, 'hola');
+    dispatch(UpdateById(obj));
     // Reemplaza 'tu_upload_preset' con tu propio upload preset de Cloudinary
     // Envía la imagen a Cloudinary utilizando fetch
+    alert('Actualizado');
   };
 
   return (

@@ -7,19 +7,19 @@ const Perfil = ({ User }: any) => {
     <div>
       <div className="flex flex-col items-center">
         <div className="rounded-full text-center w-32 h-w-32">
-          {User[0] ? (
-            User[0].image
-          ) : false ? (
+          {User[0] && User[0].image ? (
             <Avatar src={User[0].image} size="lg" alt="avatar"></Avatar>
           ) : (
+            <div className='flex justify-center'>
             <Image src={defaultt} width={70} height={70} alt="defaultImg"></Image>
+            </div>
           )}
         </div>
         <div className="flex justify-center mt-1 hover:bg-[#ffd499] rounded items-center">
           <ImageUploader User={User}></ImageUploader>
         </div>
       </div>
-      <h1 className="text-center text-lg font-semibold">{User[0] ? User[0].firstName : null}</h1>
+      <h1 className="text-center text-lg font-semibold mt-2">{User[0] ? User[0].firstName : null}</h1>
     </div>
   );
 };
