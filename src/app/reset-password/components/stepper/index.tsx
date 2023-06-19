@@ -1,6 +1,6 @@
 import { Step, Button, Stepper } from "@material-tailwind/react";
 import { IResetPasswordProps } from "../../interface/IResetPasswordProps";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"
 
 export default function StepperReset({
     activeStep,
@@ -47,7 +47,11 @@ export default function StepperReset({
     case 2:
       button=<Button onClick={async (e)=>{
         const goNext = await submitPassword(e);
-        goNext ? handleNext() : null
+        if (goNext) {
+          localStorage.removeItem('resetPasswordSession');
+          handleNext();
+        }
+
         }
       }
       disabled={enabled}
