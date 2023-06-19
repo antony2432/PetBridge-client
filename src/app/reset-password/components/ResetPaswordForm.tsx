@@ -4,11 +4,13 @@ import InputPassword from "@/components/InputPassword";
 import useResetForm from "../hook/useResetForm";
 import StepperReset from './stepper'
 import { useEffect } from "react";
+import Image from 'next/image';
 
 function ResetPasswordStep1({ fieldError, handleChange, value }:ISetProps) {
     return (
         <>
-            <h2>Introduzca la dirección de correo electrónico que usó al registrarse</h2>
+            <h1 className="font-extrabold text-DarkBrown-900 text-2xl">Cambio de Contraseña</h1>
+            <h2 className="text-DarkBrown-950 text-lg text-center" >Introduzca la dirección de correo electrónico que usó al registrarse</h2>
             <InputLabel 
             value={value.email}
             label='Email del usuario' 
@@ -24,7 +26,8 @@ function ResetPasswordStep1({ fieldError, handleChange, value }:ISetProps) {
 function ResetPasswordStep2({ fieldError, handleChange, value }:ISetProps) {
     return (
         <>  
-            <h2>Le hemos enviado un token de verificación. Cópielo y luego péguelo en el campo requerido.</h2>
+            <h1 className="font-extrabold text-DarkBrown-900 text-2xl">Cambio de Contraseña</h1>
+            <h2 className="text-DarkBrown-950 text-lg text-center">Le hemos enviado un token de verificación. Cópielo y luego péguelo en el campo requerido.</h2>
             <InputLabel 
             value={value.token}
             label='Token de verificación' 
@@ -40,7 +43,8 @@ function ResetPasswordStep2({ fieldError, handleChange, value }:ISetProps) {
 function ResetPasswordStep3({ fieldError, handleChange, value }:ISetProps) {
     return (
         <> 
-            <h2>Por último, crea tu nueva contraseña.</h2>
+            <h1 className="font-extrabold text-DarkBrown-900 text-2xl">Cambio de Contraseña</h1>
+            <h2 className="text-DarkBrown-950 text-lg text-center">Por último, crea tu nueva contraseña.</h2>
             <InputPassword fieldPassword={fieldError.password} handleChange={handleChange} value={value.password}/>
             <InputLabel 
             value={value.confirmPassword}
@@ -49,11 +53,21 @@ function ResetPasswordStep3({ fieldError, handleChange, value }:ISetProps) {
             errorMessage="la contraseña tiene que ser la misma"
             fieldError={fieldError.confirmPassword}
             onChange={handleChange} 
+            type='password'
             />
         </>
     )
 }
 
+function ChangePasswordSuccesfully() {
+    return (
+        <>
+            <h1 className="text-GoldenYellow-500 text-xl text-center">Se cambió su contraseña de forma exitosa</h1>
+            <Image src="/img/check.png" alt="check symbol" width={90} height={120} />
+        </>
+    )
+
+}
 
 export default function ResetPasswordForm(
      {
@@ -107,6 +121,8 @@ export default function ResetPasswordForm(
         case 2:
             componentToShow = <ResetPasswordStep3 fieldError={fieldError} handleChange={handleChange} value={field}/>
             break;
+        case 3:
+            componentToShow = <ChangePasswordSuccesfully />
     }
 
     return (
