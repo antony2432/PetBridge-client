@@ -50,6 +50,7 @@ export default function Security({ User }: any) {
     console.log(obj);
     dispatch(UpdateEmail(data));
     setVerify(!verify);
+    setOpen4(!open4);
   };
   const handleNewPassword = () => {
     if (!inputNewPassword.length || !inputPasswordP.length || !repeatPasswordP) {
@@ -68,7 +69,8 @@ export default function Security({ User }: any) {
     data.append('password', repeatPasswordP);
     console.log(obj);
     dispatch(UpdatePassword(data));
-    setVerify2(!verify);
+    setVerify2(!verify2);
+    setOpen2(!open2);
   };
   return (
     <div className="ml-20 w-11/12">
@@ -137,14 +139,16 @@ export default function Security({ User }: any) {
                 </DialogFooter>
               </Dialog>
             </Fragment>
-            <Dialog open={verify} handler={()=>()=>setVerify(false)}>
-                <DialogHeader>Ya se ha enviado una notificacion a tu correo, Ve y verificalo!</DialogHeader>
-                <DialogFooter>
-                  <Button variant="gradient" color="green" onClick={()=>setVerify(false)}>
-                    <span>Ok</span>
-                  </Button>
-                </DialogFooter>
-              </Dialog>
+            <Dialog open={verify} handler={() => () => setVerify(false)}>
+              <DialogHeader>
+                Ya se ha enviado una notificacion a tu correo, Ve y verificalo!
+              </DialogHeader>
+              <DialogFooter>
+                <Button variant="gradient" color="green" onClick={() => setVerify(false)}>
+                  <span>Ok</span>
+                </Button>
+              </DialogFooter>
+            </Dialog>
           </span>
         </div>
         <div className="p-2"></div>
@@ -185,10 +189,25 @@ export default function Security({ User }: any) {
                 <DialogBody divider>
                   <div className="grid gap-6">
                     <Typography>Escribe tu antigua contraseña</Typography>
-                    <Input label="Password" type="password" value={inputPasswordP} onChange={(e)=>setInputPasswordP(e.target.value)}/>
+                    <Input
+                      label="Password"
+                      type="password"
+                      value={inputPasswordP}
+                      onChange={(e) => setInputPasswordP(e.target.value)}
+                    />
                     <Typography>Escribe tu nueva contraseña</Typography>
-                    <Input label="Password" type="password" value={inputNewPassword} onChange={(e)=>setInputNewPasswordP(e.target.value)}/>
-                    <Input label="Repeat password" type="password" value={repeatPasswordP} onChange={(e)=>setRepeatPasswordP(e.target.value)}/>
+                    <Input
+                      label="Password"
+                      type="password"
+                      value={inputNewPassword}
+                      onChange={(e) => setInputNewPasswordP(e.target.value)}
+                    />
+                    <Input
+                      label="Repeat password"
+                      type="password"
+                      value={repeatPasswordP}
+                      onChange={(e) => setRepeatPasswordP(e.target.value)}
+                    />
                   </div>
                 </DialogBody>
                 <DialogFooter className="space-x-2">
@@ -200,10 +219,12 @@ export default function Security({ User }: any) {
                   </Button>
                 </DialogFooter>
               </Dialog>
-              <Dialog open={verify2} handler={()=>()=>setVerify2(false)}>
-                <DialogHeader>Ya se ha enviado una notificacion a tu correo, Ve y verificalo!</DialogHeader>
+              <Dialog open={verify2} handler={() => () => setVerify2(false)}>
+                <DialogHeader>
+                  Ya se ha enviado una notificacion a tu correo, Ve y verificalo!
+                </DialogHeader>
                 <DialogFooter>
-                  <Button variant="gradient" color="green" onClick={()=>setVerify2(false)}>
+                  <Button variant="gradient" color="green" onClick={() => setVerify2(false)}>
                     <span>Ok</span>
                   </Button>
                 </DialogFooter>

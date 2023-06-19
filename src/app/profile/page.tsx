@@ -13,7 +13,7 @@ export default function Settings() {
   const { User } = useAppSelector((s) => s.user);
   useEffect(() => {
     if (!User.length) {
-      dispatch(GetByName('6609e2b9-de6a-4085-9593-6660a8f51bfb'));
+      dispatch(GetByName('b0ad8581-a6c9-44a7-8b19-99bf45ff1ec9'));
     }
   });
 
