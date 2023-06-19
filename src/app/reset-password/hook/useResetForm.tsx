@@ -22,11 +22,20 @@ export default function useResetForm() {
         token:true,
     }
 
+    const [token, setToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [field, setField] = useState(initialValue);
     const [fieldError, setFieldError] = useState(initialError);
     const [enabled, setEnabled] = useState(true);
     const emilValidation = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    useEffect(()=>{
+      const StringSesion = localStorage.getItem('resetPasswordSession');
+      if (StringSesion) {
+        let sesion = JSON.parse(StringSesion);
+        setToken(sesion.token);
+      }
+    }, [fieldError])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -80,7 +89,10 @@ export default function useResetForm() {
       e.preventDefault();
       try {
         const response = await axios.post('http://localhost:3000/auth/forgot-password', {email:field.email})
-      } catch (err) {
+        if (response.data.status >= 400) throw new Error(response.data.message);
+        return true;
+      } catch (err:any) {
+        
          const isAxiosError = (some: any): some is AxiosError => {
           return some.isAxiosError === true;
          };
@@ -90,6 +102,8 @@ export default function useResetForm() {
              console.log(err.response);
            }
           }
+          alert(err.message);
+          return false;
         }
     }
 
@@ -99,16 +113,18 @@ export default function useResetForm() {
         const response = await axios.post('http://localhost:3000/auth/verify-token',null,{
           headers:{
             'Content-Type': 'multipart/form-data',
-            'code':`${field.token}`
+            'code':`${field.token}`,
+            'Authorization':`Bearer ${field.token}`
           }
         })
         console.log(response);
         if (response.status >= 200) {
           const userData = response.data;
           localStorage.setItem('resetPasswordSession', JSON.stringify(userData));
-          console.log(response.data);
+          return true;
         } 
-      } catch (err) {
+          if (response.data.status >= 400 ) throw new Error(response.data.message);
+      } catch (err:any) {
         const isAxiosError = (some: any): some is AxiosError => {
           return some.isAxiosError === true;
          };
@@ -118,19 +134,24 @@ export default function useResetForm() {
              console.log(err.response);
            }
           }
+        alert(err.message);
+        return false;
       }
     }
 
     const submitPassword = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       try {
-        const response = await axios.patch('http://localhost:3000/auth/change-password', {newPassword:field.password}, {
+        const response = await axios.patch('http://localhost:3000/auth/create-password', {newPassword:field.password}, {
           headers:{
-            "Content-Type":'multipart/form-data'
-            ""
+            "Content-Type":'application/json',
+            "reset":`${token}`,
+            "Authorization":`Bearer ${token}`
           }
         })
-      } catch (err) {
+        if (response.data.status >= 400 ) throw new Error(response.data.message);
+        return true;
+      } catch (err:any) {
         const isAxiosError = (some: any): some is AxiosError => {
           return some.isAxiosError === true;
          };
@@ -140,6 +161,8 @@ export default function useResetForm() {
              console.log(err.response);
            }
           }
+          alert(err.message);
+          return false;
       }
     }
 
