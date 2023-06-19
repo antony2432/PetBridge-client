@@ -21,7 +21,6 @@ export default function Page() {
                     <Image src="/img/register.jpeg" alt="cute pets" width={295} height={400} className='w-full'/>
                 </div>
                 <form className="flex-grow w-full max-w-sm py-5 px-5 flex flex-col gap-5 justify-center items-center md:w-3/6 md:mt-10 lg:w-2/6">
-                    <h1 className="font-extrabold text-DarkBrown-900 text-2xl">Cambio de Contraseña</h1>
                     <ResetPasswordForm 
                     activeStep={activeStep}
                     setActiveStep={setActiveStep}
