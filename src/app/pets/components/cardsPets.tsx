@@ -11,7 +11,7 @@ export default function CardsPets() {
   const paginado = useAppSelector((state) => state.paginado.componentes);
   useEffect(() => {
     fetchAllPets();
-  }, []);
+  }, [fetchAllPets]);
 
   return (
     <article>
