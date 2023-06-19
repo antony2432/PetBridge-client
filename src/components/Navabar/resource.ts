@@ -13,9 +13,12 @@ export const paths: IPath[] = [
     label: 'Donaciones',
     route: '/donation',
   },
- 
   {
     label: 'Nosotros',
     route: '/about',
+  },
+  {
+    label: 'Dashboard',
+    route: '/dashboard',
   },
 ];
