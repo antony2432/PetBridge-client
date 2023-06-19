@@ -39,7 +39,7 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 function ButtonSection({ sesion }: any) {
   return (
     <>
-      {sesion ? (
+      {sesion ? sesion.email? (
         <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`}/>
       ) : (
         <>
@@ -58,7 +58,7 @@ function ButtonSection({ sesion }: any) {
             Sign Up
           </Link>
         </>
-      )}
+      ) : null}
     </>
   );
 }
