@@ -1,19 +1,21 @@
 import axios from 'axios';
-import { useAppSelector } from '@/redux/hook';
-import { selectUser } from '@/redux/slice/user.slice';
+
+import useUserSesion from '@/hook/userSesion';
+
 
 export default function useRegistroPet() {
-  const user = useAppSelector(selectUser);
+  const { sesion } = useUserSesion();
+ 
   const PostPet = async (petData: any) => {
     try {
+      console.log(petData);
+      console.log(sesion?.token);
       const data = await axios.post(`${process.env.NEXT_PUBLIC_API_BACK}/animals`, petData, {
         headers: {
-          authorization: user.id,
+          authorization: `Bearer ${sesion?.token}`,
         },
       });
-      // if(data.status === ) {
-
-      // }
+    
       return data;
     } catch (error) {
       console.log(error);

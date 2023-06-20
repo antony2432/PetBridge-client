@@ -12,6 +12,7 @@ export const paginadoSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(Paginatee.fulfilled, (state, action) => {
+      console.log('esto', action.payload);
       state.componentes = [...action.payload];
     });
     builder.addCase(Filter.fulfilled, (state, { payload }) => {

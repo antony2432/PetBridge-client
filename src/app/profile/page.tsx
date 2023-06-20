@@ -7,13 +7,15 @@ import { useState } from 'react';
 import Security from './components/Pages/Security/Security';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { GetByName } from '@/redux/thunk';
+import useUserSesion from '@/hook/userSesion';
 
 export default function Settings() {
   const dispatch = useAppDispatch();
   const { User } = useAppSelector((s) => s.user);
+  const { sesion } = useUserSesion();
   useEffect(() => {
     if (!User.length) {
-      dispatch(GetByName('b0ad8581-a6c9-44a7-8b19-99bf45ff1ec9'));
+      dispatch(GetByName(sesion));
     }
   });
 

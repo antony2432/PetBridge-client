@@ -1,17 +1,14 @@
-import  useUserSesion  from '@/hook/userSesion';
-
+import useUserSesion from '@/hook/userSesion';
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdE5hbWUiOiJGZXJuYW5kbyIsImxhc3ROYW1lIjoiRmFudGluaSIsImVtYWlsIjoiZmVybmFuZG9qb3NlZmFudGluaTcuMEBnbWFpbC5jb20iLCJpbWFnZSI6bnVsbCwiY291bnRyeSI6bnVsbCwicGhvbmUiOm51bGwsInJvbCI6InVzZXIiLCJyZXNldCI6bnVsbCwibmV3RW1haWwiOm51bGwsInN1YiI6ImIwYWQ4NTgxLWE2YzktNDRhNy04YjE5LTk5YmY0NWZmMWVjOSIsImlhdCI6MTY4NzIwNjIxNCwiZXhwIjoxNjg3MjkyNjE0fQ.aAF3qunlomBU2nL7hzKZD8cNkqcEquj_Tjtxmq4b22M';
-
-export const Filter = createAsyncThunk('paginado/Filter', async (obj: any) => {
+import { trueAlertC, falseAlertC, trueAlertA, falseAlertA } from '../components/Alerts/index';
+export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
   const { sesion } = useUserSesion();
-  console.log(sesion);
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_BACK}/animals/specie?specie=${obj.value}`,
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`,
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${sesion?.token}`,
       },
     },
   );
@@ -27,15 +24,15 @@ interface Obj {
   elements: number;
 }
 
-export const Paginatee = createAsyncThunk('paginado/Paginate', async (obj: Obj) => {
-  console.log(obj);
-
+export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj) => {
+  const { sesion } = useUserSesion();
+  console.log(sesion);
+  console.log('hola', obj);
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/paginate?currentPage=${obj.active}&slicePage=${obj.elements}`,
-
     {
       headers: {
-        Authorization: `Bearer ${token}`,
+        authorization: `Bearer ${sesion?.token}`,
       },
     },
   );
@@ -43,53 +40,88 @@ export const Paginatee = createAsyncThunk('paginado/Paginate', async (obj: Obj) 
   return filter;
 });
 
-export const GetByName = createAsyncThunk('user/Users', async (id: any) => {
-  const response = await axios.get(`https://deploy-petsbridge.vercel.app/users/${id}`);
+export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
+  const response = await axios.get(
+    sesion?.rol === 'user'
+      ? `https://deploy-petsbridge.vercel.app/users/${sesion?.id}`
+      : `https://deploy-petsbridge.vercel.app/asociaciones/${sesion?.id}`,
+  );
   console.log(response.data);
 
   return response.data;
 });
 export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) => {
-
-  const response = await axios.patch(
-    `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
-    obj.file,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, // Agregar el token como encabezado de autorización
-        'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
-      },
-    },
-  );
-  console.log(response.data);
-  return response.data;
+  try {
+    const response =
+      obj.sesion?.rol === 'user'
+        ? await axios.patch(
+          `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
+          obj.file,
+          {
+            headers: {
+              Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+              'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
+            },
+          },
+        )
+        : await axios.put(
+          `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/update/${obj.id}`,
+          obj.file,
+          {
+            headers: {
+              Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+              'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
+            },
+          },
+        );
+    trueAlertA();
+    return response.data;
+  } catch {
+    falseAlertA();
+  }
 });
 export const UpdateEmail = createAsyncThunk('user/Update', async (obj: any) => {
- 
-  const response = await axios.patch(
-    `${process.env.NEXT_PUBLIC_API_BACK}/users/change-email`,
-    obj,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, // Agregar el token como encabezado de autorización
-        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+  try {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_BACK}/${
+        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+      }/change-email`,
+      obj.data,
+      {
+        headers: {
+          Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+          'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+        },
       },
-    },
-  );
-  console.log(response.data);
+    );
+    console.log(response.data);
+    trueAlertC();
+    obj.signoffSesion();
+    obj.handleOff();
+  } catch {
+    falseAlertC();
+  }
 });
 
 export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) => {
- 
-  const response = await axios.patch(
-    `${process.env.NEXT_PUBLIC_API_BACK}/users/change-password`,
-    obj,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`, // Agregar el token como encabezado de autorización
-        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+  try {
+    const response = await axios.patch(
+      `${process.env.NEXT_PUBLIC_API_BACK}/${
+        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+      }/change-password`,
+      obj.data,
+      {
+        headers: {
+          Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+          'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+        },
       },
-    },
-  );
-  console.log(response.data);
+    );
+    console.log(response.data);
+    trueAlertC();
+    obj.signoffSesion();
+    obj.handleOff();
+  } catch {
+    falseAlertC();
+  }
 });

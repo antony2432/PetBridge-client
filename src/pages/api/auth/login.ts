@@ -46,6 +46,7 @@ interface IJwtPayload {
   phone: string | null,
   rol: string;
   [key: string]: any;
+  token: string;
 }
 
 export default async function handlerLogin(req: Req, res: Res) {
