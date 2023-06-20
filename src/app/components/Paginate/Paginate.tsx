@@ -9,8 +9,8 @@ export default function Paginate() {
   const { allPets } = useAppSelector((state) => state.pets);
   const { sesion } = useUserSesion();
   let [active, setActive] = React.useState(1);
-  let [pages] = React.useState(allPets.length ? Math.ceil(allPets.length / 5) : 8);
-  const [elements] = React.useState(5);
+  let [pages] = React.useState(allPets.length ? Math.ceil(allPets.length / 8) : 4);
+  const [elements] = React.useState(8);
   const obj = { active, elements, sesion };
   const dispatch = useAppDispatch();
   useEffect(() => {
