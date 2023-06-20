@@ -34,6 +34,7 @@ interface IUser {
   country?: string | null;
   phone?: string | null;
   rol: string;
+  nameOfFoundation?: string | null;
   token: string;
 }
 interface IJwtPayload {
@@ -46,6 +47,7 @@ interface IJwtPayload {
   phone: string | null,
   rol: string;
   [key: string]: any;
+  nameOfFoundation?: string | null;
   token: string;
 }
 
@@ -83,6 +85,7 @@ export default async function handlerLogin(req: Req, res: Res) {
             lastName: very.lastName,
             image: very.image,
             country: very.country,
+            nameOfFoundation: very.nameOfFoundation,
             phone: very.phone,
             rol: very.rol,
             token: data.token,
