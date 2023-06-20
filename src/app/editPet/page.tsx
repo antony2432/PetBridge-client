@@ -165,7 +165,7 @@ export default function Formulario() {
   };
   const { sesion } = useUserSesion();
   const rol = sesion?.rol;
-  if (rol === 'fundation' || rol === 'admin') {
+  if (rol !== 'user') {
     return (
    
     <section className="flex justify-center w-[90vw] ">
