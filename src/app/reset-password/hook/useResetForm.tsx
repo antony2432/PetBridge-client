@@ -88,7 +88,7 @@ export default function useResetForm() {
     const submitEmail = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       try {
-        const response = await axios.post('http://localhost:3000/auth/forgot-password', {email:field.email})
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BACK}auth/forgot-password`, {email:field.email})
         if (response.data.status >= 400) throw new Error(response.data.message);
         return true;
       } catch (err:any) {
@@ -110,7 +110,7 @@ export default function useResetForm() {
     const submitToken = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       try {
-        const response = await axios.post('http://localhost:3000/auth/verify-token',null,{
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BACK}auth/verify-token`,null,{
           headers:{
             'Content-Type': 'multipart/form-data',
             'code':`${field.token}`,
@@ -141,8 +141,8 @@ export default function useResetForm() {
 
     const submitPassword = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-      try {
-        const response = await axios.patch('http://localhost:3000/auth/create-password', {newPassword:field.password}, {
+      try {                                 //http://localhost:3000/auth/create-password
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_BACK}auth/create-password`, {newPassword:field.password}, {
           headers:{
             "Content-Type":'application/json',
             "reset":`${token}`,
