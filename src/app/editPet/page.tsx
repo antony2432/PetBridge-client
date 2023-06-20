@@ -6,6 +6,8 @@ import { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import ButtonSend from '../pets/components/formularioPet/AlertSend';
 import useEditPet from '../myPets/components/EdicionPets/hooks/useEditPet';
 import { useAppSelector } from '@/redux/hook';
+import useUserSesion from '@/hook/userSesion';
+import { useRouter } from 'next/navigation';
 
 
 type FormData = {
@@ -51,7 +53,7 @@ export default function Formulario() {
     asid: info.as_id,
   
   });
-
+ 
   const checkFormCompletion = () => {
     const {
       nombre,
@@ -78,7 +80,7 @@ export default function Formulario() {
       genero !== '';
     setIsFormComplete(isComplete);
   };
-
+  const router = useRouter();
   const [imagenPreviaUrls, setImagenPreviaUrls] = useState<string[]>([]);
   console.log(imagenPreviaUrls[0]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -161,8 +163,11 @@ export default function Formulario() {
       fileInputRef.current.click();
     }
   };
-
-  return (
+  const { sesion } = useUserSesion();
+  const rol = sesion?.rol;
+  if (rol === 'fundation' || rol === 'admin') {
+    return (
+   
     <section className="flex justify-center w-[90vw] ">
       <form
         onSubmit={handleSubmit}
@@ -357,5 +362,8 @@ export default function Formulario() {
         </div>
       </form>
     </section>
-  );
+    );
+  } else {
+    router.push('/access');
+  }
 }

@@ -3,7 +3,7 @@ import useUserSesion from '@/hook/userSesion';
 import Image from 'next/image';
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Input, Option, Select } from '@material-tailwind/react';
+import { Button, Input } from '@material-tailwind/react';
 import { Asociacion, FormData } from './interfaces/donations.interface';
 import axios from 'axios';
 
@@ -12,11 +12,11 @@ import axios from 'axios';
 
 export default function Page() {
   const [asociaciones, setAsociaciones] = useState<Asociacion[]>([]);
-  
+
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     email: '',
-    
+    asociacion:'',
     donation: '',
     message: '',
   });
@@ -26,7 +26,7 @@ export default function Page() {
     const token = sesion?.token;
     const fetchAsociaciones = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/asociaciones`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/get`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -44,20 +44,28 @@ export default function Page() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(sesion);
+    console.log(formData);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BACK}/stripe/create-donations`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          authorization: `Bearer ${sesion?.token}`,
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BACK}/stripe/create-donations`, 
+        {
+          donation: formData.donation + '00',
+          idAsociations: formData.asociacion,
+          message: formData.message,
+          email: formData.email,
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${sesion?.token}`,
+          },
+       
+        });
       
 
-      if (response.ok) {
-        const json = await response.json();
+      if (response.status === 201) {
+        const json = response.data;
+        console.log(json);
         router.push(json.link.urlDonation);
+        
       } else {
         console.error('Error:', response.status);
       }
@@ -66,11 +74,14 @@ export default function Page() {
     }
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+  const handleChange = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>) => {
     
     const { name, value } = e.target;
+    
   
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+    
   };
 
   return (
@@ -113,19 +124,21 @@ export default function Page() {
                 value={formData.donation}
                 onChange={handleChange}
               />
-             <Select
+             <select
                 name='asociacion'
-                className='bg-GoldenYellow-900/20 text-white'
+                className='border border-blue-gray-200 bg-GoldenYellow-900/5 text-blue-gray-500 rounded-lg w-full flex placeholder:items-center text-sm p-3  outline-white focus:outline-0 ' 
                 color='gray'
-                label='Selecciona una asociación'
+                value={formData.asociacion}
+                onChange={handleChange}
+                required
               >
-                
+                <option hidden value=''>Selecciona la asociacion</option>
                 {asociaciones.map((asociacion) => (
-                  <Option key={asociacion.id} value={asociacion.id}>
+                  <option key={asociacion.id} value={asociacion.id}>
                     {asociacion.nameOfFoundation}
-                  </Option>
+                  </option>
                 ))}
-              </Select>
+              </select>
               <textarea
                 placeholder='Mensaje'
                 name='message'

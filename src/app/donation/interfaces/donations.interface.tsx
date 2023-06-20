@@ -7,7 +7,7 @@ export interface FormData {
   email: string;
   donation: string;
   message: string;
-
+  asociacion:string;
 }
 
   

@@ -3,9 +3,10 @@ import { Button } from '@material-tailwind/react';
 import React, { useState } from 'react';
 import { useAppDispatch } from '@/redux/hook';
 import { Filter } from '@/redux/thunk';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import useUserSesion from '@/hook/userSesion';
 export default function FiltersPets() {
+  const pathname = usePathname();
   //type Category = string;
   const router = useRouter();
   const [boolean, setBoolean] = useState(false);
@@ -90,9 +91,11 @@ export default function FiltersPets() {
         </div>
       </section>
 
-      <Button onClick={handleClick} size="sm">
-        Formulario para dar en adopción
-      </Button>
+      {pathname === '/myPets' && (
+        <Button onClick={handleClick} size="sm">
+          Formulario para dar en adopción
+        </Button>
+      )}
     </nav>
   );
 }
