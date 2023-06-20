@@ -39,8 +39,8 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 function ButtonSection({ sesion }: any) {
   return (
     <>
-      {sesion ? ( sesion?.rol !== 'fundation' ?
-        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`} /> : <LoginSection image={sesion.image} fullname={`${sesion.nameOfFoundation}`} />
+      {sesion ? sesion.email? (
+        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`}/>
       ) : (
         <>
           <Link
@@ -58,7 +58,7 @@ function ButtonSection({ sesion }: any) {
             Sign Up
           </Link>
         </>
-      )}
+      ) : null}
     </>
   );
 }
