@@ -39,8 +39,8 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 function ButtonSection({ sesion }: any) {
   return (
     <>
-      {sesion ? (
-        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`}/>
+      {sesion ? ( sesion?.rol !== 'fundation' ?
+        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`} /> : <LoginSection image={sesion.image} fullname={`${sesion.nameOfFoundation}`} />
       ) : (
         <>
           <Link
@@ -65,12 +65,12 @@ function ButtonSection({ sesion }: any) {
 
 function MobileMenu({ links, sesion }: any) {
   return (
-    <section className="w-full px-8 absolute top-[10vh] right-0 bg-white duration-300 border lg:hidden">
+    <section className="w-full px-8 block absolute top-[10vh] right-0 bg-white duration-300 border absolute z-1">
       <ul className="text-sm text-DarkBrown-900 mt-3  flex flex-col items-center gap-1">
         <PathList links={links} />
       </ul>
       <hr className="mx-8 mt-4 border border-GoldenYellow-500" />
-      <section className="mb-2 mt-2 flex flex-col items-center text-sm gap-2">
+      <section className="mb-2 mt-2 flex flex-col items-center text-sm gap-2 ">
         <ButtonSection sesion={sesion}/>
       </section>
     </section>
@@ -87,10 +87,10 @@ export default function DeafultNavbar() {
       <ul className="hidden text-sm text-DarkBrown-900 mt-3 lg:flex items-center gap-1">
         <PathList links={rol === 'admin' ? paths : paths.slice(0, 4)} />
       </ul>
-      <section className="hidden lg:flex lg:items-center text-sm gap-8">
+      <section className="hidden lg:flex lg:items-center text-sm gap-8 z-1">
         <ButtonSection sesion={sesion} />
       </section>
-      <BsList className="text-3xl text-DarkBrown-900 lg:hidden" onClick={handleClosed} />
+      <BsList className="text-3xl text-DarkBrown-900 lg:hidden z-1" onClick={handleClosed} />
 
       {isOpen ? <MobileMenu sesion={sesion} links={rol === 'admin' ? paths : paths.slice(0, 4)} /> : null}
     </>
