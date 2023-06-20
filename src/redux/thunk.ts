@@ -1,58 +1,70 @@
+import useUserSesion from '@/hook/userSesion';
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import useUserSesion from '@/hook/userSesion';
-
-
+import { trueAlertC, falseAlertC, trueAlertA, falseAlertA } from '../components/Alerts/index';
 export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
   
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`, {
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`,
+    {
       headers: {
-        authorization: `Bearer ${obj.sesion?.token}`,
+        Authorization: `Bearer${token}`,
+      },
+    },
+  );
+=========
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/specie?specie=${obj.value}`, {
+      headers: {
+        authorization: `Bearer ${sesion?.token}`,
       },
     });
+>>>>>>>>> Temporary merge branch 2
   obj = {
     ...obj,
     data: response.data,
   };
   return obj;
-    
 });
-  
+
 interface Obj {
   active: number;
   elements: number;
   sesion:any;
 }
-  
+
 export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj) => {
  
   
   
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_BACK}/animals/paginate?currentPage=${obj.active}&slicePage=${obj.elements}`, {
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/paginate?currentPage=${obj.active}&slicePage=${obj.elements}`,
+    {
       headers: {
-        authorization: `Bearer ${obj.sesion?.token}`,
+        authorization: `Bearer ${sesion?.token}`,
       },
-    });
+    },
+  );
   const filter = response.data.filter((r: any) => r.name !== undefined);
   return filter;
 });
 
-export const GetByName = createAsyncThunk('user/Users', async (id: any) => {
-  const response = await axios.get(`https://deploy-petsbridge.vercel.app/users/${id}`);
+export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
+  const response = await axios.get(
+    sesion?.rol === 'user'
+      ? `https://deploy-petsbridge.vercel.app/users/${sesion?.id}`
+      : `https://deploy-petsbridge.vercel.app/asociaciones/${sesion?.id}`,
+  );
   console.log(response.data);
 
   return response.data;
 });
 export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) => {
-  const { sesion } = useUserSesion();
   const response = await axios.patch(
     `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
     obj.file,
     {
       headers: {
-        Authorization: `Bearer ${sesion?.token}`, // Agregar el token como encabezado de autorización
+        Authorization: `Bearer ${token}`, // Agregar el token como encabezado de autorización
         'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
       },
     },
@@ -61,13 +73,12 @@ export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) =
   return response.data;
 });
 export const UpdateEmail = createAsyncThunk('user/Update', async (obj : any) => {
-  const { sesion } = useUserSesion();
   const response = await axios.patch(
     `${process.env.NEXT_PUBLIC_API_BACK}/users/change-email`,
     obj,
     {
       headers: {
-        Authorization: `Bearer ${sesion?.token}`, // Agregar el token como encabezado de autorización
+        Authorization: `Bearer ${token}`, // Agregar el token como encabezado de autorización
         'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
       },
     },
@@ -75,13 +86,12 @@ export const UpdateEmail = createAsyncThunk('user/Update', async (obj : any) => 
   console.log(response.data);
 });
 export const UpdatePassword = createAsyncThunk('user/Update', async (obj : any) => {
-  const { sesion } = useUserSesion();
   const response = await axios.patch(
     `${process.env.NEXT_PUBLIC_API_BACK}/users/change-password`,
     obj,
     {
       headers: {
-        Authorization: `Bearer ${sesion?.token}`, // Agregar el token como encabezado de autorización
+        Authorization: `Bearer ${token}`, // Agregar el token como encabezado de autorización
         'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
       },
     },
