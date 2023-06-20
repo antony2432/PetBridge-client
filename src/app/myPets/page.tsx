@@ -8,6 +8,7 @@ import useUserSesion from '@/hook/userSesion';
 export default async function Pets() {
   const { sesion } = useUserSesion();
   const rol = sesion?.rol;
+  console.log(rol);
   return (
     <main
       className="w-full h-full flex-grow flex flex-col items-center p-2"

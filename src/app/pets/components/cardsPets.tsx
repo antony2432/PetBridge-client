@@ -7,10 +7,10 @@ import Paginate from '@/app/components/Paginate/Paginate';
 
 export default function CardsPets() {
   var Filters = useAppSelector((state) => state.paginado.Filters);
-  console.log(Filters);
+  
   const { fetchAllPets } = usePets();
   const paginado = useAppSelector((state) => state.paginado.componentes);
-  console.log(paginado);
+
   useEffect(() => {
     fetchAllPets();
   }, [fetchAllPets]);

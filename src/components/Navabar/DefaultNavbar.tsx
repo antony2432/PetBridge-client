@@ -39,7 +39,7 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 function ButtonSection({ sesion }: any) {
   return (
     <>
-      {sesion ? sesion.email? (
+      {sesion ? sesion.email ? (
         <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`}/>
       ) : (
         <>
@@ -65,7 +65,7 @@ function ButtonSection({ sesion }: any) {
 
 function MobileMenu({ links, sesion }: any) {
   return (
-    <section className="w-full px-8 block absolute top-[10vh] right-0 bg-white duration-300 border absolute z-1">
+    <section className="w-full px-8 block top-[10vh] right-0 bg-white duration-300 border absolute z-1">
       <ul className="text-sm text-DarkBrown-900 mt-3  flex flex-col items-center gap-1">
         <PathList links={links} />
       </ul>
