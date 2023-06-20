@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Table from './components/table';
 import {
   CardHeader,
@@ -9,99 +9,120 @@ import {
   Tabs,
   TabsHeader,
   Tab,
+  CardFooter,
 } from '@material-tailwind/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import axios from 'axios';
+import useUserSesion from '@/hook/userSesion';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { setActualize } from '@/redux/slice/pets';
 
 const TABS = [
   {
-    label: 'Usuarios',
-    value: 'usuarios',
-    columns: ['Usuario', 'Contacto', 'Estado', 'Creación', ''],
+    label: 'Users',
+    value: 'users',
+    columns: ['Usuario', 'Contacto', 'Estado', ''],
   },
   {
-    label: 'Animales',
-    value: 'animales',
-    columns: ['Nombre', 'Especie', 'Género', 'País', 'Estado', 'Ciudad', ''],
+    label: 'Animals',
+    value: 'animals',
+    columns: ['Nombre', 'Genero', 'Pais', 'Ciudad', 'Estado', ''],
   },
   {
-    label: 'Fundaciones',
-    value: 'fundaciones',
-    columns: ['Nombre', 'Email', 'Teléfono', 'País', 'Dirección', 'Estado', 'Cracion', ''],
+    label: 'Asociaciones',
+    value: 'asociaciones',
+    columns: ['Nombre', 'País', , 'Teléfono', 'Estado', ''],
   },
 ];
 
-const TABLE_ROWS = [
-  // Datos de la tabla para la pestaña "Usuarios"
-  {
-    img: 'https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg',
-    name: 'John Michael',
-    email: 'john@creative-tim.com',
-    job: 'Manager',
-    org: 'Organization',
-    online: true,
-    date: '23/04/18',
-  },
-  {
-    img: 'https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg',
-    name: 'Alexa Liras',
-    email: 'alexa@creative-tim.com',
-    job: 'Programator',
-    org: 'Developer',
-    online: false,
-    date: '23/04/18',
-  },
-  // ... otros datos de la tabla para la pestaña "Usuarios"
-];
-
-const ANIMAL_TABLE_ROWS = [
-  // Datos de la tabla para la pestaña "Animales"
-  {
-    img: 'https://example.com/animal1.jpg',
-    name: 'Animal 1',
-    // ... otros campos
-  },
-  {
-    img: 'https://example.com/animal2.jpg',
-    name: 'Animal 2',
-    // ... otros campos
-  },
-  // ... otros datos de la tabla para la pestaña "Animales"
-];
-
-const FOUNDATION_TABLE_ROWS = [
-  // Datos de la tabla para la pestaña "Fundaciones"
-  {
-    img: 'https://example.com/foundation1.jpg',
-    name: 'Fundación 1',
-    // ... otros campos
-  },
-  {
-    img: 'https://example.com/foundation2.jpg',
-    name: 'Fundación 2',
-    // ... otros campos
-  },
-  // ... otros datos de la tabla para la pestaña "Fundaciones"
-];
+const ITEMS_PER_PAGE = 8;
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState('usuarios');
+  const [activeTab, setActiveTab] = useState('users');
+  const [tableData, setTableData] = useState([]);
+  const [backup, setBackup] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const { sesion } = useUserSesion();
+  const dispatch = useAppDispatch();
+  const { actualize } = useAppSelector(state => state.pets);
 
-  const handleTabChange = (value) => {
+  useEffect(() => {dispatch(setActualize());}, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}`, {
+          headers: {
+            Authorization: `Bearer ${sesion?.token}`,
+          },
+        });
+        setTableData(data);
+        setBackup(data);
+        setCurrentPage(1);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, [activeTab, sesion?.token, actualize]);
+
+  const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
 
-  let tableData;
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (searchTerm) {
+          const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}/search?name=${searchTerm}`, {
+            headers: {
+              Authorization: `Bearer ${sesion?.token}`,
+            },
+          });
+          setTableData(data);
+          setBackup(data);
+          setCurrentPage(1);
+        } else {
+          setTableData(backup);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, [searchTerm]);
+
+  const handleFilter = (value: string) => {
+    if (value === 'eliminados') {
+      setTableData(backup.filter((d) => !d.isActive))
+    } else if (value === 'activos') {
+      setTableData(backup.filter((d) => d.isActive))
+    } else if (activeTab === 'animals' && value !== 'all') {
+      setTableData(backup.filter((d) => d.status === value));
+    } else if (value === 'all') {
+      dispatch(setActualize());
+      setTableData(backup);
+    }
+    setCurrentPage(1);
+  };
+
   let tableColumns;
-  if (activeTab === 'usuarios') {
-    tableData = TABLE_ROWS;
+  if (activeTab === 'users') {
     tableColumns = TABS[0].columns;
-  } else if (activeTab === 'animales') {
-    tableData = ANIMAL_TABLE_ROWS;
+  } else if (activeTab === 'animals') {
     tableColumns = TABS[1].columns;
-  } else if (activeTab === 'fundaciones') {
-    tableData = FOUNDATION_TABLE_ROWS;
+  } else if (activeTab === 'asociaciones') {
     tableColumns = TABS[2].columns;
   }
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedData = tableData.slice(startIndex, endIndex);
 
   return (
     <>
@@ -115,21 +136,38 @@ export default function Dashboard() {
               See information about all members
             </Typography>
           </div>
-          <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
-            <Button variant="outlined" color="blue-gray" size="sm">
-              Ver todos
-            </Button>
-            <Button className="flex items-center gap-3" color="blue" size="sm">
-              Activos
-            </Button>
-            <Button className="flex items-center gap-3" color="red" size="sm">
-              Eliminados
-            </Button>
-          </div>
+          {activeTab !== 'animals' ?
+            <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+              <Button variant="outlined" color="blue-gray" size="sm" key='all' onClick={() => handleFilter('all')}>
+                Ver todos
+              </Button>
+              <Button className="flex items-center gap-3" color="blue" size="sm" key='activos' onClick={() => handleFilter('activos')}>
+                Activos
+              </Button>
+              <Button className="flex items-center gap-3" color="red" size="sm" key='eliminados' onClick={() => handleFilter('eliminados')}>
+                Eliminados
+              </Button>
+            </div>
+            :
+            <div className="flex shrink-0 flex-col gap-2 sm:flex-row">
+              <Button variant="outlined" color="blue-gray" size="sm" key='all' onClick={() => handleFilter('all')}>
+                Ver todos
+              </Button>
+              <Button className="flex items-center gap-3" color="green" size="sm" key='sin hogar' onClick={() => handleFilter('homeless')}>
+                Sin hogar
+              </Button>
+              <Button className="flex items-center gap-3" color="blue" size="sm" key='pendiente' onClick={() => handleFilter('pending')}>
+                Pendiente
+              </Button>
+              <Button className="flex items-center gap-3" color="red" size="sm" key='adoptado' onClick={() => handleFilter('adopted')}>
+                Adoptado
+              </Button>
+            </div>
+          }
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Tabs value={activeTab} className="w-full md:w-max" onChange={handleTabChange}>
-            <TabsHeader>
+            <TabsHeader className='z-0'>
               {TABS.map(({ label, value }) => (
                 <Tab key={value} value={value} onClick={() => handleTabChange(value)}>
                   &nbsp;&nbsp;{label}&nbsp;&nbsp;
@@ -138,11 +176,41 @@ export default function Dashboard() {
             </TabsHeader>
           </Tabs>
           <div className="w-full md:w-72">
-            <Input label="Search" icon={<MagnifyingGlassIcon className="h-5 w-5" />} />
+            <Input
+              label="Search"
+              icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
         </div>
       </CardHeader>
-      <Table tableData={tableData} tableColumns={tableColumns}></Table>
+      <Table tableData={paginatedData} tableColumns={tableColumns} activeTab={activeTab} actualize={actualize}></Table>
+      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+        <Typography variant="small" color="blue-gray" className="font-normal">
+        Page {currentPage} of {Math.ceil(tableData.length / ITEMS_PER_PAGE)}
+        </Typography>
+        <div className="flex gap-2">
+          <Button
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            disabled={currentPage === Math.ceil(tableData.length / ITEMS_PER_PAGE)}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      </CardFooter>
     </>
   );
 }

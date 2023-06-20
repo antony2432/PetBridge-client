@@ -4,6 +4,7 @@ export interface IsesionProps {
   id: string;
   firstName: string;
   lastName: string;
+  nameOfFoundation: string;
   image: string;
   country: string;
   phone: string;

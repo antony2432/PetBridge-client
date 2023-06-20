@@ -3,17 +3,43 @@ import { TrashIcon } from '@heroicons/react/24/solid';
 import {
   Card,
   Typography,
-  Button,
   CardBody,
   Chip,
-  CardFooter,
   Avatar,
   IconButton,
   Tooltip,
 } from '@material-tailwind/react';
-import { MagnifyingGlassIcon, PencilIcon } from '@heroicons/react/24/outline';
+import { PencilIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/redux/hook';
+import { setId } from '@/redux/slice/pets';
+import useUserSesion from '@/hook/userSesion';
+import axios from 'axios';
+import { setActualize } from '@/redux/slice/pets';
 
-export default function Table({ tableColumns, tableData }: any) {
+export default function Table({ tableColumns, tableData, activeTab }: any) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { sesion } = useUserSesion();
+
+  const handleEditData = (value: any) => {
+    router.push('/editPet');
+    dispatch(setId(value));
+  };
+
+  const handleEraseData = async (value: string) => {
+    try {
+      const { data } = await axios.delete(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}/${value}`, {
+        headers: {
+          Authorization: `Bearer ${sesion?.token}`,
+        },
+      });
+      alert(data);
+      dispatch(setActualize());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Card className="h-full w-full">
@@ -35,18 +61,18 @@ export default function Table({ tableColumns, tableData }: any) {
             </tr>
           </thead>
           <tbody>
-            {tableData.map(({ img, name, email, job, org, online, date }: any, index: any) => {
+            {activeTab === 'users' && tableData && tableData.map(({ id, image, firstName, lastName, email, country, phone, isActive }: any, index: any) => {
               const isLast = index === tableData.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
               return (
-                <tr key={name}>
+                <tr key={id}>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
-                      <Avatar src={img} alt={name} size="sm" />
+                      <Avatar src={image} alt={firstName} size="sm" />
                       <div className="flex flex-col">
                         <Typography variant="small" color="blue-gray" className="font-normal">
-                          {name}
+                          {`${firstName} ${lastName}`}
                         </Typography>
                         <Typography
                           variant="small"
@@ -61,14 +87,14 @@ export default function Table({ tableColumns, tableData }: any) {
                   <td className={classes}>
                     <div className="flex flex-col">
                       <Typography variant="small" color="blue-gray" className="font-normal">
-                        {job}
+                        {country}
                       </Typography>
                       <Typography
                         variant="small"
                         color="blue-gray"
                         className="font-normal opacity-70"
                       >
-                        {org}
+                        {phone}
                       </Typography>
                     </div>
                   </td>
@@ -77,29 +103,182 @@ export default function Table({ tableColumns, tableData }: any) {
                       <Chip
                         variant="ghost"
                         size="sm"
-                        value={online ? 'activo' : 'eliminado'}
-                        color={online ? 'green' : 'blue-gray'}
+                        value={isActive ? 'activo' : 'eliminado'}
+                        color={isActive ? 'green' : 'blue-gray'}
                       />
                     </div>
                   </td>
                   <td className={classes}>
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      {date}
-                    </Typography>
+                    <div className="flex gap-2" >
+                      <Tooltip content="Edit User" >
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip content="Delete User">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+
+            {activeTab === 'animals' && tableData && tableData.map(({ id, as_id, asociacion, description, image, name, specie, gender, status, country, state, city }: any, index: any) => {
+              const isLast = index === tableData.length - 1;
+              const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+              const allData = { id, image, name, specie, gender, status, country, state, city, as_id, description };
+              return (
+                <tr key={id}>
+                  <td className={classes}>
+                    <div className="flex items-center gap-3">
+                      <Avatar src={image[0]} alt={name} size="sm" />
+                      <div className="flex flex-col">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
+                          {name}
+                        </Typography>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal opacity-70"
+                        >
+                          {asociacion?.nameOfFoundation}
+                        </Typography>
+                      </div>
+                    </div>
                   </td>
                   <td className={classes}>
-                  <div className="flex gap-2">
-                    <Tooltip content="Edit User">
-                      <IconButton variant="text" color="blue-gray">
-                        <PencilIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip content="Delete User">
-                      <IconButton variant="text" color="blue-gray">
-                        <TrashIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                    <div className="flex flex-col">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {gender}
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal opacity-70"
+                      >
+                        {specie}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex flex-col">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {country}
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal opacity-70"
+                      >
+                        {state}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex flex-col">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {city}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="w-max">
+                      <Chip
+                        variant="ghost"
+                        size="sm"
+                        value={status === 'homeless' ? 'homeless' : (status === 'pending' ? 'pending' : 'adopted')}
+                        color={status === 'homeless' ? 'green' : (status === 'pending' ? 'blue' : 'blue-gray')}
+                      />
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex gap-2">
+                      <Tooltip content="Edit Animal">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip content="Delete Animal">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+
+            {activeTab === 'asociaciones' && tableData && tableData.map(({ id, image, nameOfFoundation, email, country, phone, address, isActive }: any, index: any) => {
+              const isLast = index === tableData.length - 1;
+              const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+
+              return (
+                <tr key={id}>
+                  <td className={classes}>
+                    <div className="flex items-center gap-3">
+                      <Avatar src={image} alt={nameOfFoundation} size="sm" />
+                      <div className="flex flex-col">
+                        <Typography variant="small" color="blue-gray" className="font-normal">
+                          {nameOfFoundation}
+                        </Typography>
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal opacity-70"
+                        >
+                          {email}
+                        </Typography>
+                      </div>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex flex-col">
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {country}
+                      </Typography>
+                      <Typography variant="small" color="blue-gray" className="font-normal">
+                        {address}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex flex-col">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal opacity-70"
+                      >
+                        {phone}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="w-max">
+                      <Chip
+                        variant="ghost"
+                        size="sm"
+                        value={isActive ? 'activo' : 'eliminado'}
+                        color={isActive ? 'green' : 'blue-gray'}
+                      />
+                    </div>
+                  </td>
+                  <td className={classes}>
+                    <div className="flex gap-2">
+                      <Tooltip content="Edit Fundation">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip content="Delete Fundation">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </td>
                 </tr>
               );
@@ -107,19 +286,6 @@ export default function Table({ tableColumns, tableData }: any) {
           </tbody>
         </table>
       </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-        <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
-        </Typography>
-        <div className="flex gap-2">
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Previous
-          </Button>
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Next
-          </Button>
-        </div>
-      </CardFooter>
     </Card>
   );
 }

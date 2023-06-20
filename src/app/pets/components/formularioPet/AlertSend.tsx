@@ -2,18 +2,24 @@ import { Fragment, useState } from 'react';
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from '@material-tailwind/react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import useUserSesion from '@/hook/userSesion';
 
 export default function ButtonSend({ datosEnviados, imagenes }: any) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleOpen = () => setOpen(!open);
+  const { sesion } = useUserSesion();
+
   console.log(imagenes);
   const handleClose = () => {
     setTimeout(() => {
-      router.push('/myPets');
+      if (sesion?.rol !== 'admin') {
+        router.push('/myPets');
+      } else {
+        router.push('dashboard');
+      }
       setOpen(!open);
     }, 2000);
-   
   };
 
   return (
@@ -36,12 +42,12 @@ export default function ButtonSend({ datosEnviados, imagenes }: any) {
           unmount: { scale: 0.9, y: -100 },
         }}
       >
-        <DialogHeader className="bg-white flex text-center w-full items-center justify-center ">
+        <DialogHeader className="bg-white flex flex-col text-center w-full items-center justify-center">
           {' '}
           <h2>Confirmar los Datos</h2>
         </DialogHeader>
         <DialogBody divider className="bg-GoldenYellow-100">
-          <ul className="grid grid-cols-3 text-2xl  text-GoldenYellow-700 ">
+          <ul className="grid grid-cols-2 text-2xl text-GoldenYellow-700 ">
             <li>Nombre: {datosEnviados.nombre}</li>
             <li>Pais: {datosEnviados.country}</li>
             <li>Ciudad: {datosEnviados.city}</li>
