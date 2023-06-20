@@ -1,0 +1,18 @@
+.fileInputLabel {
+    display: inline-block;
+    border: 2px solid #744300;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .fileInput {
+    display: none;
+  }
+  
+  .fileInputText {
+    font-size: 16px;
+    color: #744300;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
