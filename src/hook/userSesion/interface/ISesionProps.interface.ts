@@ -7,4 +7,5 @@ export interface IsesionProps {
   country: string;
   phone: string;
   rol: string;
+  token: string;
 }
