@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '@/redux/hook';
 import { Filter } from '@/redux/thunk';
 import { useRouter } from 'next/navigation';
+import useUserSesion from '@/hook/userSesion';
 export default function FiltersPets() {
   //type Category = string;
   const router = useRouter();
@@ -14,13 +15,20 @@ export default function FiltersPets() {
     const { value } = e.target;
     dispatch(setCategorias(value));
   } */
-  function handleSpecies(e: React.MouseEvent<HTMLButtonElement>, value: string) {
-    e.preventDefault();
-    dispatch(Filter(value));
+  const { sesion } = useUserSesion();
+  function handleSpecies(e: React.ChangeEvent<HTMLInputElement>, value: any) {
+    const { checked } = e.target;
+    var obj = {
+      value,
+      checked,
+      sesion,
+    };
+    dispatch(Filter(obj));
   }
 
   function reset() {
-    dispatch(Filter(''));
+    dispatch(Filter({ value:'', sesion }));
+
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -28,7 +36,7 @@ export default function FiltersPets() {
     router.push('/registroPet');
   };
   return (
-    <nav className="w-full p-5 flex items-start justify-between bg-transparent">
+    <nav className="w-full max-w-6xl  flex items-start justify-between  bg-transparent">
       <section>
         <div>
           <Button
@@ -47,35 +55,31 @@ export default function FiltersPets() {
           >
             <div
               id="1"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'dog')}>
-                Perros
-              </button>
+              <h1>Perros</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'dog')}></input>
             </div>
             <div
               id="2"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'cat')}>
-                Gatos
-              </button>
+              <h1>Gatos</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'cat')}></input>
             </div>
             <div
               id="3"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'bird')}>
-                Pajaros
-              </button>
+              <h1>Pajaros</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'bird')}></input>
             </div>
             <div
               id="4"
-              className="flex justify-center hover:bg-blue-gray-50 rounded items-center w-32"
+              className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <button color="orange" onClick={(e) => handleSpecies(e, 'snake')}>
-                Vivoras
-              </button>
+              <h1>Vivoras</h1>
+              <input type="checkbox" onChange={(e) => handleSpecies(e, 'snake')}></input>
             </div>
             <div className="flex justify-center items-center w-32">
               <Button color="orange" onClick={reset}>

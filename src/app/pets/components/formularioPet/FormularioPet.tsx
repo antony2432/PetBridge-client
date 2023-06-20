@@ -5,6 +5,7 @@ import { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import useRegistroPet from '@/app/registroPet/hooks/useRegistroPet';
 
 import ButtonSend from './AlertSend';
+import useUserSesion from '@/hook/userSesion';
 type FormData = {
   nombre: string;
   city: string;
@@ -16,13 +17,14 @@ type FormData = {
   tamaño: string;
   especie: string;
   genero: string;
-  telefono: string;
-  email: string;
-  otros: string;
-  edadUnidad: string;
+  // telefono: string;
+  // email: string;
+  // otros: string;
+  // edadUnidad: string;
 };
 
 export default function Formulario() {
+  const { sesion } = useUserSesion();
   const { PostPet } = useRegistroPet();
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [formData, setFormData] = useState<FormData>({
@@ -36,12 +38,13 @@ export default function Formulario() {
     tamaño: '',
     especie: '',
     genero: '',
-    telefono: '',
-    email: '',
-    otros: '',
-    edadUnidad: '',
+    // telefono: '',
+    // email: '',
+    // otros: '',
+    // edadUnidad: '',
   });
 
+  
   const checkFormCompletion = () => {
     const {
       nombre,
@@ -53,8 +56,8 @@ export default function Formulario() {
       tamaño,
       especie,
       genero,
-      telefono,
-      email,
+      // telefono,
+      // email,
     } = formData;
 
     const isComplete =
@@ -66,9 +69,9 @@ export default function Formulario() {
       descripcion.trim() !== '' &&
       tamaño !== '' &&
       especie !== '' &&
-      genero !== '' &&
-      telefono.trim() !== '' &&
-      email.trim() !== '';
+      genero !== '';
+      // telefono.trim() !== '' &&
+      // email.trim() !== '';
 
     setIsFormComplete(isComplete);
   };
@@ -110,39 +113,37 @@ export default function Formulario() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    const PetData = {
+    const PetData:any = {
       name: formData.nombre,
       city: formData.city,
+      country: formData.country,
+      state: formData.state,
       description: formData.descripcion,
       specie: formData.especie,
       gender: formData.genero,
       status: 'homeless',
-      country: formData.country,
-      state: formData.state,
-      as_id: 'd9308d02-abf7-4772-881b-76c36a48c2df',
+      as_id: sesion?.id,
       weight: formData.tamaño,
-      age_M: formData.edadUnidad === 'mounth' ? formData.edad : 0,
-      age_Y: formData.edadUnidad === 'year' ? formData.edad : 0,
     };
 
     const formDataToSend = new FormData();
 
-    // for (const key in PetData) {
-    //   formDataToSend.append(key, PetData[key]);
-    // }
     for (const key in PetData) {
-      const value = PetData[key as keyof typeof PetData].toString();
-      formDataToSend.append(key, value);
+      formDataToSend.append(key, PetData[key]);
     }
-
+    // for (const key in PetData) {
+    //   const value = PetData[key as keyof typeof PetData].toString();
+    //   formDataToSend.append(key, value);
+    // }
+    console.log(formDataToSend);
     // Agregar las imágenes al FormData
+    console.log(formData.files);
     if (formData.files) {
       for (let i = 0; i < Math.min(formData.files.length, 5); i++) {
         formDataToSend.append('file', formData.files[i]);
       }
     }
-    console.log(PetData);
-    console.log(formDataToSend);
+   
     const response = await PostPet(formDataToSend);
     console.log(response);
   };
@@ -340,7 +341,7 @@ export default function Formulario() {
             // <Button className='m-10 bg-GoldenYellow-500 hover:shadow-lg hover:shadow-GoldenYellow-500/50' type='submit' value='Enviar'>
             //   Registrar mascota
             // </Button>
-            <ButtonSend datosEnviados={formData} />
+            <ButtonSend datosEnviados={formData} imagenes={imagenPreviaUrls} />
           )}
         </div>
       </form>
