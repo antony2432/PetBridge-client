@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '@/redux/hook';
 import { Filter } from '@/redux/thunk';
 import { useRouter } from 'next/navigation';
+import useUserSesion from '@/hook/userSesion';
 export default function FiltersPets() {
   //type Category = string;
   const router = useRouter();
@@ -14,17 +15,20 @@ export default function FiltersPets() {
     const { value } = e.target;
     dispatch(setCategorias(value));
   } */
+  const { sesion } = useUserSesion();
   function handleSpecies(e: React.ChangeEvent<HTMLInputElement>, value: any) {
     const { checked } = e.target;
     var obj = {
       value,
       checked,
+      sesion,
     };
     dispatch(Filter(obj));
   }
 
   function reset() {
-    dispatch(Filter(''));
+    dispatch(Filter({ value:'', sesion }));
+
   }
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

@@ -3,13 +3,14 @@ import { IconButton, Typography } from '@material-tailwind/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { Paginatee } from '@/redux/thunk';
+import useUserSesion from '@/hook/userSesion';
 export default function Paginate() {
   const { allPets } = useAppSelector((state) => state.pets);
-  console.log('allpets', allPets);
+  const { sesion } = useUserSesion();
   let [active, setActive] = React.useState(1);
   let [pages] = React.useState(allPets.length ? Math.ceil(allPets.length / 5) : 8);
   const [elements] = React.useState(5);
-  const obj = { active, elements };
+  const obj = { active, elements, sesion };
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(Paginatee(obj));
@@ -17,13 +18,13 @@ export default function Paginate() {
   const next = () => {
     if (active === pages) return;
     setActive(active + 1);
-    const vars = { active: active + 1, elements };
+    const vars = { active: active + 1, elements, sesion };
     dispatch(Paginatee(vars));
   };
   const prev = () => {
     if (active === 1) return;
     setActive(active - 1);
-    const vars = { active: active - 1, elements };
+    const vars = { active: active - 1, elements, sesion };
     dispatch(Paginatee(vars));
   };
   return (

@@ -7,12 +7,12 @@ import { Button, Input } from '@material-tailwind/react';
 
 interface FormData {
   email: string;
-  
   donation: string;
   message: string;
 }
 
 export default function Page() {
+    
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -99,6 +99,7 @@ export default function Page() {
                 value={formData.donation}
                 onChange={handleChange}
               />
+            
               <textarea
                 placeholder='Mensaje'
                 name='message'
