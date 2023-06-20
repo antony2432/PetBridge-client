@@ -14,6 +14,8 @@ import {
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import axios from 'axios';
 import useUserSesion from '@/hook/userSesion';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { setActualize } from '@/redux/slice/pets';
 
 const TABS = [
   {
@@ -42,6 +44,10 @@ export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const { sesion } = useUserSesion();
+  const dispatch = useAppDispatch();
+  const { actualize } = useAppSelector(state => state.pets);
+
+  useEffect(() => {dispatch(setActualize());}, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -59,7 +65,7 @@ export default function Dashboard() {
       }
     }
     fetchData();
-  }, [activeTab]);
+  }, [activeTab, sesion?.token, actualize]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -74,7 +80,6 @@ export default function Dashboard() {
               Authorization: `Bearer ${sesion?.token}`,
             },
           });
-          console.log(data);
           setTableData(data);
           setBackup(data);
           setCurrentPage(1);
@@ -94,8 +99,9 @@ export default function Dashboard() {
     } else if (value === 'activos') {
       setTableData(backup.filter((d) => d.isActive))
     } else if (activeTab === 'animals' && value !== 'all') {
-      setTableData(backup.filter((d) => d.status === value))
+      setTableData(backup.filter((d) => d.status === value));
     } else if (value === 'all') {
+      dispatch(setActualize());
       setTableData(backup);
     }
     setCurrentPage(1);
@@ -161,7 +167,7 @@ export default function Dashboard() {
         </div>
         <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
           <Tabs value={activeTab} className="w-full md:w-max" onChange={handleTabChange}>
-            <TabsHeader>
+            <TabsHeader className='z-0'>
               {TABS.map(({ label, value }) => (
                 <Tab key={value} value={value} onClick={() => handleTabChange(value)}>
                   &nbsp;&nbsp;{label}&nbsp;&nbsp;
@@ -179,7 +185,7 @@ export default function Dashboard() {
           </div>
         </div>
       </CardHeader>
-      <Table tableData={paginatedData} tableColumns={tableColumns} activeTab={activeTab}></Table>
+      <Table tableData={paginatedData} tableColumns={tableColumns} activeTab={activeTab} actualize={actualize}></Table>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
         Page {currentPage} of {Math.ceil(tableData.length / ITEMS_PER_PAGE)}

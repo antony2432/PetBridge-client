@@ -4,6 +4,7 @@ export const petsSlice = createSlice({
   name: 'datallePet',
   initialState: {
     open: false,
+    actualize: 0,
     allPets: [],
     pet: {},
     petId:{
@@ -36,8 +37,11 @@ export const petsSlice = createSlice({
     setId:(state, action)=>{
       state.petId = action.payload;
     },
+    setActualize: (state) => {
+      state.actualize++;
+    },
   },
 });
 
-export const { setAllPets, setOpen, setId } = petsSlice.actions;
+export const { setAllPets, setOpen, setId, setActualize } = petsSlice.actions;
 export default petsSlice.reducer;

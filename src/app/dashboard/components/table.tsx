@@ -10,15 +10,35 @@ import {
   Tooltip,
 } from '@material-tailwind/react';
 import { PencilIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/redux/hook';
+import { setId } from '@/redux/slice/pets';
+import useUserSesion from '@/hook/userSesion';
+import axios from 'axios';
+import { setActualize } from '@/redux/slice/pets';
 
 export default function Table({ tableColumns, tableData, activeTab }: any) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { sesion } = useUserSesion();
 
-  const handleEditData = (value: string) => {
-    console.log(value);
+  const handleEditData = (value: any) => {
+    router.push('/editPet');
+    dispatch(setId(value));
   };
 
-  const handleEraseData = (value: string) => {
-    console.log(value);
+  const handleEraseData = async (value: string) => {
+    try {
+      const { data } = await axios.delete(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}/${value}`, {
+        headers: {
+          Authorization: `Bearer ${sesion?.token}`,
+        },
+      });
+      alert(data);
+      dispatch(setActualize());
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -89,27 +109,27 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     </div>
                   </td>
                   <td className={classes}>
-                  <div className="flex gap-2" >
-                    <Tooltip content="Edit User" >
-                      <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
-                        <PencilIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip content="Delete User">
-                      <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
-                        <TrashIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                    <div className="flex gap-2" >
+                      <Tooltip content="Edit User" >
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip content="Delete User">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </td>
                 </tr>
               );
             })}
 
-            {activeTab === 'animals' && tableData && tableData.map(({ id, image, name, specie, gender, status, country, state, city }: any, index: any) => {
+            {activeTab === 'animals' && tableData && tableData.map(({ id, as_id, asociacion, description, image, name, specie, gender, status, country, state, city }: any, index: any) => {
               const isLast = index === tableData.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
-
+              const allData = { id, image, name, specie, gender, status, country, state, city, as_id, description };
               return (
                 <tr key={id}>
                   <td className={classes}>
@@ -124,7 +144,7 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                           color="blue-gray"
                           className="font-normal opacity-70"
                         >
-                          {specie}
+                          {asociacion?.nameOfFoundation}
                         </Typography>
                       </div>
                     </div>
@@ -133,6 +153,13 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     <div className="flex flex-col">
                       <Typography variant="small" color="blue-gray" className="font-normal">
                         {gender}
+                      </Typography>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal opacity-70"
+                      >
+                        {specie}
                       </Typography>
                     </div>
                   </td>
@@ -162,24 +189,24 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                       <Chip
                         variant="ghost"
                         size="sm"
-                        value={status === 'homeless' ? 'homeless' : ( status === 'pending' ? 'pending' : 'adopted') }
-                        color={status === 'homeless' ? 'green' : ( status === 'pending' ? 'blue' : 'blue-gray')}
+                        value={status === 'homeless' ? 'homeless' : (status === 'pending' ? 'pending' : 'adopted')}
+                        color={status === 'homeless' ? 'green' : (status === 'pending' ? 'blue' : 'blue-gray')}
                       />
                     </div>
                   </td>
                   <td className={classes}>
-                  <div className="flex gap-2">
-                    <Tooltip content="Edit Animal">
-                      <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
-                        <PencilIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip content="Delete Animal">
-                      <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
-                        <TrashIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                    <div className="flex gap-2">
+                      <Tooltip content="Edit Animal">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip content="Delete Animal">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </td>
                 </tr>
               );
@@ -240,18 +267,18 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     </div>
                   </td>
                   <td className={classes}>
-                  <div className="flex gap-2">
-                    <Tooltip content="Edit Fundation">
-                      <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
-                        <PencilIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip content="Delete Fundation">
-                      <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
-                        <TrashIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </div>
+                    <div className="flex gap-2">
+                      <Tooltip content="Edit Fundation">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
+                          <PencilIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip content="Delete Fundation">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </div>
                   </td>
                 </tr>
               );
