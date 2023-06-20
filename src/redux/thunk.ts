@@ -81,47 +81,45 @@ export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) =
   }
 });
 export const UpdateEmail = createAsyncThunk('user/Update', async (obj: any) => {
-  try {
-    const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_BACK}/${
-        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
-      }/change-email`,
-      obj.data,
-      {
-        headers: {
-          Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
-          'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
-        },
+  const response = await axios.patch(
+    `${process.env.NEXT_PUBLIC_API_BACK}/${
+      obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+    }/change-email`,
+    obj.data,
+    {
+      headers: {
+        Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
       },
-    );
-    console.log(response.data);
-    trueAlertC();
-    obj.signoffSesion();
-    obj.handleOff();
-  } catch {
-    falseAlertC();
+    },
+  );
+  if (response.data.status >= 400) {
+    return falseAlertC();
   }
+  console.log(response.data);
+  trueAlertC();
+  obj.signoffSesion();
+  obj.handleOff();
 });
 
 export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) => {
-  try {
-    const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_BACK}/${
-        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
-      }/change-password`,
-      obj.data,
-      {
-        headers: {
-          Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
-          'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
-        },
+  const response = await axios.patch(
+    `${process.env.NEXT_PUBLIC_API_BACK}/${
+      obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+    }/change-password`,
+    obj.data,
+    {
+      headers: {
+        Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
       },
-    );
-    console.log(response.data);
-    trueAlertC();
-    obj.signoffSesion();
-    obj.handleOff();
-  } catch {
-    falseAlertC();
+    },
+  );
+  if (response.data.status >= 400) {
+    return falseAlertC();
   }
+  console.log(response.data);
+  trueAlertC();
+  obj.signoffSesion();
+  obj.handleOff();
 });
