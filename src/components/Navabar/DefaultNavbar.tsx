@@ -44,7 +44,7 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 
 function ButtonSection({ sesion }: any) {
   const [ userSesion, setUserSesion ] = useState<any>();
-  const { User } = useAppSelector(s => s.user)
+  const { User } = useAppSelector(s => s.user);
 
   useEffect(()=> {
     try {

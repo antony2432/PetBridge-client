@@ -27,9 +27,11 @@ export default function Settings() {
         console.log(error);
       }
     };
-
     fetch();
 
+    return () => {
+      dispatch(setNull());
+    };
   }, []);
 
   const [pages, setPages] = useState({
