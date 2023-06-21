@@ -4,7 +4,8 @@ import { paths } from './resource';
 import { IPath } from './interface/path.interface';
 import useNavBar from './hook/useNavBar';
 import useUserSesion from '@/hook/userSesion';
-import { Avatar } from '@material-tailwind/react';
+// import { Avatar } from '@material-tailwind/react';
+import MenuProfile from './menuProfile';
 
 function PathList({ links }: { links: IPath[] }) {
   return (
@@ -26,21 +27,26 @@ interface ILoginSectionProps {
 }
 
 function LoginSection({ image, fullname }: ILoginSectionProps) {
-  const { logout } = useNavBar();
+  
   return (
     <>
       <p>{fullname}</p>
-      <Avatar src={image ? image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'} alt={fullname} size='sm'/>
-      <button className='rounded-md border duration-200 px-4 py-2 text-red-600 border-red-400 hover:border-red-600 hover:bg-red-100' onClick={logout}>Log out</button>
+      {/* <Avatar src={image ? image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'} alt={fullname} size='sm'/> */}
+<MenuProfile image={image} fullname={fullname} />
+
+      {/* <button className='rounded-md border duration-200 px-4 py-2 text-red-600 border-red-400 hover:border-red-600 hover:bg-red-100' onClick={logout}>Log out</button> */}
     </>
   );
 }
 
 function ButtonSection({ sesion }: any) {
+  console.log(sesion);
   return (
     <>
-      {sesion ? ( sesion?.rol !== 'fundation' ?
-        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`} /> : <LoginSection image={sesion.image} fullname={`${sesion.nameOfFoundation}`} />
+      {sesion ? (sesion?.rol !== 'fundation' ? 
+        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`}/> :
+        <LoginSection image={sesion.image} fullname={`${sesion.nameOfFoundation} `}/>
+
       ) : (
         <>
           <Link
@@ -65,7 +71,7 @@ function ButtonSection({ sesion }: any) {
 
 function MobileMenu({ links, sesion }: any) {
   return (
-    <section className="w-full px-8 block absolute top-[10vh] right-0 bg-white duration-300 border absolute z-1">
+    <section className="w-full px-8 block top-[10vh] right-0 bg-white duration-300 border absolute z-1">
       <ul className="text-sm text-DarkBrown-900 mt-3  flex flex-col items-center gap-1">
         <PathList links={links} />
       </ul>

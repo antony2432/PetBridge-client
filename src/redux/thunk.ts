@@ -1,14 +1,14 @@
-import useUserSesion from '@/hook/userSesion';
+
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { trueAlertC, falseAlertC, trueAlertA, falseAlertA } from '../components/Alerts/index';
 export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
-  const { sesion } = useUserSesion();
+  
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`,
     {
       headers: {
-        Authorization: `Bearer${sesion?.token}`,
+        Authorization: `Bearer${obj.sesion?.token}`,
       },
     },
   );
@@ -28,14 +28,11 @@ interface Obj {
 }
 
 export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj) => {
-  const { sesion } = useUserSesion();
-
-
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/paginate?currentPage=${obj.active}&slicePage=${obj.elements}`,
     {
       headers: {
-        authorization: `Bearer ${sesion?.token}`,
+        authorization: `Bearer ${obj.sesion?.token}`,
       },
     },
   );
