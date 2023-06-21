@@ -2,9 +2,12 @@ import PostSend from './components/PostSend';
 import Posts from './components/posts';
 export default function Home() {
   return (
-      <article className="w-full flex flex-col justify-center items-center gap-2 mb-10 bg-slate-400">
-       <PostSend/>
-       <Posts/>
-      </article>
+    <main
+      className="w-full h-full flex-grow flex flex-col items-center gap-2"
+      style={{ backgroundImage: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)' }}
+    >
+      <PostSend />
+      <Posts />
+    </main>
   );
 }

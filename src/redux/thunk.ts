@@ -1,9 +1,7 @@
-
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { trueAlertC, falseAlertC, trueAlertA, falseAlertA } from '../components/Alerts/index';
 export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
-  
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`,
     {
@@ -12,7 +10,6 @@ export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => 
       },
     },
   );
-
 
   obj = {
     ...obj,
@@ -44,11 +41,13 @@ export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
   const { data } = await axios.get(
     sesion?.rol === 'fundation'
       ? `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${sesion?.id}`
-      : `${process.env.NEXT_PUBLIC_API_BACK}/users/${sesion?.id}`, {
+      : `${process.env.NEXT_PUBLIC_API_BACK}/users/${sesion?.id}`,
+    {
       headers: {
         Authorization: `Bearer ${sesion?.token}`,
       },
-    });
+    },
+  );
 
   if (data) {
     return data;
@@ -64,16 +63,12 @@ export const setNull = createAsyncThunk('user/Users', async () => {
 export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) => {
   try {
     if (obj.sesion?.rol !== 'fundation') {
-      await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
-        obj.file,
-        {
-          headers: {
-            Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
-            'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
-          },
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`, obj.file, {
+        headers: {
+          Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+          'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
         },
-      );
+      });
     } else {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/update/${obj.id}`,
@@ -90,11 +85,13 @@ export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) =
     const { data } = await axios.get(
       obj.sesion?.rol === 'fundation'
         ? `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${obj.sesion?.id}`
-        : `${process.env.NEXT_PUBLIC_API_BACK}/users/${obj.sesion?.id}`, {
+        : `${process.env.NEXT_PUBLIC_API_BACK}/users/${obj.sesion?.id}`,
+      {
         headers: {
           Authorization: `Bearer ${obj.sesion?.token}`,
         },
-      });
+      },
+    );
 
     return data;
   } catch {

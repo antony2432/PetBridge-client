@@ -13,7 +13,7 @@ export default function CardsPets() {
 
   useEffect(() => {
     fetchAllPets();
-  }, [fetchAllPets]);
+  });
 
   return (
     <article>
