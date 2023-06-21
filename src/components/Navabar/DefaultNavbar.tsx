@@ -1,4 +1,3 @@
-'use client';
 import Link from 'next/link';
 import { BsList } from 'react-icons/bs';
 import { paths } from './resource';
@@ -7,9 +6,6 @@ import useNavBar from './hook/useNavBar';
 import useUserSesion from '@/hook/userSesion';
 // import { Avatar } from '@material-tailwind/react';
 import MenuProfile from './menuProfile';
-import { useAppSelector } from '@/redux/hook';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 
 function PathList({ links }: { links: IPath[] }) {
   return (
@@ -31,44 +27,23 @@ interface ILoginSectionProps {
 }
 
 function LoginSection({ image, fullname }: ILoginSectionProps) {
-  
   return (
     <>
       <p>{fullname}</p>
-      {/* <Avatar src={image ? image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'} alt={fullname} size='sm'/> */}
-<MenuProfile image={image} fullname={fullname} />
-
-      {/* <button className='rounded-md border duration-200 px-4 py-2 text-red-600 border-red-400 hover:border-red-600 hover:bg-red-100' onClick={logout}>Log out</button> */}
+      <MenuProfile image={image} fullname={fullname} />
     </>
   );
 }
 
 function ButtonSection({ sesion }: any) {
-  const [ userSesion, setUserSesion ] = useState<any>();
-  const { User } = useAppSelector(s => s.user);
-
-  useEffect(()=> {
-    try {
-      const fetch = async () => {
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${sesion?.rol !== 'fundation' ? 'users' : 'asociaciones'}/${sesion?.id}`, {
-          headers: {
-            Authorization: `Bearer ${sesion?.token}`,
-          },
-        });
-        setUserSesion(data);
-      };
-      fetch();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [User]);
-
   return (
     <>
-      {sesion ? (sesion?.rol !== 'fundation' ?
-        <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.firstName : sesion.firstName} ${userSesion ? userSesion.lastName : sesion.lastName}`}/> :
-        <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.nameOfFoundation : sesion.nameOfFoundation} `}/>
-
+      {sesion ? (
+        sesion?.rol !== 'fundation' ? (
+          <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`} />
+        ) : (
+          <LoginSection image={sesion.image} fullname={`${sesion.nameOfFoundation} `} />
+        )
       ) : (
         <>
           <Link
@@ -99,7 +74,7 @@ function MobileMenu({ links, sesion }: any) {
       </ul>
       <hr className="mx-8 mt-4 border border-GoldenYellow-500" />
       <section className="mb-2 mt-2 flex flex-col items-center text-sm gap-2 ">
-        <ButtonSection sesion={sesion}/>
+        <ButtonSection sesion={sesion} />
       </section>
     </section>
   );
@@ -120,7 +95,9 @@ export default function DeafultNavbar() {
       </section>
       <BsList className="text-3xl text-DarkBrown-900 lg:hidden z-1" onClick={handleClosed} />
 
-      {isOpen ? <MobileMenu sesion={sesion} links={rol === 'admin' ? paths : paths.slice(0, 4)} /> : null}
+      {isOpen ? (
+        <MobileMenu sesion={sesion} links={rol === 'admin' ? paths : paths.slice(0, 4)} />
+      ) : null}
     </>
   );
 }

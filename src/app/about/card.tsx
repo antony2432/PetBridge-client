@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { CardAboutProps } from './interfaces/CardAboutProps.interface';
 
 export default function CardAbout({ team }: CardAboutProps) {
+  console.log(team[0].image);
   return (
     <>
       {team.map((t, i) => (
