@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import {  useState } from 'react';
 import {
   Button,
   Dialog,
@@ -46,7 +46,7 @@ export default function DetallePet({ info }: any) {
       </section>
       <section>
         <ButtonOpcion idPet={info}/>
-         <Check />
+         <Check idPet={info.id} estado={info.age_M} />
         </section>
       </div>
       <Dialog

@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { IsesionProps } from './interface/ISesionProps.interface';
 import { useAppSelector } from '@/redux/hook';
