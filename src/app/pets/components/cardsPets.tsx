@@ -10,7 +10,7 @@ export default function CardsPets() {
   const Filters = useAppSelector((state) => state.paginado.Filters);
   useEffect(() => {
     fetchAllPets();
-  }, []);
+  });
 
   return (
     <section className="flex-grow w-full grid gap-10 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-20 md:max-w-6xl ">

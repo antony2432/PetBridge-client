@@ -8,7 +8,6 @@ import {
 } from '@material-tailwind/react';
 import {
   PlusIcon,
-  HomeIcon,
   CogIcon,
   Square3Stack3DIcon,
   TrashIcon,
