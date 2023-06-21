@@ -42,7 +42,7 @@ export default function DetallePet({ info }: any) {
       <Dialog
         open={open}
         handler={handleOpen}
-        className="first-letter:uppercase bg-GoldenYellow-500 border-2 border-black max-w-[100%] min-w-[100%] 2xl:min-w-[60%] 2xl:w-[60%] lg:max-w-[40%] m-0 p-0  w-screen absolute h-screen min-h-screen max-h-screen sm:h-max sm:min-h-max overflow-y-scroll lg:max-h-[900px] scroll-chido"
+        className="first-letter:uppercase bg-GoldenYellow-500 border-2 border-black max-w-[100%] min-w-[100%] 2xl:min-w-[60%] 2xl:w-[60%] 2xl:max-h-[80vh] lg:max-w-[40%] m-0 p-0  w-screen absolute h-screen min-h-screen max-h-screen sm:h-max sm:min-h-max overflow-y-scroll lg:max-h-[900px] scroll-chido"
       >
         <DialogHeader className="flex flex-col justify-end items-end text-center  ">
           <Button

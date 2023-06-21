@@ -86,18 +86,18 @@ export default function Page() {
 
   return (
     <div className='bg-GoldenYellow-50'>
-      <section className='overflow-hidden max-h-[600px] h-[60vh] flex justify-center'>
+      <section className='overflow-hidden max-h-[600px] h-[70vh] flex justify-center'>
         <Image
           src='/img/donation.jpg'
           alt='hola'
           width={200}
           height={200}
-          className='max-w-7xl w-full object-cover bg-black/50'
+          className='max-w-7xl w-full object-cover h-[600px] max-h-[600px] bg-black/50'
         />
-        <article className='max-w-7xl w-full absolute bg-black/30 h-full max-h-[600px] flex justify-end'>
+        <article className='max-w-7xl w-full absolute bg-black/30 h-[70vh] max-h-[600px] flex justify-end'>
           <form
             action=''
-            className='border border-black w-96 h-auto my-5 bg-black/60 mx-2 lg:mr-10'
+            className='border border-black w-96  my-5 bg-black/60 mx-2 lg:mr-10'
             onSubmit={handleSubmit}
           >
             <h2 className='font-bold text-xl bg-GoldenYellow-500 py-2 text-center'>
