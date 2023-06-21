@@ -6,7 +6,7 @@ import Nav from './components/PerfilNav/Nav';
 import { useState } from 'react';
 import Security from './components/Pages/Security/Security';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { GetByName } from '@/redux/thunk';
+import { GetByName, setNull } from '@/redux/thunk';
 import useUserSesion from '@/hook/userSesion';
 
 export default function Settings() {
@@ -17,13 +17,20 @@ export default function Settings() {
   const rol = User && User.nameOfFoundation ? 'fundation' : 'user';
 
   useEffect(() => {
-    if (User === null) {
-      dispatch(GetByName(sesion));
-    }
-    return () => {
-      dispatch(GetByName(null));
+    const fetch = async () => {
+      try {
+        if (!User) {
+          await sesion?.rol;
+          dispatch(GetByName(sesion));
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
-  }, [sesion]);
+
+    fetch();
+
+  }, []);
 
   const [pages, setPages] = useState({
     General: true,

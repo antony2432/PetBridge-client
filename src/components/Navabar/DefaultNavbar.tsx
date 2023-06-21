@@ -6,6 +6,9 @@ import useNavBar from './hook/useNavBar';
 import useUserSesion from '@/hook/userSesion';
 // import { Avatar } from '@material-tailwind/react';
 import MenuProfile from './menuProfile';
+import { useAppSelector } from '@/redux/hook';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function PathList({ links }: { links: IPath[] }) {
   return (
@@ -40,12 +43,30 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
 }
 
 function ButtonSection({ sesion }: any) {
-  console.log(sesion);
+  const [ userSesion, setUserSesion ] = useState<any>();
+  const { User } = useAppSelector(s => s.user)
+
+  useEffect(()=> {
+    try {
+      const fetch = async () => {
+        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${sesion?.rol !== 'fundation' ? 'users' : 'asociaciones'}/${sesion?.id}`, {
+          headers: {
+            Authorization: `Bearer ${sesion?.token}`,
+          },
+        });
+        setUserSesion(data);
+      };
+      fetch();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [User]);
+
   return (
     <>
-      {sesion ? (sesion?.rol !== 'fundation' ? 
-        <LoginSection image={sesion.image} fullname={`${sesion.firstName} ${sesion.lastName}`}/> :
-        <LoginSection image={sesion.image} fullname={`${sesion.nameOfFoundation} `}/>
+      {sesion ? (sesion?.rol !== 'fundation' ?
+        <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.firstName : sesion.firstName} ${userSesion ? userSesion.lastName : sesion.lastName}`}/> :
+        <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.nameOfFoundation : sesion.nameOfFoundation} `}/>
 
       ) : (
         <>

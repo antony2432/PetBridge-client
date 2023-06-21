@@ -1,13 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GetByName, UpdateById } from '@/redux/thunk';
-const User: any = null;
+let User: any = null;
 let initialState = {
   User,
 };
 export const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    setNull: (state) => {
+      state.User = null ;
+    } },
   extraReducers: (builder) => {
     builder.addCase(GetByName.fulfilled, (state, { payload }) => {
       state.User = payload;
