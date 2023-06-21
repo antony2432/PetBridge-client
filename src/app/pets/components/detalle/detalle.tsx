@@ -82,8 +82,8 @@ export default function DetallePet({ info }: any) {
                 <h2 className="font-extrabold text-3xl text-center p-5 ">Acerca de mi</h2>
                 <ul className="text-xl grid grid-cols-2 justify-center items-center gap-5 ml-[12%] ">
                   <li>Sexo: {info.gender}</li>
-                  <li>Edad: 2 Meses</li>
-                  <li>Peso: 10kg</li>
+                  <li>Edad: {info.age_Y} años</li>
+                  <li>Peso: {info.weight}kg</li>
                   <li className="flex">
                     Pais:<h3 className="first-letter:uppercase">{info.country}</h3>
                   </li>
