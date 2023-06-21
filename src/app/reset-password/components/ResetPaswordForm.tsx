@@ -1,5 +1,5 @@
 import InputLabel from '@/components/InputLabel';
-import { IResetPasswordProps, ISetProps } from '../interface/IResetPasswordProps';
+import {  ISetProps } from '../interface/IResetPasswordProps';
 import InputPassword from '@/components/InputPassword';
 import useResetForm from '../hook/useResetForm';
 import StepperReset from './stepper';
@@ -89,7 +89,7 @@ export default function ResetPasswordForm({
   seterFirst,
   handleNext,
   handlePrev,
-}: IResetPasswordProps) {
+}: any) {
   let componentToShow;
   const {
     handleChange,
@@ -129,7 +129,7 @@ export default function ResetPasswordForm({
         setEnabled(true);
       }
     }
-  }, [fieldError]);
+  }, [fieldError, activeStep, field, setEnabled]);
 
   switch (activeStep) {
     case 0:

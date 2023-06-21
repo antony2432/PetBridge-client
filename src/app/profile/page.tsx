@@ -32,7 +32,7 @@ export default function Settings() {
     return () => {
       dispatch(setNull());
     };
-  }, []);
+  }, [User, dispatch, sesion ]);
 
   const [pages, setPages] = useState({
     General: true,

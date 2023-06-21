@@ -4,17 +4,13 @@ import { useRouter } from 'next/navigation';
 
 export default function StepperReset({
   activeStep,
-  setActiveStep,
-  isLastStep,
-  isFirstStep,
   seterLast,
   seterFirst,
   handleNext,
-  handlePrev,
   enabled,
-  submitEmail,
   submitPassword,
-  submitToken,
+  // submitEmail,
+  // submitToken,
 }: IResetPasswordProps) {
   const router = useRouter();
 
@@ -24,8 +20,9 @@ export default function StepperReset({
       button = (
         <Button
           onClick={async (e) => {
-            const goNext = await submitEmail(e);
-            goNext ? handleNext() : null;
+            // const goNext = await submitEmail(e);
+            // goNext ? handleNext() : null;
+            console.log(e);
           }}
           disabled={enabled}
           size="sm"
@@ -39,8 +36,9 @@ export default function StepperReset({
       button = (
         <Button
           onClick={async (e) => {
-            const goNext = await submitToken(e);
-            goNext ? handleNext() : null;
+            // const goNext = await submitToken(e);
+            // goNext ? handleNext() : null;
+            console.log(e);
           }}
           disabled={enabled}
           size="sm"

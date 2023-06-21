@@ -39,15 +39,15 @@ const ITEMS_PER_PAGE = 8;
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('users');
-  const [tableData, setTableData] = useState([]);
-  const [backup, setBackup] = useState([]);
+  const [tableData, setTableData] = useState<any>([]);
+  const [backup, setBackup] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const { sesion } = useUserSesion();
   const dispatch = useAppDispatch();
   const { actualize } = useAppSelector(state => state.pets);
 
-  useEffect(() => {dispatch(setActualize());}, []);
+  useEffect(() => {dispatch(setActualize());}, [dispatch]);
 
   useEffect(() => {
     async function fetchData() {
@@ -91,15 +91,15 @@ export default function Dashboard() {
       }
     }
     fetchData();
-  }, [searchTerm]);
+  }, [activeTab, backup, searchTerm, sesion?.token]);
 
   const handleFilter = (value: string) => {
     if (value === 'eliminados') {
-      setTableData(backup.filter((d) => !d.isActive))
+      setTableData(backup.filter((d:any) => !d.isActive));
     } else if (value === 'activos') {
-      setTableData(backup.filter((d) => d.isActive))
+      setTableData(backup.filter((d:any) => d.isActive));
     } else if (activeTab === 'animals' && value !== 'all') {
-      setTableData(backup.filter((d) => d.status === value));
+      setTableData(backup.filter((d:any) => d.status === value));
     } else if (value === 'all') {
       dispatch(setActualize());
       setTableData(backup);
