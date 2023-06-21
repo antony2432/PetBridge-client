@@ -49,6 +49,7 @@ export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
         Authorization: `Bearer ${sesion?.token}`,
       },
     });
+
   if (data) {
     return data;
   } else {
