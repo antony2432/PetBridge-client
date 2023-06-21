@@ -86,7 +86,7 @@ const FOUNDATION_TABLE_ROWS = [
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('usuarios');
 
-  const handleTabChange = (value) => {
+  const handleTabChange = (value : string) => {
     setActiveTab(value);
   };
 
