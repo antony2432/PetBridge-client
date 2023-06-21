@@ -20,7 +20,7 @@ import useUserSesion from '@/hook/userSesion';
 export default function MenuProfile({ image, fullname }:any) {
   const { logout } = useNavBar();
   const { sesion } = useUserSesion();
-  console.log(sesion);
+  console.log(image);
   
   return (
       <Menu>
