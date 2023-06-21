@@ -43,8 +43,8 @@ export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj)
 export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
   const response = await axios.get(
     sesion?.rol === 'user'
-      ? `https://deploy-petsbridge.vercel.app/users/${sesion?.id}`
-      : `https://deploy-petsbridge.vercel.app/asociaciones/${sesion?.id}`,
+      ? `${process.env.NEXT_PUBLIC_API_BACK}/users/${sesion?.id}`
+      : `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${sesion?.id}`,
   );
   console.log(response.data);
 

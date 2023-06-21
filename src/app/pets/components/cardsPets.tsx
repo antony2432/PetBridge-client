@@ -13,7 +13,7 @@ export default function CardsPets() {
   console.log(paginado);
   useEffect(() => {
     fetchAllPets();
-  }, [fetchAllPets]);
+  });
 
   return (
     <article>

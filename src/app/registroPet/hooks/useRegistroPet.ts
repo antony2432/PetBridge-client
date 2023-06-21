@@ -1,11 +1,9 @@
 import axios from 'axios';
-
 import useUserSesion from '@/hook/userSesion';
-
 
 export default function useRegistroPet() {
   const { sesion } = useUserSesion();
- 
+
   const PostPet = async (petData: any) => {
     try {
       console.log(petData);
@@ -15,7 +13,7 @@ export default function useRegistroPet() {
           authorization: `Bearer ${sesion?.token}`,
         },
       });
-    
+
       return data;
     } catch (error) {
       console.log(error);

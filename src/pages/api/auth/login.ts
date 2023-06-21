@@ -39,11 +39,11 @@ interface IUser {
 interface IJwtPayload {
   email: string;
   id: string;
-  firstName: string,
-  lastName: string,
-  image: string | null,
-  country: string | null,
-  phone: string | null,
+  firstName: string;
+  lastName: string;
+  image: string | null;
+  country: string | null;
+  phone: string | null;
   rol: string;
   [key: string]: any;
   token: string;
