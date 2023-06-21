@@ -56,7 +56,7 @@ export default function DetallePet({ info }: any) {
         <DialogBody divider className=" bg-white px-0 py-1 gap-2 ">
           <CarouselPet images={info.image} />
 
-          <Card className=" row-span-1 w-full bg-GoldenYellow-100 h-[25vh]">
+          <Card className=" row-span-1 w-full bg-GoldenYellow-100 h-[25vh] my-10 ">
             <CardBody>
               <Typography className="flex flex-col gap-5 ">
                 <h3 className="text-center p-5 font-extrabold text-2xl ">MI HISTORIA</h3>
