@@ -33,6 +33,7 @@ interface IUser {
   image?: string | null;
   country?: string | null;
   phone?: string | null;
+  token?: string;
 }
 interface IJwtPayload {
   email: string;
@@ -81,6 +82,7 @@ export default async function handlerLogin(req: Req, res: Res) {
             image: very.image,
             country: very.country,
             phone: very.phone,
+            token: data.token,
           },
         });
       }

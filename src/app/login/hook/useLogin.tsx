@@ -89,6 +89,7 @@ export default function useLogin() {
       if (result.ok) {
         const dataUser = data.userInformation;
         localStorage.setItem('userSesion', JSON.stringify(dataUser));
+        console.log('llegue aqui');
         router.push('/home');
       } else {
         alert(data.message);

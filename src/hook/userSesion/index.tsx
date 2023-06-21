@@ -3,31 +3,26 @@ import { IsesionProps } from './interface/ISesionProps.interface';
 
 export default function useUserSesion() {
   const [sesion, setSesion] = useState<IsesionProps | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    let initialSesion: IsesionProps | null = null;
-    const storedSesion = localStorage.getItem('userSesion');
-    if (storedSesion) {
-      initialSesion = JSON.parse(storedSesion);
+    if (typeof window !== 'undefined') {
+      const storedSesion = localStorage.getItem('userSesion');
+      setSesion(storedSesion ? JSON.parse(storedSesion) : null);
+      setIsLoaded(true);
     }
-    setSesion(initialSesion);
   }, []);
 
-  useEffect(() => {
-    if (sesion) {
-      localStorage.setItem('userSesion', JSON.stringify(sesion));
-    } else {
+  const signoffSesion = () => {
+    if (typeof window !== 'undefined') {
+      setSesion(null);
       localStorage.removeItem('userSesion');
     }
-  }, [sesion]);
-
-  const signoffSesion = () => {
-    setSesion(null);
-    localStorage.removeItem('userSesion');
   };
 
   return {
     sesion,
     signoffSesion,
+    isLoaded,
   };
 }
