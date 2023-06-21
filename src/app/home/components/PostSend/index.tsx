@@ -1,7 +1,10 @@
 import Image from 'next/image';
 import ModalPostSend from './components/modalPostSend';
 
+
 export default function PostSend() {
+
+  
   return (
 
     <div className="max-w-5xl w-5/6 my-4 bg-white flex items-center gap-2  py-4 px-2 lg:pl-8 rounded-2xl shadow shadow-black 2xl:w-full">
