@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { BsList } from 'react-icons/bs';
 import { paths } from './resource';
-import { IPathList, IPath } from './interface/path.interface';
+import { IPath } from './interface/path.interface';
 import useNavBar from './hook/useNavBar';
 import useUserSesion from '@/hook/userSesion';
 import { Avatar } from '@material-tailwind/react';
@@ -37,8 +37,7 @@ function LoginSection({ image, fullname }: ILoginSectionProps) {
   );
 }
 
-function ButtonSection() {
-  const { sesion } = useUserSesion();
+function ButtonSection({ sesion }: any) {
   return (
     <>
       {sesion ? (
@@ -65,7 +64,7 @@ function ButtonSection() {
   );
 }
 
-function MobileMenu({ links }: IPathList) {
+function MobileMenu({ links, sesion }: any) {
   return (
     <section className="w-full px-8 absolute top-[10vh] right-0 bg-white duration-300 border lg:hidden">
       <ul className="text-sm text-DarkBrown-900 mt-3  flex flex-col items-center gap-1">
@@ -73,7 +72,7 @@ function MobileMenu({ links }: IPathList) {
       </ul>
       <hr className="mx-8 mt-4 border border-GoldenYellow-500" />
       <section className="mb-2 mt-2 flex flex-col items-center text-sm gap-2">
-        <ButtonSection />
+        <ButtonSection sesion={sesion}/>
       </section>
     </section>
   );
@@ -81,17 +80,20 @@ function MobileMenu({ links }: IPathList) {
 
 export default function DeafultNavbar() {
   const { isOpen, handleClosed } = useNavBar();
+  const { sesion } = useUserSesion();
+  const rol = sesion?.rol;
+
   return (
     <>
       <ul className="hidden text-sm text-DarkBrown-900 mt-3 lg:flex items-center gap-1">
-        <PathList links={paths} />
+        <PathList links={rol === 'admin' ? paths : paths.slice(0, 4)} />
       </ul>
       <section className="hidden lg:flex lg:items-center text-sm gap-8">
-        <ButtonSection />
+        <ButtonSection sesion={sesion} />
       </section>
       <BsList className="text-3xl text-DarkBrown-900 lg:hidden" onClick={handleClosed} />
 
-      {isOpen ? <MobileMenu links={paths} /> : null}
+      {isOpen ? <MobileMenu sesion={sesion} links={rol === 'admin' ? paths : paths.slice(0, 4)} /> : null}
     </>
   );
 }

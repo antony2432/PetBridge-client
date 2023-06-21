@@ -3,14 +3,17 @@ import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from '@materia
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
-export default function ButtonSend({ datosEnviados }: any) {
+export default function ButtonSend({ datosEnviados, imagenes }: any) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const handleOpen = () => setOpen(!open);
-
+  console.log(imagenes);
   const handleClose = () => {
-    router.push('/pets');
-    setOpen(!open);
+    setTimeout(() => {
+      router.push('/myPets');
+      setOpen(!open);
+    }, 2000);
+   
   };
 
   return (
@@ -52,7 +55,23 @@ export default function ButtonSend({ datosEnviados }: any) {
             <li>Genero: {datosEnviados.genero}</li>
             <li>Historia: {datosEnviados.descripcion}</li>
             <li>Telefono: {datosEnviados.telefono}</li>
-            <Image src={datosEnviados.files} alt={datosEnviados.nombre} width={200} height={200} />
+            <div className='flex'>
+            {imagenes.map((url:string, index:string) => (
+                    <Image
+                      key={index}
+                      src={url}
+                      width={300}
+                      height={300}
+                      alt={`Imagen ${index + 1}`}
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        objectFit: 'cover',
+                        margin: '5px',
+                        border: '3px double #f0a83e',
+                      }}
+                    />
+            ))}</div>
           </ul>
         </DialogBody>
         <DialogFooter className="bg-white gap-5">
