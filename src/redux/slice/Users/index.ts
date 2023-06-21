@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { GetByName, UpdateById } from '@/redux/thunk';
-const User: any = [];
+const User: any = null;
 let initialState = {
   User,
 };
@@ -9,11 +9,11 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(GetByName.fulfilled, (state, action) => {
-      state.User = [action.payload];
+    builder.addCase(GetByName.fulfilled, (state, { payload }) => {
+      state.User = payload;
     });
     builder.addCase(UpdateById.fulfilled, (state, { payload }) => {
-      state.User = [payload];
+      state.User = payload;
     });
   },
 });

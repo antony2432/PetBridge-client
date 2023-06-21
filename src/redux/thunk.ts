@@ -24,13 +24,13 @@ export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => 
 interface Obj {
   active: number;
   elements: number;
-  sesion:any;
+  sesion: any;
 }
 
 export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj) => {
   const { sesion } = useUserSesion();
-  
-  
+
+
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/paginate?currentPage=${obj.active}&slicePage=${obj.elements}`,
     {
@@ -44,41 +44,61 @@ export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj)
 });
 
 export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
-  const response = await axios.get(
-    sesion?.rol === 'user'
-      ? `https://deploy-petsbridge.vercel.app/users/${sesion?.id}`
-      : `https://deploy-petsbridge.vercel.app/asociaciones/${sesion?.id}`,
-  );
-  console.log(response.data);
-
-  return response.data;
+  const { data } = await axios.get(
+    sesion?.rol === 'fundation'
+      ? `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${sesion?.id}`
+      : `${process.env.NEXT_PUBLIC_API_BACK}/users/${sesion?.id}`, {
+      headers: {
+        Authorization: `Bearer ${sesion?.token}`,
+      },
+    });
+  if (data) {
+    return data;
+  } else {
+    return null;
+  }
 });
+
+export const setNull = createAsyncThunk('user/Users', async () => {
+  return null;
+});
+
 export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) => {
   try {
-    const response =
-      obj.sesion?.rol === 'user'
-        ? await axios.patch(
-          `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
-          obj.file,
-          {
-            headers: {
-              Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
-              'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
-            },
+    if (obj.sesion?.rol !== 'fundation') {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`,
+        obj.file,
+        {
+          headers: {
+            Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+            'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
           },
-        )
-        : await axios.put(
-          `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/update/${obj.id}`,
-          obj.file,
-          {
-            headers: {
-              Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
-              'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
-            },
+        },
+      );
+    } else {
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/update/${obj.id}`,
+        obj.file,
+        {
+          headers: {
+            Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+            'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
           },
-        );
+        },
+      );
+    }
     trueAlertA();
-    return response.data;
+    const { data } = await axios.get(
+      obj.sesion?.rol === 'fundation'
+        ? `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${obj.sesion?.id}`
+        : `${process.env.NEXT_PUBLIC_API_BACK}/users/${obj.sesion?.id}`, {
+        headers: {
+          Authorization: `Bearer ${obj.sesion?.token}`,
+        },
+      });
+
+    return data;
   } catch {
     falseAlertA();
   }
@@ -86,8 +106,7 @@ export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) =
 export const UpdateEmail = createAsyncThunk('user/Update', async (obj: any) => {
   try {
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_BACK}/${
-        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+      `${process.env.NEXT_PUBLIC_API_BACK}/${obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
       }/change-email`,
       obj.data,
       {
@@ -109,8 +128,7 @@ export const UpdateEmail = createAsyncThunk('user/Update', async (obj: any) => {
 export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) => {
   try {
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_BACK}/${
-        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+      `${process.env.NEXT_PUBLIC_API_BACK}/${obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
       }/change-password`,
       obj.data,
       {
