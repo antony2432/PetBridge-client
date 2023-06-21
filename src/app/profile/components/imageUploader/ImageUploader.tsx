@@ -4,7 +4,7 @@ import { useAppDispatch } from '@/redux/hook';
 import { UpdateById } from '@/redux/thunk';
 import React from 'react';
 import styles from './ImageUploader.module.css';
-const ImageUploader = ({ User }: any) => {
+const ImageUploader = ({ User, rol }: any) => {
   const { sesion } = useUserSesion();
   const dispatch = useAppDispatch();
   const handleImageUpload = async (event: any) => {
@@ -13,11 +13,15 @@ const ImageUploader = ({ User }: any) => {
     data.append('profilePic', file);
     var obj = {
       file: data,
-      id: User[0].id,
-      sesion,
+      id: User.id,
+      sesion: {
+        id: User.id,
+        rol: rol,
+        token: sesion?.token,
+      },
       tipe: 'image',
     };
-    console.log(User[0].id, 'hola');
+
     dispatch(UpdateById(obj));
     // Reemplaza 'tu_upload_preset' con tu propio upload preset de Cloudinary
     // Envía la imagen a Cloudinary utilizando fetch

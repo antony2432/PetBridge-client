@@ -31,7 +31,7 @@ const TABS = [
   {
     label: 'Asociaciones',
     value: 'asociaciones',
-    columns: ['Nombre', 'País', , 'Teléfono', 'Estado', ''],
+    columns: ['Nombre', 'País', , 'Teléfono', 'Mascotas', 'Estado', ''],
   },
 ];
 
@@ -133,7 +133,7 @@ export default function Dashboard() {
               ADMIN DASHBOARD
             </Typography>
             <Typography color="gray" className="mt-1 font-normal">
-              See information about all members
+              Administra la informacion de la aplicacion.
             </Typography>
           </div>
           {activeTab !== 'animals' ?

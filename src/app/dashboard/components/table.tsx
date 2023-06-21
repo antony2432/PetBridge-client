@@ -16,6 +16,7 @@ import { setId } from '@/redux/slice/pets';
 import useUserSesion from '@/hook/userSesion';
 import axios from 'axios';
 import { setActualize } from '@/redux/slice/pets';
+import { GetByName } from '@/redux/thunk';
 
 export default function Table({ tableColumns, tableData, activeTab }: any) {
   const router = useRouter();
@@ -23,8 +24,16 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
   const { sesion } = useUserSesion();
 
   const handleEditData = (value: any) => {
-    router.push('/editPet');
-    dispatch(setId(value));
+    if (activeTab === 'animals') {
+      router.push('/editPet');
+      dispatch(setId(value));
+    } else if (activeTab === 'asociaciones') {
+      dispatch(GetByName({ id: value.id, rol: 'fundation', token: sesion?.token }));
+      router.push('/profile');
+    } else {
+      dispatch(GetByName({ id: value.id, rol: 'users', token: sesion?.token }));
+      router.push('/profile');
+    }
   };
 
   const handleEraseData = async (value: string) => {
@@ -64,6 +73,7 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
             {activeTab === 'users' && tableData && tableData.map(({ id, image, firstName, lastName, email, country, phone, isActive }: any, index: any) => {
               const isLast = index === tableData.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+              const allData = { id, image, firstName, lastName, email, country, phone, isActive };
 
               return (
                 <tr key={id}>
@@ -109,18 +119,20 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     </div>
                   </td>
                   <td className={classes}>
-                    <div className="flex gap-2" >
-                      <Tooltip content="Edit User" >
-                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
+                  { isActive &&
+                    <div className="flex gap-2">
+                      <Tooltip content="Edit Fundation">
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
                           <PencilIcon className="h-4 w-4" />
                         </IconButton>
                       </Tooltip>
-                      <Tooltip content="Delete User">
+                      <Tooltip content="Delete Fundation">
                         <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
                           <TrashIcon className="h-4 w-4" />
                         </IconButton>
                       </Tooltip>
                     </div>
+                    }
                   </td>
                 </tr>
               );
@@ -212,9 +224,10 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
               );
             })}
 
-            {activeTab === 'asociaciones' && tableData && tableData.map(({ id, image, nameOfFoundation, email, country, phone, address, isActive }: any, index: any) => {
+            {activeTab === 'asociaciones' && tableData && tableData.map(({ id, image, nameOfFoundation, email, country, phone, address, pets, isActive }: any, index: any) => {
               const isLast = index === tableData.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
+              const allData = { id, image, nameOfFoundation, email, country, phone, address, isActive };
 
               return (
                 <tr key={id}>
@@ -257,6 +270,17 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     </div>
                   </td>
                   <td className={classes}>
+                    <div className="flex flex-col">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal opacity-70"
+                      >
+                        {pets?.length}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className={classes}>
                     <div className="w-max">
                       <Chip
                         variant="ghost"
@@ -267,9 +291,10 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     </div>
                   </td>
                   <td className={classes}>
+                    { isActive &&
                     <div className="flex gap-2">
                       <Tooltip content="Edit Fundation">
-                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(id)}>
+                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
                           <PencilIcon className="h-4 w-4" />
                         </IconButton>
                       </Tooltip>
@@ -279,6 +304,7 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                         </IconButton>
                       </Tooltip>
                     </div>
+                    }
                   </td>
                 </tr>
               );
