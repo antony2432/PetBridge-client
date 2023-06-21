@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { Paginatee } from '@/redux/thunk';
 export default function Paginate() {
   const { allPets } = useAppSelector((state) => state.pets);
-  console.log(allPets);
+  console.log('allpets', allPets);
   let [active, setActive] = React.useState(1);
   let [pages] = React.useState(allPets.length ? Math.ceil(allPets.length / 5) : 8);
   const [elements] = React.useState(5);
