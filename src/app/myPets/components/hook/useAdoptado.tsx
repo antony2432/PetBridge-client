@@ -3,11 +3,11 @@ import axios from 'axios';
 
 export default function useEditPetAdopted() {   
   const { sesion } = useUserSesion();
-  const PutAdopted = async (params:string, petData: any) => {
+  const PutAdopted = async (idPet:string, isState: any) => {
 
-    
+    console.log(idPet);
     try {
-      const data = await axios.put(`${process.env.NEXT_PUBLIC_API_BACK}/animals/editAnimal/${params}`, petData, {
+      const data = await axios.patch(`${process.env.NEXT_PUBLIC_API_BACK}/animals/animals-update/${idPet}`, { status: isState }, {
         headers: {
           authorization: `Bearer ${sesion?.token}`,
         },

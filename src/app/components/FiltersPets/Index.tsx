@@ -3,12 +3,13 @@ import { Button } from '@material-tailwind/react';
 import React, { useState } from 'react';
 import { useAppDispatch } from '@/redux/hook';
 import { Filter } from '@/redux/thunk';
-import { usePathname, useRouter } from 'next/navigation';
+
 import useUserSesion from '@/hook/userSesion';
+import { reset } from '@/redux/slice/Paginado/Index';
 export default function FiltersPets() {
-  const pathname = usePathname();
+  
   //type Category = string;
-  const router = useRouter();
+ 
   const [boolean, setBoolean] = useState(false);
   //let [addCategories, setCategories] = useState<Category[]>([]);
   const dispatch = useAppDispatch();
@@ -27,22 +28,19 @@ export default function FiltersPets() {
     dispatch(Filter(obj));
   }
 
-  function reset() {
-    dispatch(Filter({ value:'', sesion }));
+  function Reset() {
+    dispatch(reset());
 
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    router.push('/registroPet');
-  };
+
   return (
-    <nav className="w-full max-w-6xl  flex items-start justify-between  bg-transparent">
+    <nav className="w-full max-w-6xl absolute ml-10 mt-10 flex items-start justify-between z-50 bg-transparent">
       <section>
         <div>
           <Button
             color="cyan"
-            className="hover:bg-cyan-800 rounded px-2 py-1"
+            className="hover:bg-cyan-800 w-40 h-10 text-2xl rounded px-2 py-1"
             onClick={() => setBoolean(!boolean)}
           >
             Species
@@ -72,30 +70,26 @@ export default function FiltersPets() {
               id="3"
               className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <h1>Pajaros</h1>
+              <h1>Aves</h1>
               <input type="checkbox" onChange={(e) => handleSpecies(e, 'bird')}></input>
             </div>
             <div
               id="4"
               className="flex justify-between hover:bg-blue-gray-50 rounded items-center w-32"
             >
-              <h1>Vivoras</h1>
+              <h1>Reptiles</h1>
               <input type="checkbox" onChange={(e) => handleSpecies(e, 'snake')}></input>
             </div>
             <div className="flex justify-center items-center w-32">
-              <Button color="orange" onClick={reset}>
-                reset
+              <Button color="orange" onClick={Reset}>
+                Reset
               </Button>
             </div>
           </span>
         </div>
       </section>
 
-      {pathname === '/myPets' && (
-        <Button onClick={handleClick} size="sm">
-          Formulario para dar en adopción
-        </Button>
-      )}
+      
     </nav>
   );
 }
