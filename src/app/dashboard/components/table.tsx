@@ -17,11 +17,20 @@ import useUserSesion from '@/hook/userSesion';
 import axios from 'axios';
 import { setActualize } from '@/redux/slice/pets';
 import { GetByName } from '@/redux/thunk';
+import { useState } from 'react';
 
 export default function Table({ tableColumns, tableData, activeTab }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { sesion } = useUserSesion();
+  const [donationsPanelState, setDonationsPanelState] = useState<{ [key: string]: boolean }>({});
+
+  const handlePanelToggle = (id: string) => {
+    setDonationsPanelState((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+  };
 
   const handleEditData = (value: any) => {
     if (activeTab === 'animals') {
@@ -53,7 +62,7 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
   return (
     <Card className="h-full w-full">
       <CardBody className="overflow-scroll px-0">
-        <table className="mt-4 w-full min-w-max table-auto text-left">
+        <table className="mt-4 w-full flex-col min-w-max table-auto text-left">
           <thead>
             <tr>
               {tableColumns.map((head: any) => (
@@ -119,19 +128,19 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                     </div>
                   </td>
                   <td className={classes}>
-                  { isActive &&
-                    <div className="flex gap-2">
-                      <Tooltip content="Edit Fundation">
-                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip content="Delete Fundation">
-                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
-                          <TrashIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
+                    {isActive &&
+                      <div className="flex gap-2">
+                        <Tooltip content="Edit Fundation">
+                          <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
+                            <PencilIcon className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip content="Delete Fundation">
+                          <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                            <TrashIcon className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
+                      </div>
                     }
                   </td>
                 </tr>
@@ -224,7 +233,7 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
               );
             })}
 
-            {activeTab === 'asociaciones' && tableData && tableData.map(({ id, image, nameOfFoundation, email, country, phone, address, pets, isActive }: any, index: any) => {
+            {activeTab === 'asociaciones' && tableData && tableData.map(({ id, image, nameOfFoundation, email, country, phone, address, pets, isActive, donations }: any, index: any) => {
               const isLast = index === tableData.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
               const allData = { id, image, nameOfFoundation, email, country, phone, address, isActive };
@@ -280,32 +289,119 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                       </Typography>
                     </div>
                   </td>
-                  <td className={classes}>
-                    <div className="w-max">
-                      <Chip
-                        variant="ghost"
-                        size="sm"
-                        value={isActive ? 'activo' : 'eliminado'}
-                        color={isActive ? 'green' : 'blue-gray'}
-                      />
-                    </div>
-                  </td>
-                  <td className={classes}>
-                    { isActive &&
-                    <div className="flex gap-2">
-                      <Tooltip content="Edit Fundation">
-                        <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip content="Delete Fundation">
-                        <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
-                          <TrashIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </div>
-                    }
-                  </td>
+                  {!donationsPanelState[id] &&
+                    <>
+                      <td className={classes}>
+                        <div className="flex flex-col">
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal opacity-70"
+                            onClick={() => handlePanelToggle(id)}
+                            style={{ cursor: 'pointer' }}
+                          >
+                            {`$${donations?.reduce((total: number, donation: any) => total + donation.mount, 0)}`}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className={classes}>
+                        <div className="w-max">
+                          <Chip
+                            variant="ghost"
+                            size="sm"
+                            value={isActive ? 'activo' : 'eliminado'}
+                            color={isActive ? 'green' : 'blue-gray'}
+                          />
+                        </div>
+                      </td>
+
+                      <td className={classes}>
+                        {isActive &&
+                          <div className="flex gap-2">
+                            <Tooltip content="Edit Fundation">
+                              <IconButton variant="text" color="blue-gray" onClick={() => handleEditData(allData)}>
+                                <PencilIcon className="h-4 w-4" />
+                              </IconButton>
+                            </Tooltip>
+                            <Tooltip content="Delete Fundation">
+                              <IconButton variant="text" color="blue-gray" onClick={() => handleEraseData(id)}>
+                                <TrashIcon className="h-4 w-4" />
+                              </IconButton>
+                            </Tooltip>
+                          </div>
+                        }
+                      </td>
+                    </>
+                  }
+                  <tr className='top-0'>
+                    {donationsPanelState[id] && (
+                      <tr>
+                        <td colSpan={tableColumns.length} className="p-4">
+
+                          <table className="mt-4 w-full min-w-max table-auto text-left bg-white shadow-lg">
+                            <thead>
+                              <tr>
+                                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+                                  <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-normal leading-none opacity-70"
+                                    onClick={() => handlePanelToggle(id)}
+                                    style={{ cursor: 'pointer' }}
+                                  >
+                                    Donaciones
+                                  </Typography>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                {donations.map((donation: any, i: any) => {
+                                  return (
+                                    <tr key={i}>
+                                      <td className={classes}>
+                                        <div className="flex flex-col">
+                                          <Typography
+                                            variant="small"
+                                            color="blue-gray"
+                                            className="font-normal opacity-70"
+                                          >
+                                            {donation.paymentId}
+                                          </Typography>
+                                        </div>
+                                      </td>
+                                      <td className={classes}>
+                                        <div className="flex flex-col">
+                                          <Typography
+                                            variant="small"
+                                            color="blue-gray"
+                                            className="font-normal opacity-70"
+                                          >
+                                            {donation.email}
+                                          </Typography>
+                                        </div>
+                                      </td>
+                                      <td className={classes}>
+                                        <div className="flex flex-col">
+                                          <Typography
+                                            variant="small"
+                                            color="blue-gray"
+                                            className="font-normal opacity-70"
+                                          >
+                                            {`$${donation.mount}`}
+                                          </Typography>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    )}
+                  </tr>
                 </tr>
               );
             })}
