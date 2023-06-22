@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+
 
 export default function SearchBar() {
-  const [ toSearch, setToSearch ] = useState()
+
   
   return (
     <form className="flex items-center mt-5">   

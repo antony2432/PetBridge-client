@@ -31,7 +31,7 @@ export default function Settings() {
       console.log(error);
     }
 
-  }, [User, sesion]);
+  }, [User, sesion, dispatch]);
 
   const [pages, setPages] = useState({
     General: true,

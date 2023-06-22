@@ -47,7 +47,10 @@ export default function Dashboard() {
   const dispatch = useAppDispatch();
   const { actualize } = useAppSelector(state => state.pets);
 
+
   useEffect(() => { dispatch(setActualize()); }, []);
+
+
 
   useEffect(() => {
     async function fetchData() {
@@ -93,7 +96,7 @@ export default function Dashboard() {
       }
     }
     fetchData();
-  }, [searchTerm]);
+  }, [activeTab, backup, searchTerm, sesion?.token]);
 
   const handleFilter = (value: string) => {
     if (value === 'eliminados') {
