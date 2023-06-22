@@ -31,7 +31,7 @@ const TABS = [
   {
     label: 'Asociaciones',
     value: 'asociaciones',
-    columns: ['Nombre', 'País', , 'Teléfono', 'Mascotas', 'Estado', ''],
+    columns: ['Nombre', 'País', , 'Teléfono', 'Mascotas', 'Recaudado', 'Estado', ''],
   },
 ];
 
@@ -47,21 +47,26 @@ export default function Dashboard() {
   const dispatch = useAppDispatch();
   const { actualize } = useAppSelector(state => state.pets);
 
-  useEffect(() => {dispatch(setActualize());}, [dispatch]);
+
+  useEffect(() => { dispatch(setActualize()); }, []);
+
+
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}`, {
-          headers: {
-            Authorization: `Bearer ${sesion?.token}`,
-          },
-        });
-        setTableData(data);
-        setBackup(data);
-        setCurrentPage(1);
-      } catch (error) {
-        console.log(error);
+      if (sesion) {
+        try {
+          const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}`, {
+            headers: {
+              Authorization: `Bearer ${sesion?.token}`,
+            },
+          });
+          setTableData(data);
+          setBackup(data);
+          setCurrentPage(1);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
     fetchData();
@@ -95,11 +100,11 @@ export default function Dashboard() {
 
   const handleFilter = (value: string) => {
     if (value === 'eliminados') {
-      setTableData(backup.filter((d:any) => !d.isActive));
+      setTableData(backup.filter((d: any) => !d.isActive));
     } else if (value === 'activos') {
-      setTableData(backup.filter((d:any) => d.isActive));
+      setTableData(backup.filter((d: any) => d.isActive));
     } else if (activeTab === 'animals' && value !== 'all') {
-      setTableData(backup.filter((d:any) => d.status === value));
+      setTableData(backup.filter((d: any) => d.status === value));
     } else if (value === 'all') {
       dispatch(setActualize());
       setTableData(backup);
@@ -188,7 +193,7 @@ export default function Dashboard() {
       <Table tableData={paginatedData} tableColumns={tableColumns} activeTab={activeTab} actualize={actualize}></Table>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-        Page {currentPage} of {Math.ceil(tableData.length / ITEMS_PER_PAGE)}
+          Page {currentPage} of {Math.ceil(tableData.length / ITEMS_PER_PAGE)}
         </Typography>
         <div className="flex gap-2">
           <Button
