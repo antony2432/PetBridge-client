@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function Page() {
@@ -11,21 +11,30 @@ export default function Page() {
     if (!sesionGoogle && !loading) {
       router.push('/login');
     } else {
-      console.log(sesionGoogle);
+      if (loading === false) {
+        const credential = {
+          email: sesionGoogle?.user?.email,
+          google: true,
+          firstName: sesionGoogle?.user?.name,
+          image: sesionGoogle?.user?.image,
+        };
+        fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(credential),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            const dataUser = data.userInformation;
+            localStorage.setItem('userSesion', JSON.stringify(dataUser));
+            router.push('/home');
+          })
+          .catch((err) => console.log(err));
+        console.log({ credential });
+      }
     }
   }, [sesionGoogle, loading, router]);
-  return (
-    <div>
-      <h1>Validando...</h1>
-      <button className="border px-3 py-2 rounded-md" onClick={() => console.log(sesionGoogle)}>
-        getDatos
-      </button>
-      <button
-        className="border px-3 py-2 rounded-md hover:bg-blue-300 hover:text-white"
-        onClick={() => signOut({ callbackUrl: '/login' })}
-      >
-        Singout
-      </button>
-    </div>
-  );
+  return (<></>);
 }
