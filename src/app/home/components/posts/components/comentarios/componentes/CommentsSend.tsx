@@ -3,9 +3,12 @@ import axios from 'axios';
 import { useState } from 'react';
 import CommentsSendProps from '../../interfaces/CommentsSend.interface';
 import useUserSesion from '@/hook/userSesion';
+import { setActualize } from '@/redux/slice/pets';
+import { useAppDispatch } from '@/redux/hook';
 
 export default function CommentsSend({ id, userId }: CommentsSendProps) {
   const [textareaValue, setTextareaValue] = useState('');
+  const dispatch = useAppDispatch();
   const [commentsData, setCommentsData] = useState({
     description: '',
     userId: userId,
@@ -23,6 +26,7 @@ export default function CommentsSend({ id, userId }: CommentsSendProps) {
           },
         },
       );
+      dispatch(setActualize());
       setTextareaValue('');
       console.log(response);
     } catch (error) {
