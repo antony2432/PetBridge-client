@@ -9,7 +9,7 @@ export default function Paginate() {
   const { allPets } = useAppSelector((state) => state.pets);
   const { sesion } = useUserSesion();
   let [active, setActive] = React.useState(1);
-  let [pages] = React.useState(allPets.length ? Math.ceil(allPets.length / 8) : 4);
+  let [pages] = React.useState(Math.ceil(allPets.length / 8) );
   const [elements] = React.useState(8);
   const obj = { active, elements, sesion };
   const dispatch = useAppDispatch();
@@ -29,16 +29,17 @@ export default function Paginate() {
     dispatch(Paginatee(vars));
   };
   return (
-    <div className="flex items-center gap-8 mb-5">
+    <div className="flex items-center gap-8 my-5 ">
       <IconButton
         size="sm"
         variant="outlined"
         color="blue-gray"
         onClick={prev}
-        disabled={active === 1}
+        hidden={active === 1}
       >
-        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4" />
+        <ArrowLeftIcon strokeWidth={2} className="h-4 w-4 "  />
       </IconButton>
+      {active === 1 ? <div className='h-4 w-8'></div> : null}
       <Typography color="gray" className="font-normal">
         Page <strong className="text-blue-gray-900">{active}</strong> of{' '}
         <strong className="text-blue-gray-900">{pages}</strong>
@@ -48,10 +49,11 @@ export default function Paginate() {
         variant="outlined"
         color="blue-gray"
         onClick={next}
-        disabled={active === pages}
+        hidden={active === pages}
       >
         <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
       </IconButton>
+      {active === pages ? <div className='h-4 w-8'></div> : null}
     </div>
   );
 }

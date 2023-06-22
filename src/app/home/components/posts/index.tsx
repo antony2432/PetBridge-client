@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Avatar, Spinner } from '@material-tailwind/react';
 import useUserSesion from '@/hook/userSesion';
+import { useAppSelector } from '@/redux/hook';
 
 interface Post {
   id: string;
@@ -23,6 +24,7 @@ export default function Posts() {
   const { sesion, isLoaded } = useUserSesion();
   const [data, setData] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
+  const { actualize } = useAppSelector(s => s.pets);
 
   useEffect(() => {
     if (sesion && isLoaded) {
@@ -43,7 +45,8 @@ export default function Posts() {
           setLoading(false);
         });
     }
-  }, [sesion, isLoaded]);
+  }, [sesion, isLoaded, actualize]);
+  
   return (
     <div
       className={`flex-grow flex flex-col ${
@@ -61,7 +64,7 @@ export default function Posts() {
             <section className="flex gap-5 items-center ml-[2.5%] ">
               <Avatar
                   src={
-                    sesion?.image ? sesion.image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
+                    api?.imagen ? api.imagen : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
                   }
                   alt={`${sesion?.firstName} ${sesion?.lastName}`}
                 variant="rounded"

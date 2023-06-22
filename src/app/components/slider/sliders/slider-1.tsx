@@ -22,7 +22,7 @@ export function SliderItem1() {
         </h3>
         <Link href="/pets">
           <button className="hidden w-72 h-11 bg-[#FFE6C2] border-2 border-amber-900 rounded-lg lg:block">
-            Descubre a tu copañero
+            Descubre a tu compañero
           </button>
         </Link>
       </section>

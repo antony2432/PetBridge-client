@@ -38,21 +38,26 @@ export const Paginatee = createAsyncThunk('paginado/Paginatee', async (obj: Obj)
 });
 
 export const GetByName = createAsyncThunk('user/Users', async (sesion: any) => {
-  const { data } = await axios.get(
-    sesion?.rol === 'fundation'
-      ? `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${sesion?.id}`
-      : `${process.env.NEXT_PUBLIC_API_BACK}/users/${sesion?.id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${sesion?.token}`,
-      },
-    },
-  );
-
-  if (data) {
-    return data;
-  } else {
-    return null;
+  if (sesion?.token) {
+    try {
+      const { data } = await axios.get(
+        sesion?.rol === 'fundation'
+          ? `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/${sesion?.id}`
+          : `${process.env.NEXT_PUBLIC_API_BACK}/users/${sesion?.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${sesion?.token}`,
+          },
+        },
+      );
+      if (data) {
+        return data;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 });
 
@@ -100,8 +105,7 @@ export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) =
 });
 export const UpdateEmail = createAsyncThunk('user/Update', async (obj: any) => {
   const response = await axios.patch(
-    `${process.env.NEXT_PUBLIC_API_BACK}/${
-      obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+    `${process.env.NEXT_PUBLIC_API_BACK}/${obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
     }/change-email`,
     obj.data,
     {
@@ -123,8 +127,7 @@ export const UpdateEmail = createAsyncThunk('user/Update', async (obj: any) => {
 export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) => {
   try {
     const response = await axios.patch(
-      `${process.env.NEXT_PUBLIC_API_BACK}/${
-        obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
+      `${process.env.NEXT_PUBLIC_API_BACK}/${obj.sesion?.rol === 'user' ? 'users' : 'asociaciones'
       }/change-password`,
       obj.data,
       {
@@ -141,4 +144,14 @@ export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) =
   } catch {
     falseAlertC();
   }
+});
+export const SearchA = createAsyncThunk('paginado/SearchA', async (obj:any) =>{
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/search?name=${obj.value}`, {
+      headers:{
+        Autorization:`Bearer ${obj.sesion?.token}`,
+      },
+    },
+  );
+  return response.data;
 });

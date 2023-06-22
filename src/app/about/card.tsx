@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { CardAboutProps } from './interfaces/CardAboutProps.interface';
 
 export default function CardAbout({ team }: CardAboutProps) {
-  console.log(team[0].image);
+  
   return (
     <>
       {team.map((t, i) => (
         <Card className="w-72" key={i}>
           <CardHeader floated={false} className=" h-64 rounded-full">
             <Image
-              src={t.image}
+              src={`/img/team/${t.image}.jpg`}
               alt={t.name}
               width={200}
               height={200}

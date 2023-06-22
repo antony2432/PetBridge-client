@@ -41,7 +41,7 @@ export default function Comments({
       >
         <DialogHeader className="w-[80%] flex gap-5 items-center ml-[2.5%] ">
           <Avatar
-            src={sesion?.image ? sesion.image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'}
+            src={imagen ? imagen : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'}
             alt={`${sesion?.firstName} ${sesion?.lastName}`}
             variant="rounded"
           />

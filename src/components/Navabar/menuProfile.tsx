@@ -18,14 +18,23 @@ import Link from 'next/link';
 import useUserSesion from '@/hook/userSesion';
 import { GetByName } from '@/redux/thunk';
 import { useAppDispatch } from '@/redux/hook';
+import { useRouter } from 'next/navigation';
 
 export default function MenuProfile({ image, fullname }:any) {
   const { logout } = useNavBar();
   const { sesion } = useUserSesion();
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const handlerClick = () => {
     dispatch(GetByName(sesion));
+    const currentPath = window.location.pathname;
+    console.log(currentPath);
+    if (currentPath === '/profile') {
+      window.location.reload();
+    } else {
+      router.push('/profile');
+    }
   };
 
   return (

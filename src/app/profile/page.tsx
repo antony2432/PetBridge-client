@@ -6,33 +6,32 @@ import Nav from './components/PerfilNav/Nav';
 import { useState } from 'react';
 import Security from './components/Pages/Security/Security';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
-import { GetByName, setNull } from '@/redux/thunk';
+import { GetByName } from '@/redux/thunk';
 import useUserSesion from '@/hook/userSesion';
 
 export default function Settings() {
   const dispatch = useAppDispatch();
   const { User } = useAppSelector((s) => s.user);
+  const [userSesion, setUserSesion] = useState<any>(null);
   const { sesion } = useUserSesion();
 
-  const rol = User && User.nameOfFoundation ? 'fundation' : 'user';
+  let rol = userSesion?.nameOfFoundation ? 'fundation' : 'user';
 
   useEffect(() => {
-    const fetch = async () => {
-      try {
-        if (!User) {
-          await sesion?.rol;
-          dispatch(GetByName(sesion));
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      if (!User) {
+        dispatch(GetByName(sesion));
       }
-    };
-    fetch();
+      setUserSesion(User);
 
-    return () => {
-      dispatch(setNull());
-    };
-  }, []);
+      return () => {
+        setUserSesion(null);
+      };
+    } catch (error) {
+      console.log(error);
+    }
+
+  }, [User, sesion, dispatch]);
 
   const [pages, setPages] = useState({
     General: true,
@@ -43,13 +42,13 @@ export default function Settings() {
     <div className="flex justify-center m-5">
       <section>
         <span className="m-10">
-          <Perfil User={User} rol={rol} />
+          <Perfil User={userSesion} rol={rol} />
         </span>
         <Nav setPages={setPages} pages={pages} />
       </section>
       <span className="w-full">
-        {pages.General ? <InfoGeneral User={User} rol={rol}/> : null}
-        {pages.Security ? <Security User={User} rol={rol}/> : null}
+        {pages.General ? <InfoGeneral User={userSesion} rol={rol} /> : null}
+        {pages.Security ? <Security User={userSesion} rol={rol} /> : null}
       </span>
     </div>
   );

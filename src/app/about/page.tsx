@@ -7,20 +7,17 @@ export default function Example() {
     {
       name: 'Chuquival Antony',
       linkedin: 'https://www.linkedin.com/in/degregory-antony-chuquival-huallanca-7262b0181/',
-      image:
-        'https://media.licdn.com/dms/image/D4E35AQEW8-QHOwxn_g/profile-framedphoto-shrink_800_800/0/1684642384777?e=1687006800&v=beta&t=AyJtm-AV8r8no82WcUn1_k4ud3JRXb1tm9L9WYMQS0s',
+      image: 'antony',
     },
     {
       name: 'Horta Maximiliano',
       linkedin: 'https://www.linkedin.com/in/maximiliano-horta/',
-      image:
-        'https://media.licdn.com/dms/image/D4D35AQG7-O6cwIXMOg/profile-framedphoto-shrink_400_400/0/1667187435938?e=1687006800&v=beta&t=3Wp1wz5E7VNZV82IIc8R-QFwvDNQxGYmj6uzFJ77aw0',
+      image:'max',
     },
     {
       name: 'Fantini Fernando',
       linkedin: 'https://www.linkedin.com/in/fernando-fantini-440a08261/',
-      image:
-        'https://media.licdn.com/dms/image/D4E35AQEUPSpBcfEucg/profile-framedphoto-shrink_800_800/0/1685120564337?e=1687006800&v=beta&t=l6iu5zcEE1mRnPOG0sSgiPK_JQQ-Dq9rG1JOXaS2Vbg',
+      image:'fer',
     },
   ];
 
@@ -28,26 +25,22 @@ export default function Example() {
     {
       name: 'Zapata Axel',
       linkedin: 'https://www.linkedin.com/in/axel-zapata-56a10a241/',
-      image:
-        'https://media.licdn.com/dms/image/C4E03AQEKRxFJW-G42g/profile-displayphoto-shrink_800_800/0/1662846863245?e=1691625600&v=beta&t=nDvDcZp7kWC3FrTKofRUOFg_j7BEDUA-CG5P1GGxgUE',
+      image:'axel',
     },
     {
       name: 'Behnke Leonel',
       linkedin: 'https://www.linkedin.com/in/leonelbehnkedev/',
-      image:
-        'https://media.licdn.com/dms/image/D4D35AQEJnZ_ZVGEenw/profile-framedphoto-shrink_800_800/0/1684836117937?e=1687006800&v=beta&t=BYxTUJaRECBib20qkakQMLW4K3JUaJZslIuofUqkE7o',
+      image:'leo',
     },
     {
       name: 'Romero Fabian',
       linkedin: 'https://www.linkedin.com/in/fabian-romero-8b9712277/',
-      image:
-        'https://media.licdn.com/dms/image/D5603AQEGrOVXV_SwFg/profile-displayphoto-shrink_800_800/0/1685032085084?e=1691625600&v=beta&t=Q_YlZlFnDvBPG75Qg2sDYR48Lna-GoPVWc--Zpdo7NQ',
+      image:'fabi',
     },
     {
       name: 'Rocha Eloy',
       linkedin: 'https://www.linkedin.com/in/eloy-rocha-6a92901b3/',
-      image:
-        'https://media.licdn.com/dms/image/D4D35AQGjocEhlEAnYQ/profile-framedphoto-shrink_800_800/0/1684722988645?e=1687010400&v=beta&t=r_XSqHNUlnF3RQVN7tdHQZBHbbO8s3wf-B4gnQGNgrQ',
+      image:'eloy',
     },
   ];
 

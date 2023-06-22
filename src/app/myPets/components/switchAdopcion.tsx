@@ -10,14 +10,14 @@ export default function Check({ estado, idPet }:any) {
   const { PutAdopted } = useEditPetAdopted();
   
  
-  const [isChecked, setIsChecked] = useState(estado === 'adoptado' ? true : false);
+  const [isChecked, setIsChecked] = useState(estado === 'pending' ? true : false);
  
     
 
 
   const handleCheckboxChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
-    let isState = isChecked ? 'adoptado' : ' adopcion';
+    let isState = isChecked ? 'homeless' : 'pending';
     const response = await PutAdopted(idPet, isState);
     console.log(response);
    

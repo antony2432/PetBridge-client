@@ -21,7 +21,7 @@ const TABS = [
   {
     label: 'Users',
     value: 'users',
-    columns: ['Usuario', 'Contacto', 'Estado', ''],
+    columns: ['Usuario', 'Contacto', 'Estado', 'Editar', 'Admin'],
   },
   {
     label: 'Animals',
@@ -31,7 +31,7 @@ const TABS = [
   {
     label: 'Asociaciones',
     value: 'asociaciones',
-    columns: ['Nombre', 'País', , 'Teléfono', 'Mascotas', 'Estado', ''],
+    columns: ['Nombre', 'País', , 'Teléfono', 'Mascotas', 'Recaudado', 'Estado', ''],
   },
 ];
 
@@ -39,29 +39,34 @@ const ITEMS_PER_PAGE = 8;
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('users');
-  const [tableData, setTableData] = useState([]);
-  const [backup, setBackup] = useState([]);
+  const [tableData, setTableData] = useState<any>([]);
+  const [backup, setBackup] = useState<any>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const { sesion } = useUserSesion();
   const dispatch = useAppDispatch();
   const { actualize } = useAppSelector(state => state.pets);
 
-  useEffect(() => {dispatch(setActualize());}, []);
+
+  useEffect(() => { dispatch(setActualize()); }, []);
+
+
 
   useEffect(() => {
     async function fetchData() {
-      try {
-        const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}`, {
-          headers: {
-            Authorization: `Bearer ${sesion?.token}`,
-          },
-        });
-        setTableData(data);
-        setBackup(data);
-        setCurrentPage(1);
-      } catch (error) {
-        console.log(error);
+      if (sesion) {
+        try {
+          const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}`, {
+            headers: {
+              Authorization: `Bearer ${sesion?.token}`,
+            },
+          });
+          setTableData(data);
+          setBackup(data);
+          setCurrentPage(1);
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
     fetchData();
@@ -91,15 +96,15 @@ export default function Dashboard() {
       }
     }
     fetchData();
-  }, [searchTerm]);
+  }, [activeTab, backup, searchTerm, sesion?.token]);
 
   const handleFilter = (value: string) => {
     if (value === 'eliminados') {
-      setTableData(backup.filter((d) => !d.isActive))
+      setTableData(backup.filter((d: any) => !d.isActive));
     } else if (value === 'activos') {
-      setTableData(backup.filter((d) => d.isActive))
+      setTableData(backup.filter((d: any) => d.isActive));
     } else if (activeTab === 'animals' && value !== 'all') {
-      setTableData(backup.filter((d) => d.status === value));
+      setTableData(backup.filter((d: any) => d.status === value));
     } else if (value === 'all') {
       dispatch(setActualize());
       setTableData(backup);
@@ -188,7 +193,7 @@ export default function Dashboard() {
       <Table tableData={paginatedData} tableColumns={tableColumns} activeTab={activeTab} actualize={actualize}></Table>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-        Page {currentPage} of {Math.ceil(tableData.length / ITEMS_PER_PAGE)}
+          Page {currentPage} of {Math.ceil(tableData.length / ITEMS_PER_PAGE)}
         </Typography>
         <div className="flex gap-2">
           <Button
