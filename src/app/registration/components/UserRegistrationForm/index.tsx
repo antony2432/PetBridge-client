@@ -11,6 +11,7 @@ import {
 import { BsGoogle } from 'react-icons/bs';
 import useUserRegistrationForm from '../../hook/useUserRegistrationForm';
 import { IItemPasswordSection, IPasswordSection } from '../../interface/IUserRegistrationProps';
+import { signIn } from 'next-auth/react';
 
 function ItemPasswordSection({ error, TSuccess, TError, final = true }: IItemPasswordSection) {
   return (
@@ -117,6 +118,7 @@ export default function UserRegistrationForm() {
             color="blue-gray"
             className="flex items-center justify-center gap-3"
             fullWidth
+            onClick={() => signIn('google', { callbackUrl: '/def' })}
           >
             <BsGoogle className="w-6 h-6 text-red-400" />
             Registrate con google

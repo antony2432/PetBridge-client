@@ -15,6 +15,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useLogin from './hook/useLogin';
 import { IItemPasswordSection, PasswordSectionProps } from './interface/Ilogin.interface';
+import { signIn } from 'next-auth/react';
 
 function ItemPasswordSection({ error, TSuccess, TError, final = true }: IItemPasswordSection) {
   return (
@@ -129,6 +130,7 @@ export default function Page() {
                 color="blue-gray"
                 className="flex items-center justify-center gap-3"
                 fullWidth
+                onClick={() => signIn('google', { callbackUrl: '/def' })}
               >
                 <BsGoogle className="w-6 h-6 text-red-400" />
                 Continua con google

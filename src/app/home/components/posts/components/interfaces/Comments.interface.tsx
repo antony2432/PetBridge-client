@@ -4,7 +4,8 @@ export default interface CommentsProps {
   description: string;
   imagen: string | null;
   id: string;
-  userId: string; 
+  userId: string;
   likes: number;
+  userImg: string | null;
   comments: [];
 }

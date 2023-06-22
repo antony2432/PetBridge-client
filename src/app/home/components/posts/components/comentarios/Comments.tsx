@@ -12,7 +12,6 @@ import Image from 'next/image';
 import CommentsProps from '../interfaces/Comments.interface';
 import CommentsSend from './componentes/CommentsSend';
 import CommentPost from './componentes/comment';
-import useUserSesion from '@/hook/userSesion';
 
 export default function Comments({
   firstName,
@@ -22,11 +21,11 @@ export default function Comments({
   id,
   userId,
   comments,
+  userImg,
 }: CommentsProps) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(!open);
-  const { sesion } = useUserSesion();
 
   return (
     <>
@@ -41,8 +40,8 @@ export default function Comments({
       >
         <DialogHeader className="w-[80%] flex gap-5 items-center ml-[2.5%] ">
           <Avatar
-            src={imagen ? imagen : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'}
-            alt={`${sesion?.firstName} ${sesion?.lastName}`}
+            src={userImg ? userImg : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'}
+            alt={firstName}
             variant="rounded"
           />
           <section className="flex flex-col">

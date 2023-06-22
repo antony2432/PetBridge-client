@@ -14,7 +14,7 @@ interface Post {
   datePublication: string;
   description: string;
   imagen: string;
-  user: { firstName: string };
+  user: { firstName: string, email: string, image: string | null, lastName: string, };
   likes: number;
   comments: [];
   userId: string;
@@ -37,6 +37,7 @@ export default function Posts() {
         })
         .then((response) => {
           setData(response.data);
+          console.log(response.data);
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
@@ -46,7 +47,7 @@ export default function Posts() {
         });
     }
   }, [sesion, isLoaded, actualize]);
-  
+
   return (
     <div
       className={`flex-grow flex flex-col ${
@@ -64,9 +65,9 @@ export default function Posts() {
             <section className="flex gap-5 items-center ml-[2.5%] ">
               <Avatar
                   src={
-                    api?.imagen ? api.imagen : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
+                    api.user.image ? api.user.image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
                   }
-                  alt={`${sesion?.firstName} ${sesion?.lastName}`}
+                  alt={`${api.user.firstName} ${api.user.lastName}`}
                 variant="rounded"
               />
               <section className="flex flex-col">
@@ -112,6 +113,7 @@ export default function Posts() {
                   datePublication={api.datePublication}
                   description={api.description}
                   imagen={api.imagen ? api.imagen[0] : null}
+                  userImg={api.user.image ? api.user.image : null}
                   id={api.id}
                   userId={api.userId}
                   comments={api.comments}
