@@ -126,6 +126,7 @@ export default function InfoGeneral({ User, rol }: any) {
                 <button
                   type="submit"
                   className="bg-[#F0A73E] hover:bg-[#d68718] text-white rounded mr-5 p-2 pr-6 pl-6"
+                  onClick={Guardar}
                 >
                   Guardar cambios
                 </button>
