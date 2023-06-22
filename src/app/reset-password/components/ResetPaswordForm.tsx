@@ -129,7 +129,7 @@ export default function ResetPasswordForm({
         setEnabled(true);
       }
     }
-  }, [fieldError, activeStep, field, setEnabled]);
+  }, [fieldError, activeStep, field.email, setEnabled ]);
 
   switch (activeStep) {
     case 0:

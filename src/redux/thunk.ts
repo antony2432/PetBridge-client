@@ -145,3 +145,13 @@ export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) =
     falseAlertC();
   }
 });
+export const SearchA = createAsyncThunk('paginado/SearchA', async (obj:any) =>{
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_BACK}/animals/search?name=${obj.value}`, {
+      headers:{
+        Autorization:`Bearer ${obj.sesion?.token}`,
+      },
+    },
+  );
+  return response.data;
+});
