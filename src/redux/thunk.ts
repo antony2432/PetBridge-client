@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { trueAlertC, falseAlertC, trueAlertA, falseAlertA } from '../components/Alerts/index';
+import {
+  trueAlertC,
+  falseAlertC,
+  trueAlertA,
+  falseAlertA,
+
+} from '../components/Alerts/index';
 export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`,
