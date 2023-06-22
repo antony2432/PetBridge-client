@@ -88,7 +88,7 @@ export default function Page() {
     <div className='bg-GoldenYellow-50'>
       <section className='overflow-hidden max-h-[600px] h-[70vh] flex justify-center'>
         <Image
-          src='/img/donation.jpg'
+          src='/img/donations.jpg'
           alt='hola'
           width={200}
           height={200}

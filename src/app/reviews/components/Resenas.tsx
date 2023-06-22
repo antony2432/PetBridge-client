@@ -3,8 +3,9 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { GReviews } from '@/redux/thunk';
 import { Card, Typography, CardBody, Avatar, Rating } from '@material-tailwind/react';
 import { useEffect } from 'react';
+
 const TABLE_HEAD = ['Users', 'Type', 'Date', 'Stars', 'Review'];
-export default function Reseñas() {
+export default function Resenas() {
   const dispatch = useAppDispatch();
   const { sesion } = useUserSesion();
   const { reviews } = useAppSelector((s) => s.reviews);
@@ -13,8 +14,9 @@ export default function Reseñas() {
       dispatch(GReviews(sesion));
     }
   }, []);
+  console.log(sesion);
   return (
-    <Card className="h-full w-full">
+    <Card className="h-full w-full  bg-orange-100">
       {/* <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-8 flex items-center justify-between gap-8">
           <div>
@@ -71,13 +73,13 @@ export default function Reseñas() {
               const isLast = index === reviews.length - 1;
               const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
               return (
-                <tr key={Array.user.firstName}>
+                <tr key={Array.user?.firstName}>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
-                      <Avatar src={sesion?.rol === 'user' ? Array.user.image : Array.asociacion.image } alt={sesion?.rol === 'user' ? Array.user.firstname : Array.asociacion.firstname } size="sm" />
+                      <Avatar src={Array.user ? Array.user.image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png' } alt={sesion?.rol === 'user' ? sesion.firstName : Array.asociacion.firstname } size="sm" />
                       <div className="flex flex-col">
                       {sesion?.rol === 'user' ? <Typography variant="small" color="blue-gray" className="font-normal">
-                          {Array.user.firstName} {Array.user.lastName}
+                          {sesion.firstName} {sesion.lastName}
                         </Typography> :  <Typography variant="small" color="blue-gray" className="font-normal">
                           {Array.asociacion.nameOfFoundation}
                         </Typography> }
