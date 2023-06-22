@@ -19,11 +19,16 @@ import { setActualize } from '@/redux/slice/pets';
 import { GetByName } from '@/redux/thunk';
 import { useState } from 'react';
 
+type SelectedRows = {
+  [key: string]: boolean;
+};
+
 export default function Table({ tableColumns, tableData, activeTab }: any) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { sesion } = useUserSesion();
   const [donationsPanelState, setDonationsPanelState] = useState<{ [key: string]: boolean }>({});
+  const [selectedRows, setSelectedRows] = useState<SelectedRows>({});
 
   const handlePanelToggle = (id: string) => {
     setDonationsPanelState((prevState) => ({
@@ -57,6 +62,49 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
     } catch (error) {
       console.log(error);
     }
+  };
+
+
+  const handleCheckboxToggle = async (id: string, isChecked: boolean) => {
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_BACK}/${activeTab}/update/${id}`,
+        {
+          rol: isChecked ? 'admin' : 'user',
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${sesion?.token}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      if (isChecked) {
+        console.log('ID seleccionado:', id);
+      } else {
+        console.log('ID deseleccionado:', id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCheckboxChange = (id: string) => {
+    setSelectedRows((prevSelectedRows) => {
+      const updatedSelectedRows = {
+        ...prevSelectedRows,
+        [id]: !prevSelectedRows[id],
+      };
+
+      if (updatedSelectedRows[id]) {
+        handleCheckboxToggle(id, true);
+      } else {
+        handleCheckboxToggle(id, false);
+      }
+
+      return updatedSelectedRows;
+    });
   };
 
   return (
@@ -142,6 +190,18 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                         </Tooltip>
                       </div>
                     }
+                  </td>
+                  <td className={classes}>
+                    {isActive && (
+                      <div className="flex gap-2 items-center">
+                        <input
+                          type="checkbox"
+                          checked={selectedRows[id]}
+                          onChange={() => handleCheckboxChange(id)}
+                          className="form-checkbox h-4 w-4 text-blue-500"
+                        />
+                      </div>
+                    )}
                   </td>
                 </tr>
               );
