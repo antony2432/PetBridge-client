@@ -34,6 +34,7 @@ export default function Posts() {
           headers: {
             Authorization: `Bearer ${sesion?.token}`,
           },
+          withCredentials: true,
         })
         .then((response) => {
           setData(response.data);
