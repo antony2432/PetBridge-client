@@ -1,3 +1,4 @@
+import { reviewsSlice } from './slice/Reviews/index';
 import { paginadoSlice } from './slice/Paginado/Index';
 import { configureStore } from '@reduxjs/toolkit';
 import pets from './slice/pets';
@@ -9,6 +10,7 @@ export const store = configureStore({
     pets,
     paginado: paginadoSlice.reducer,
     user: usersSlice.reducer,
+    reviews: reviewsSlice.reducer,
     userSlice,
   },
 });

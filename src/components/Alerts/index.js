@@ -37,3 +37,23 @@ export function falseAlertC() {
         confirmButtonColor: '#3085d6',
       });
     }
+
+    
+export function trueAlertR() {
+  Swal.fire({
+    title: 'Reseñas',
+    text: 'Ya se ha enviado la reseña',
+    icon: 'success',
+    confirmButtonText: 'Aceptar',
+    confirmButtonColor: '#3085d6',
+  });
+}
+export function falseAlertR() {
+    Swal.fire({
+      title: 'Reseñas',
+      text: 'Ocurrio un error, intenta nuevamente',
+      icon: 'error',
+      confirmButtonText: 'Aceptar',
+      confirmButtonColor: '#3085d6',
+    });
+  }
