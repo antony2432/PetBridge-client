@@ -48,7 +48,7 @@ export default function Dashboard() {
   const { actualize } = useAppSelector(state => state.pets);
 
 
-  useEffect(() => { dispatch(setActualize()); }, []);
+  useEffect(() => { dispatch(setActualize()); }, [dispatch]);
 
 
 
@@ -70,7 +70,7 @@ export default function Dashboard() {
       }
     }
     fetchData();
-  }, [activeTab, sesion?.token, actualize]);
+  }, [activeTab, sesion, actualize]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);

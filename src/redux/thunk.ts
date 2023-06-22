@@ -1,6 +1,14 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { trueAlertC, falseAlertC, trueAlertA, falseAlertA } from '../components/Alerts/index';
+import {
+  trueAlertC,
+  falseAlertC,
+  trueAlertA,
+  falseAlertA,
+  falseAlertR,
+  trueAlertR,
+  trueAlertD,
+} from '../components/Alerts/index';
 export const Filter = createAsyncThunk('categorias/Filter', async (obj: any) => {
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_API_BACK}/animals/filtro?filtro=${obj.value}`,
@@ -154,4 +162,71 @@ export const SearchA = createAsyncThunk('paginado/SearchA', async (obj:any) =>{
     },
   );
   return response.data;
+});
+
+export const PReviews = createAsyncThunk('reviews/PReviews', async (obj: any) => {
+  const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BACK}/reviews`, obj.value, {
+    headers: {
+      Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+      'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+    },
+  });
+  if (response.data.status >= 400) {
+    return falseAlertR();
+  }
+  trueAlertR();
+  console.log(response.data);
+  return response.data;
+});
+export const UReviews = createAsyncThunk('reviews/GReviews', async (obj: any) => {
+  const response = await axios.patch(
+    `${process.env.NEXT_PUBLIC_API_BACK}/reviews/${obj.id}`,
+    obj.value,
+    {
+      headers: {
+        Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+      },
+    },
+  );
+  if (response.data.status >= 400) {
+    return falseAlertC();
+  }
+  console.log(response.data);
+  trueAlertR(); 
+  location.reload();
+});
+export const GReviews = createAsyncThunk('reviews/GReviews', async (sesion: any) => {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_BACK}/reviews`,
+    {
+      headers: {
+        Authorization: `Bearer ${sesion?.token}`, // Agregar el token como encabezado de autorización
+        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+      },
+    },
+  );
+  if (response.data.status >= 400) {
+    return falseAlertC();
+  }
+  console.log(response.data);
+  return response.data;
+  /* trueAlertC(); */
+});
+export const DReviews = createAsyncThunk('reviews/GReviews', async (obj: any) => {
+  const response = await axios.delete(
+    `${process.env.NEXT_PUBLIC_API_BACK}/reviews/${obj.id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
+        'Content-Type': 'application/json', // Establecer el tipo de contenido como JSON
+      },
+    },
+  );
+  if (response.data.status >= 400) {
+    return falseAlertC();
+  }
+  console.log(response.data);
+  trueAlertD(); 
+  location.reload();
 });
