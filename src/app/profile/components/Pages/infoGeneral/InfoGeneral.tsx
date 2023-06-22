@@ -68,7 +68,7 @@ export default function InfoGeneral({ User, rol }: any) {
                   numeroTelefonico: User.phone,
                 }
                 : {
-                  Fundacion: User.nameOfFoundation,
+                  Nombres: User.nameOfFoundation,
                   año: User.dateStart,
                   descripcion: User.description,
                   pais: User.country,
@@ -84,7 +84,7 @@ export default function InfoGeneral({ User, rol }: any) {
                 <section className="w-full flex flex-col gap-1">
                   <span className="flex  justify-between">
                     {rol !== 'fundation' ? <p className="mt-1">Nombres</p> : <p>Fundacion</p>}
-                    <Input name={rol !== 'fundation' ? 'Nombres' : 'Fundacion'} types={'text'} />
+                    <Input name={rol !== 'fundation' ? 'Nombres' : 'Nombres'} types={'text'} />
                   </span>
                   <span className="flex justify-between">
                     {rol !== 'fundation' ? <p className="mt-1">Apellidos</p> : <p>Fecha</p>}
