@@ -79,12 +79,6 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
           },
         },
       );
-
-      if (isChecked) {
-        console.log('ID seleccionado:', id);
-      } else {
-        console.log('ID deseleccionado:', id);
-      }
     } catch (error) {
       console.log(error);
     }
