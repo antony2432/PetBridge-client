@@ -33,6 +33,7 @@ export default function Posts() {
         headers: {
           Authorization: `Bearer ${sesion?.token}`,
         },
+        credentials: 'include',
       })
         .then(response => response.json())
         .then(datar => {
