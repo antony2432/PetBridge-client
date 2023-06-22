@@ -21,7 +21,7 @@ const TABS = [
   {
     label: 'Users',
     value: 'users',
-    columns: ['Usuario', 'Contacto', 'Estado', ''],
+    columns: ['Usuario', 'Contacto', 'Estado', 'Editar', 'Admin'],
   },
   {
     label: 'Animals',
