@@ -8,7 +8,7 @@ export default async function Pets() {
       className="w-full h-full flex-grow flex flex-col items-center"
       style={{ backgroundImage: 'linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%)' }}
     >
-      <div className='flex flex-col  items-center'>
+      <div className='flex flex-col  items-center mt-8'>
       <InputBar/>
       <FiltersPets/>
       </div>

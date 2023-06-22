@@ -44,6 +44,7 @@ export default function Posts() {
         });
     }
   }, [sesion, isLoaded]);
+  
   return (
     <div
       className={`flex-grow flex flex-col ${
@@ -61,7 +62,7 @@ export default function Posts() {
             <section className="flex gap-5 items-center ml-[2.5%] ">
               <Avatar
                   src={
-                    sesion?.image ? sesion.image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
+                    api?.imagen ? api.imagen : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
                   }
                   alt={`${sesion?.firstName} ${sesion?.lastName}`}
                 variant="rounded"

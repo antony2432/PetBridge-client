@@ -15,12 +15,8 @@ export default function InputBar() {
     dispatch(SearchA(obj));
   }
   return (
-    <div className="w-2/3 mt-8">
-      <label
-        className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-      >
-        Search
-      </label>
+    <div className="w-2/3 z-[60]">
+     
       <div className="relative flex justify-center items-center">
         <div className="absolute inset-y-0 right-0 flex items-center mr-14 pointer-events-none">
           <svg

@@ -35,7 +35,7 @@ export default function FiltersPets() {
 
 
   return (
-    <nav className="w-full max-w-6xl absolute ml-10 mt-10 flex items-start justify-between z-50 bg-transparent">
+    <nav className="w-full max-w-6xl absolute ml-10  flex items-start justify-between z-50 bg-transparent">
       <section>
         <div>
           <Button

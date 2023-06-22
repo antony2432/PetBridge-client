@@ -53,6 +53,7 @@ export default function Paginate() {
       >
         <ArrowRightIcon strokeWidth={2} className="h-4 w-4" />
       </IconButton>
+      {active === pages ? <div className='h-4 w-8'></div> : null}
     </div>
   );
 }
