@@ -3,7 +3,10 @@ import jwt from 'jsonwebtoken';
 
 interface IBody {
   email: string;
-  password: string;
+  password?: string;
+  google: boolean;
+  firstName?: string;
+  image?: string;
 }
 interface Req {
   body: IBody;
@@ -52,10 +55,21 @@ interface IJwtPayload {
 }
 
 export default async function handlerLogin(req: Req, res: Res) {
-  const credencials: IBody = {
-    email: req.body.email,
-    password: req.body.password,
-  };
+  let credencials: IBody;
+  if (req.body.google) {
+    credencials = {
+      email: req.body.email,
+      google: req.body.google,
+      firstName: req.body.firstName,
+      image: req.body.image,
+    };
+  } else {
+    credencials = {
+      email: req.body.email,
+      password: req.body.password,
+      google: req.body.google,
+    };
+  }
   try {
     const result = await fetch(`${process.env.API_BACK}/auth/login`, {
       method: 'POST',
