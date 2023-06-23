@@ -209,7 +209,7 @@ export default function Table({ tableColumns, tableData, activeTab }: any) {
                 <tr key={id}>
                   <td className={classes}>
                     <div className="flex items-center gap-3">
-                      <Avatar src={image[0]} alt={name} size="sm" />
+                      <Avatar src={image} alt={name} size="sm" />
                       <div className="flex flex-col">
                         <Typography variant="small" color="blue-gray" className="font-normal">
                           {name}
