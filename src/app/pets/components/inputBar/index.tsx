@@ -7,6 +7,7 @@ export default function InputBar() {
   const { sesion } = useUserSesion();
   const [input, setInput] = useState('');
   const dispatch = useAppDispatch();
+
   function handleSearch() {
     var obj = {
       value: input,
@@ -14,6 +15,7 @@ export default function InputBar() {
     };
     dispatch(SearchA(obj));
   }
+
   return (
     <div className="w-2/3 z-[60]">
       <div className="relative flex justify-center items-center">

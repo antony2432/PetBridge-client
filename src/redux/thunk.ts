@@ -153,15 +153,16 @@ export const UpdatePassword = createAsyncThunk('user/Update', async (obj: any) =
     falseAlertC();
   }
 });
-export const SearchA = createAsyncThunk('paginado/SearchA', async (obj:any) =>{
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_BACK}/animals/search?name=${obj.value}`, {
-      headers:{
-        Autorization:`Bearer ${obj.sesion?.token}`,
-      },
-    },
-  );
-  return response.data;
+
+export const SearchA = createAsyncThunk('paginado/SearchA', async (obj: any) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BACK}/animals/search?name=${obj.value}`);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 export const PReviews = createAsyncThunk('reviews/PReviews', async (obj: any) => {
@@ -193,7 +194,7 @@ export const UReviews = createAsyncThunk('reviews/GReviews', async (obj: any) =>
     return falseAlertC();
   }
   console.log(response.data);
-  trueAlertR(); 
+  trueAlertR();
   location.reload();
 });
 export const GReviews = createAsyncThunk('reviews/GReviews', async (sesion: any) => {
@@ -227,6 +228,6 @@ export const DReviews = createAsyncThunk('reviews/GReviews', async (obj: any) =>
     return falseAlertC();
   }
   console.log(response.data);
-  trueAlertD(); 
+  trueAlertD();
   location.reload();
 });

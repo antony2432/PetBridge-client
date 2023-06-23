@@ -5,19 +5,20 @@ import { useAppSelector } from '@/redux/hook';
 import usePets from '../hook/usePets';
 import Paginate from '@/app/components/Paginate/Paginate';
 import { Spinner } from '@material-tailwind/react';
+import useUserSesion from '@/hook/userSesion';
 
 export default function CardsPets() {
   var Filters = useAppSelector((state) => state.paginado.Filters);
-  const { allPets } = useAppSelector((state)=>state.pets);
+  const { allPets } = useAppSelector((state) => state.pets);
+  const { sesion } = useUserSesion();
   const { fetchAllPets } = usePets();
   const paginado = useAppSelector((state) => state.paginado.componentes);
 
   useEffect(() => {
-    if (!allPets.length) {
-
+    if (allPets.length === 0) {
       fetchAllPets();
     }
-  });
+  }, [sesion]);
 
   return (
     <article className=' z-40'>
@@ -26,11 +27,11 @@ export default function CardsPets() {
       </section>
       {!Filters.length ? (
         <section className="flex justify-center">
-         {allPets.length ? (
-           <Paginate />
-         ) : (
-            <Spinner className='flex items-center justify-center h-12 w-12'/>
-         ) }
+          {allPets.length ? (
+            <Paginate />
+          ) : (
+            <Spinner className='flex items-center justify-center h-12 w-12' />
+          )}
         </section>
       ) : null}
     </article>
