@@ -11,7 +11,7 @@ export default function usePets() {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_BACK}/animals`, {
         headers: {
-          authorization: `Bearer ${sesion?.token}`,
+          Authorization: `Bearer ${sesion?.token}`,
         },
       })
       .then((response) => {
