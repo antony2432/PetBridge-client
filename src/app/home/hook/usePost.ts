@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import useUserSesion from '@/hook/userSesion';
 import { setActualize } from '@/redux/slice/pets';
 import { useAppDispatch } from '@/redux/hook';
@@ -75,12 +75,7 @@ export default function usePost() {
         setIsOpen(false);
       }
     } catch (err) {
-      const isAxiosError = (some: any): some is AxiosError => {
-        return some.isAxiosError === true;
-      };
-      if (isAxiosError(err)) {
-        if (err.response?.status === 400) alert(err.response?.data);
-      }
+      console.log(err);
     }
   };
 
