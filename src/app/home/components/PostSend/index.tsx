@@ -17,6 +17,7 @@ export default function PostSend() {
   const [userSesion, setUserSesion] = useState<any>();
   const { User } = useAppSelector(s => s.user);
   const { sesion } = useUserSesion();
+
   useEffect(() => {
     if (sesion) {
       try {
@@ -35,7 +36,6 @@ export default function PostSend() {
     }
   }, [User, sesion]);
 
-  
   const imagen = userSesion ? userSesion.image : sesion?.image;
   const { isOpen, handleopen, error, onChange, nameOfFile, onChangeFile, isDisable, onSubmit } =
     usePost();
@@ -71,7 +71,7 @@ export default function PostSend() {
             cols={30}
             rows={10}
             name="description"
-            placeholder={`Ques estas pensando ${sesion?.firstName} ?`}
+            placeholder={`Que estas pensando ${sesion?.firstName} ?`}
             className="focus:outline-none text-black"
             onChange={onChange}
           />
@@ -79,7 +79,7 @@ export default function PostSend() {
             <p className="text-sm text-red-400">Este campo tiene que estar lleno</p>
           ) : null}
           <label className="flex justify-center items-center border border-DarkBrown-800 py-3 rounded-md">
-            <span>{nameOfFile ? nameOfFile : 'Selectiona tus imagenes'}</span>
+            <span>{nameOfFile ? nameOfFile : 'Selecciona tus imagenes'}</span>
             <input
               type="file"
               accept="image/*"
