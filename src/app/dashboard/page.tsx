@@ -182,7 +182,7 @@ export default function Dashboard() {
           </Tabs>
           <div className="w-full md:w-72">
             <Input
-              label="Search"
+              label="Buscar por nombre"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
