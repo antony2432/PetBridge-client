@@ -21,7 +21,7 @@ const Perfil = ({ User, rol }: any) => {
         </div>
       </div>
       <h1 className="text-center text-lg font-semibold mt-2">
-        { User ? rol !== 'fundation' ? `${User.firstName} ${User.lastName}` : User.nameOfFoundation : null}
+        { User ? rol !== 'fundation' ? `${User.firstName} ${User.lastName ? User.lastName : ''}` : User.nameOfFoundation : null}
       </h1>
     </div>
   );

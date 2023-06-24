@@ -63,7 +63,7 @@ function ButtonSection({ sesion }: any) {
   return (
     <>
       {sesion ? (sesion?.rol !== 'fundation' ?
-        <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.firstName : sesion.firstName} ${userSesion ? userSesion.lastName : sesion.lastName}`} /> :
+        <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.firstName : sesion.firstName} ${userSesion ? (userSesion.lastName ? userSesion.lastName : '' ) : sesion.lastName}`} /> :
         <LoginSection image={userSesion ? userSesion.image : sesion.image} fullname={`${userSesion ? userSesion.nameOfFoundation : sesion.nameOfFoundation} `} />
 
       ) : (

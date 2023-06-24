@@ -13,9 +13,11 @@ export default function Paginate() {
   const [elements] = React.useState(8);
   const obj = { active, elements, sesion };
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(Paginatee(obj));
   }, []);
+
   const next = () => {
     if (active === pages) return;
     setActive(active + 1);

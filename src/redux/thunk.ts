@@ -76,12 +76,13 @@ export const setNull = createAsyncThunk('user/Users', async () => {
 export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) => {
   try {
     if (obj.sesion?.rol !== 'fundation') {
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`, obj.file, {
+      const { data } = await axios.patch(`${process.env.NEXT_PUBLIC_API_BACK}/users/update/${obj.id}`, obj.file, {
         headers: {
           Authorization: `Bearer ${obj.sesion?.token}`, // Agregar el token como encabezado de autorización
           'Content-Type': obj.tipe === 'obj' ? 'application/json' : 'multipart/form-data', // Establecer el tipo de contenido como JSON
         },
       });
+      console.log(data);
     } else {
       await axios.put(
         `${process.env.NEXT_PUBLIC_API_BACK}/asociaciones/update/${obj.id}`,
@@ -107,7 +108,8 @@ export const UpdateById = createAsyncThunk('user/Updatebyid', async (obj: any) =
     );
 
     return data;
-  } catch {
+  } catch (error) {
+    console.log(error);
     falseAlertA();
   }
 });

@@ -44,7 +44,7 @@ interface IJwtPayload {
   email: string;
   id: string;
   firstName: string;
-  lastName: string;
+  lastName: string | null;
   image: string | null;
   country: string | null;
   phone: string | null;
@@ -96,7 +96,7 @@ export default async function handlerLogin(req: Req, res: Res) {
             id: data.id,
             email: very.email,
             firstName: very.firstName,
-            lastName: very.lastName,
+            lastName: very.lastName ? very.lastName : '',
             image: very.image,
             country: very.country,
             nameOfFoundation: very.nameOfFoundation,
