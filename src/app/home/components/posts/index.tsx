@@ -4,16 +4,16 @@ import { FcLike } from 'react-icons/fc';
 import Likes from './components/likes/likes';
 import Comments from './components/comentarios/Comments';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Avatar, Spinner } from '@material-tailwind/react';
 import useUserSesion from '@/hook/userSesion';
+import { useAppSelector } from '@/redux/hook';
 
 interface Post {
   id: string;
   datePublication: string;
   description: string;
   imagen: string;
-  user: { firstName: string };
+  user: { firstName: string; email: string; image: string | null; lastName: string };
   likes: number;
   comments: [];
   userId: string;
@@ -23,18 +23,22 @@ export default function Posts() {
   const { sesion, isLoaded } = useUserSesion();
   const [data, setData] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
+  const { actualize } = useAppSelector((s) => s.pets);
 
   useEffect(() => {
     if (sesion && isLoaded) {
       setLoading(true);
-      axios
-        .get(`${process.env.NEXT_PUBLIC_API_BACK}/publications_user`, {
-          headers: {
-            Authorization: `Bearer ${sesion?.token}`,
-          },
-        })
-        .then((response) => {
-          setData(response.data);
+      fetch(`${process.env.NEXT_PUBLIC_API_BACK}/publications_user`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${sesion?.token}`,
+        },
+        credentials: 'include',
+      })
+        .then(response => response.json())
+        .then(datar => {
+          setData(datar);
+          console.log(datar);
         })
         .catch((error) => {
           console.error('Error en la solicitud:', error);
@@ -43,7 +47,8 @@ export default function Posts() {
           setLoading(false);
         });
     }
-  }, [sesion, isLoaded]);
+  }, [sesion, isLoaded, actualize]);
+
   return (
     <div
       className={`flex-grow flex flex-col ${
@@ -60,14 +65,18 @@ export default function Posts() {
           >
             <section className="flex gap-5 items-center ml-[2.5%] ">
               <Avatar
-                  src={
-                    sesion?.image ? sesion.image : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
-                  }
-                  alt={`${sesion?.firstName} ${sesion?.lastName}`}
+                src={
+                  api.user.image
+                    ? api.user.image
+                    : 'http://cdn.onlinewebfonts.com/svg/img_181369.png'
+                }
+                alt={`${api.user.firstName} ${api.user.lastName}`}
                 variant="rounded"
               />
               <section className="flex flex-col">
-                <h2 className="capitalize 2xl:text-3xl text-black text-xl ">{api.user.firstName}</h2>
+                <h2 className="capitalize 2xl:text-3xl text-black text-xl ">
+                  {api.user.firstName}
+                </h2>
                 <span className="text-sm">{api.datePublication}</span>
               </section>
             </section>
@@ -109,6 +118,7 @@ export default function Posts() {
                   datePublication={api.datePublication}
                   description={api.description}
                   imagen={api.imagen ? api.imagen[0] : null}
+                  userImg={api.user.image ? api.user.image : null}
                   id={api.id}
                   userId={api.userId}
                   comments={api.comments}

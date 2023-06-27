@@ -83,13 +83,12 @@ export default function useLogin() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(field),
+        body: JSON.stringify({ ...field, google: false }),
       });
       const data = await result.json();
       if (result.ok) {
         const dataUser = data.userInformation;
         localStorage.setItem('userSesion', JSON.stringify(dataUser));
-        console.log('llegue aqui');
         router.push('/home');
       } else {
         alert(data.message);
@@ -97,7 +96,6 @@ export default function useLogin() {
     } catch (errore: any) {
       console.log(errore.message);
     }
-
   };
 
   return {

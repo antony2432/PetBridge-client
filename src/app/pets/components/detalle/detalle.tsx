@@ -42,7 +42,7 @@ export default function DetallePet({ info }: any) {
       <Dialog
         open={open}
         handler={handleOpen}
-        className="first-letter:uppercase bg-GoldenYellow-500 border-2 border-black max-w-[100%] min-w-[100%] 2xl:min-w-[60%] 2xl:w-[60%] lg:max-w-[40%] m-0 p-0  w-screen absolute h-screen min-h-screen max-h-screen sm:h-max sm:min-h-max overflow-y-scroll lg:max-h-[900px] scroll-chido"
+        className="first-letter:uppercase bg-GoldenYellow-500 border-2 border-black max-w-[100%] min-w-[100%] 2xl:min-w-[60%] 2xl:w-[60%] 2xl:max-h-[80vh] lg:max-w-[40%] m-0 p-0  w-screen absolute h-screen min-h-screen max-h-screen sm:h-max sm:min-h-max overflow-y-scroll lg:max-h-[900px] scroll-chido"
       >
         <DialogHeader className="flex flex-col justify-end items-end text-center  ">
           <Button
@@ -56,7 +56,7 @@ export default function DetallePet({ info }: any) {
         <DialogBody divider className=" bg-white px-0 py-1 gap-2 ">
           <CarouselPet images={info.image} />
 
-          <Card className=" row-span-1 w-full bg-GoldenYellow-100 h-[25vh]">
+          <Card className=" row-span-1 w-full bg-GoldenYellow-100 h-[25vh] my-10 ">
             <CardBody>
               <Typography className="flex flex-col gap-5 ">
                 <h3 className="text-center p-5 font-extrabold text-2xl ">MI HISTORIA</h3>
@@ -82,8 +82,8 @@ export default function DetallePet({ info }: any) {
                 <h2 className="font-extrabold text-3xl text-center p-5 ">Acerca de mi</h2>
                 <ul className="text-xl grid grid-cols-2 justify-center items-center gap-5 ml-[12%] ">
                   <li>Sexo: {info.gender}</li>
-                  <li>Edad: 2 Meses</li>
-                  <li>Peso: 10kg</li>
+                  <li>Edad: {info.age_Y} años</li>
+                  <li>Peso: {info.weight}kg</li>
                   <li className="flex">
                     Pais:<h3 className="first-letter:uppercase">{info.country}</h3>
                   </li>

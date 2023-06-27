@@ -6,6 +6,8 @@ import { useState, ChangeEvent, FormEvent, useRef } from 'react';
 import ButtonSend from '../pets/components/formularioPet/AlertSend';
 import useEditPet from '../myPets/components/EdicionPets/hooks/useEditPet';
 import { useAppSelector } from '@/redux/hook';
+import useUserSesion from '@/hook/userSesion';
+import { useRouter } from 'next/navigation';
 
 
 type FormData = {
@@ -26,7 +28,7 @@ export default function Formulario() {
 
   const { petId } = useAppSelector(state => state.pets);
 
-  console.log(petId);
+ 
   const info = petId;
   const { PutPet } = useEditPet();
 
@@ -51,7 +53,7 @@ export default function Formulario() {
     asid: info.as_id,
   
   });
-
+ 
   const checkFormCompletion = () => {
     const {
       nombre,
@@ -78,9 +80,11 @@ export default function Formulario() {
       genero !== '';
     setIsFormComplete(isComplete);
   };
-
+  const router = useRouter();
+  
   const [imagenPreviaUrls, setImagenPreviaUrls] = useState<string[]>([]);
-  console.log(imagenPreviaUrls[0]);
+  console.log(info.image[0]);
+  console.log(imagenPreviaUrls);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const handleChange = (
@@ -161,8 +165,11 @@ export default function Formulario() {
       fileInputRef.current.click();
     }
   };
-
-  return (
+  const { sesion } = useUserSesion();
+  const rol = sesion?.rol;
+  if (rol !== 'user') {
+    return (
+   
     <section className="flex justify-center w-[90vw] ">
       <form
         onSubmit={handleSubmit}
@@ -220,6 +227,7 @@ export default function Formulario() {
                   type="number"
                   id="edad"
                   name="edad"
+                  defaultValue={info.edad}
                   onChange={handleChange}
                   required
                 />
@@ -274,7 +282,7 @@ export default function Formulario() {
                   Subir fotos
                 </Button>
                 <div className="grid grid-cols-3 mt-5">
-                  {imagenPreviaUrls.map((url, index) => (
+                  {imagenPreviaUrls[0] ? imagenPreviaUrls : info.image.map((url, index) => (
                     <Image
                       key={index}
                       src={url}
@@ -296,20 +304,23 @@ export default function Formulario() {
                 className="border border-blue-gray-400 rounded-lg h-10 text-center"
                 id="especie"
                 name="especie"
-                defaultValue={formData.especie}
+               
                 onChange={handleChange}
                 required
               >
                 <option hidden>Selecciona la especie</option>
-                <option>Gato</option>
-                <option>Perro</option>
-                <option>Otra Especie</option>
+                <option value='cat' >Gato</option>
+                <option value='dog' >Perro</option>
+                <option value='bird'>Aves</option>
+                <option value='Snake'>Reptil</option>
+
               </select>
               <select
                 className="border border-blue-gray-400 rounded-lg h-10 text-center xl:mb-40"
                 id="genero"
                 name="genero"
-                defaultValue={formData.genero}
+                defaultValue={info.gender}
+              
                 onChange={handleChange}
                 required
               >
@@ -328,6 +339,7 @@ export default function Formulario() {
                 id="telefono"
                 name="telefono"
                 onChange={handleChange}
+                defaultValue={info.phone}
                 required
               />
               <Input
@@ -336,6 +348,7 @@ export default function Formulario() {
                 id="email"
                 name="email"
                 onChange={handleChange}
+                defaultValue={info.email}
                 required
               />
               <Input
@@ -357,5 +370,8 @@ export default function Formulario() {
         </div>
       </form>
     </section>
-  );
+    );
+  } else {
+    router.push('/access');
+  }
 }

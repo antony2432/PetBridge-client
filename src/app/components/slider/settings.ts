@@ -1,4 +1,4 @@
-export var settings = {
+export const settings = {
   arrows: false,
   infinite: true,
   autoplay: true,

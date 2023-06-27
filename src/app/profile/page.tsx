@@ -12,12 +12,26 @@ import useUserSesion from '@/hook/userSesion';
 export default function Settings() {
   const dispatch = useAppDispatch();
   const { User } = useAppSelector((s) => s.user);
+  const [userSesion, setUserSesion] = useState<any>(null);
   const { sesion } = useUserSesion();
+
+  let rol = userSesion?.nameOfFoundation ? 'fundation' : 'user';
+
   useEffect(() => {
-    if (!User.length) {
-      dispatch(GetByName(sesion));
+    try {
+      if (!User) {
+        dispatch(GetByName(sesion));
+      }
+      setUserSesion(User);
+
+      return () => {
+        setUserSesion(null);
+      };
+    } catch (error) {
+      console.log(error);
     }
-  });
+
+  }, [User, sesion, dispatch]);
 
   const [pages, setPages] = useState({
     General: true,
@@ -28,13 +42,13 @@ export default function Settings() {
     <div className="flex justify-center m-5">
       <section>
         <span className="m-10">
-          <Perfil User={User} />
+          <Perfil User={userSesion} rol={rol} />
         </span>
         <Nav setPages={setPages} pages={pages} />
       </section>
       <span className="w-full">
-        {pages.General ? <InfoGeneral User={User} /> : null}
-        {pages.Security ? <Security User={User} /> : null}
+        {pages.General ? <InfoGeneral User={userSesion} rol={rol} /> : null}
+        {pages.Security ? <Security User={userSesion} rol={rol} /> : null}
       </span>
     </div>
   );

@@ -5,8 +5,13 @@ genero: 'Male',
 email: 'juan@gmail.com',
 direccion: 'fugio-440',
 numeroTelefonico: '3452112', */
-export const validate = ({ Nombres, Apellidos, direccion, numeroTelefonico }) => {
-  const error = {};
+export const validate = ({ Nombres, Apellidos, direccion, numeroTelefonico }:any) => {
+  const error = {
+    Nombres:'',
+    Apellidos:'',
+    numeroTelefonico:'',
+    direccion:'',
+  };
   if (!Nombres) {
     error.Nombres = 'Debes llenar este campo';
   }
@@ -24,8 +29,14 @@ export const validate = ({ Nombres, Apellidos, direccion, numeroTelefonico }) =>
   }
   return error;
 };
-export const validate2 = ({ Nombres, año, pais , description , direccion, numeroTelefonico }) => {
-  const error = {};
+export const validate2 = ({ Nombres, año, pais, description, direccion, numeroTelefonico }:any) => {
+  const error = {
+    Nombres:'',
+    Apellidos:'',
+    numeroTelefonico:'',
+    direccion:'',
+    año:'',
+  };
   if (!Nombres) {
     error.Nombres = 'Debes llenar este campo';
   }

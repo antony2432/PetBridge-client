@@ -13,15 +13,18 @@ import Image from 'next/image';
 import { useAppSelector } from '@/redux/hook';
 import { useEffect } from 'react';
 import usePets from '@/app/pets/hook/usePets';
+import useUserSesion from '@/hook/userSesion';
 
 export default function RecentRescuedAnimals() {
   const { allPets }: any = useAppSelector((state) => state.pets);
   const { fetchAllPets } = usePets();
+  const { sesion } = useUserSesion();
   let petsTeen = allPets.slice().reverse().slice(0, 10);
 
   useEffect(() => {
     fetchAllPets();
-  });
+  }, [sesion]);
+
   return (
     <section className="w-full max-w-7xl flex flex-col justify-center items-center">
       <h3 className="text-2xl text-center font-extrabold text-DarkBrown-900 md:text-4xl">

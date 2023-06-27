@@ -8,25 +8,27 @@ import { useAppDispatch } from '@/redux/hook';
 import { UpdateById } from '@/redux/thunk';
 import useUserSesion from '@/hook/userSesion';
 
-export default function InfoGeneral({ User }: any) {
+export default function InfoGeneral({ User, rol }: any) {
   const { sesion } = useUserSesion();
   const dispatch = useAppDispatch();
+
   const Guardar = (value: any) => {
     if (
-      User[0].country === value.direccion &&
-      User[0].phone === value.numeroTelefonico &&
-      User[0].firstName === value.Nombres &&
-      User[0].lastName === value.Apellidos
+      User.country === value.direccion &&
+      User.phone === value.numeroTelefonico &&
+      User.firstName === value.Nombres &&
+      User.lastName === value.Apellidos
     ) {
       return alert('Haz un cambio para actualizar');
     }
-    console.log(value);
+
     const obj2 = {
       first_Name: value.Nombres,
       last_Name: value.Apellidos,
       country: value.direccion,
       phone: value.numeroTelefonico,
     };
+
     const obj3 = {
       nameOfFoundation:value.Nombres,
       dateStart:value.año,
@@ -35,55 +37,60 @@ export default function InfoGeneral({ User }: any) {
       address:value.direccion,
       phone: value.numeroTelefonico,
     };
+
     const obj = {
-      id: User[0].id,
-      file:sesion?.rol === 'user' ? obj2 : obj3,
+      id: User.id,
+      file:rol !== 'fundation' ? obj2 : obj3,
       tipe: 'obj',
-      sesion,
+      sesion: {
+        id: User.id,
+        rol: rol,
+        token: sesion?.token,
+      },
     };
+
     dispatch(UpdateById(obj));
   };
   //  const [data] = useState(user);
-  console.log(User);
   return (
     <div className="ml-20 w-8/12">
       <h1>INFORMACION GENERAL</h1>
       <div className="border-b-2 border-[#8E5500] mt-5 w-24"></div>
       <section className="mt-2 ">
-        {User.length ? (
+        {User ? (
           <Formik
             initialValues={
-              sesion?.rol === 'user'
+              rol !== 'fundation'
                 ? {
-                  Nombres: User[0].firstName,
-                  Apellidos: User[0].lastName,
-                  direccion: User[0].country,
-                  numeroTelefonico: User[0].phone,
+                  Nombres: User.firstName,
+                  Apellidos: User.lastName,
+                  direccion: User.country,
+                  numeroTelefonico: User.phone,
                 }
                 : {
-                  Nombres: User[0].nameOfFoundation,
-                  año: User[0].dateStart,
-                  descripcion: User[0].description,
-                  pais: User[0].country,
-                  numeroTelefonico: User[0].phone,
-                  direccion: User[0].address,
+                  Nombres: User.nameOfFoundation,
+                  año: User.dateStart,
+                  descripcion: User.description,
+                  pais: User.country,
+                  numeroTelefonico: User.phone,
+                  direccion: User.address,
                 }
             }
             onSubmit={Guardar}
-            validate={sesion?.rol === 'user' ? validate : null}
+            validate={rol !== 'fundation' ? validate : undefined}
           >
             <Form>
               <div className="flex gap-2 ">
                 <section className="w-full flex flex-col gap-1">
                   <span className="flex  justify-between">
-                    {sesion?.rol === 'user' ? <p className="mt-1">Nombres</p> : <p>Fundacion</p>}
-                    <Input name={'Nombres'} types={'text'} />
+                    {rol !== 'fundation' ? <p className="mt-1">Nombres</p> : <p>Fundacion</p>}
+                    <Input name={rol !== 'fundation' ? 'Nombres' : 'Nombres'} types={'text'} />
                   </span>
                   <span className="flex justify-between">
-                    {sesion?.rol === 'user' ? <p className="mt-1">Apellidos</p> : <p>Fecha</p>}
-                    <Input name={sesion?.rol === 'user' ? 'Apellidos' : 'año'} types={'text'} />
+                    {rol !== 'fundation' ? <p className="mt-1">Apellidos</p> : <p>Fecha</p>}
+                    <Input name={rol !== 'fundation' ? 'Apellidos' : 'año'} types={'text'} />
                   </span>
-                  {sesion?.rol === 'user' ? null : <span className="flex justify-between">
+                  {rol !== 'fundation' ? null : <span className="flex justify-between">
                     <p className="mt-1">Descripcion</p>
                     <Input name={'descripcion'} types={'text'} />
                   </span>}
@@ -103,13 +110,13 @@ export default function InfoGeneral({ User }: any) {
             </span> */}
                   <span className="flex justify-between">
                     <p className="mt-1">Pais</p>
-                    <Input name={sesion?.rol === 'user' ? 'direccion' : 'pais'} types={'text'} />
+                    <Input name={rol !== 'fundation' ? 'direccion' : 'pais'} types={'text'} />
                   </span>
                   <span className="flex justify-between">
                     <p className="mt-1">Numero de Telefono</p>
                     <Input name={'numeroTelefonico'} types={'text'} />
                   </span>
-                  {sesion?.rol === 'user' ? null : <span className="flex justify-between">
+                  {rol !== 'fundation' ? null : <span className="flex justify-between">
                     <p className="mt-1">Direccion</p>
                     <Input name={'direccion'} types={'text'} />
                   </span>}

@@ -9,12 +9,9 @@ export const path: IPath[] = [
     label: 'Preguntas frecuentes',
     route: '/faqs',
   },
-  {
-    label: 'Preguntas frecuentes',
-    route: '/faqs',
-  },
+
   {
     label: 'Contacto',
-    route: '/About',
+    route: '/about',
   },
 ];

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import useUserSesion from '@/hook/userSesion';
+import { setActualize } from '@/redux/slice/pets';
+import { useAppDispatch } from '@/redux/hook';
 
 interface Fields {
   description: string;
@@ -14,6 +16,7 @@ interface Error {
 
 export default function usePost() {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useAppDispatch();
   const handleopen = () => {
     setIsOpen(!isOpen);
   };
@@ -68,15 +71,11 @@ export default function usePost() {
         },
       );
       if (response.status === 201) {
+        dispatch(setActualize());
         setIsOpen(false);
       }
     } catch (err) {
-      const isAxiosError = (some: any): some is AxiosError => {
-        return some.isAxiosError === true;
-      };
-      if (isAxiosError(err)) {
-        if (err.response?.status === 400) alert(err.response?.data);
-      }
+      console.log(err);
     }
   };
 

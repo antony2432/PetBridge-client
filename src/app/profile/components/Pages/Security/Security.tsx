@@ -14,7 +14,8 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import React, { Fragment, useState } from 'react';
 import useUserSesion from '@/hook/userSesion';
 import { useRouter } from 'next/navigation';
-export default function Security({ User }: any) {
+
+export default function Security({ User, rol }: any) {
   const { sesion, signoffSesion } = useUserSesion();
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -44,7 +45,10 @@ export default function Security({ User }: any) {
     var obj = {
       signoffSesion,
       handleOff,
-      sesion,
+      sesion: {
+        rol: rol,
+        token: sesion?.token,
+      },
       data: value,
     };
     console.log(obj);
@@ -59,7 +63,10 @@ export default function Security({ User }: any) {
     var obj = {
       signoffSesion,
       handleOff,
-      sesion,
+      sesion: {
+        rol: rol,
+        token: sesion?.token,
+      },
       data: value,
     };
     dispatch(UpdatePassword(obj));
@@ -76,7 +83,7 @@ export default function Security({ User }: any) {
           <span className="flex">
             <input
               placeholder="Gmail"
-              value={User[0] ? User[0].email : null}
+              value={User ? User.email : null}
               className="rounded border p-2 pl-5 w-full mt-2 placeholder-esmeralda700 border-esmeralda700 bg-verde50"
               disabled
             ></input>
@@ -104,7 +111,7 @@ export default function Security({ User }: any) {
               <Dialog open={open4} handler={handleOpen4}>
                 <Formik
                   initialValues={{
-                    id: User[0].id,
+                    id: User.id,
                     newEmail: '',
                     password: '',
                   }}
@@ -209,7 +216,7 @@ export default function Security({ User }: any) {
               <Dialog open={open2} handler={handleOpen}>
                 <Formik
                   initialValues={{
-                    id: User[0].id,
+                    id: User.id,
                     password: '',
                     newPassword: '',
                     repeatPasword: '',

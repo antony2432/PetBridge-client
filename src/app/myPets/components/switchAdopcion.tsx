@@ -1,13 +1,26 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Checkbox } from '@material-tailwind/react';
+import useEditPetAdopted from './hook/useAdoptado';
 
 
-export default function Check() {
+
+
+export default function Check({ estado, idPet }:any) {
  
-  const [isChecked, setIsChecked] = useState(false);
+  const { PutAdopted } = useEditPetAdopted();
+  
+ 
+  const [isChecked, setIsChecked] = useState(estado === 'pending' ? true : false);
+ 
+    
+
 
   const handleCheckboxChange = async (event: ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
+    let isState = isChecked ? 'homeless' : 'pending';
+    const response = await PutAdopted(idPet, isState);
+    console.log(response);
+   
  
   };
 

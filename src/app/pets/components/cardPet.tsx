@@ -13,7 +13,7 @@ export default function CardPet({ allPets }: any) {
       {reversedPets.map((info: any) => (
         <Card
           key={info.id}
-          className="w-72 h-96 m-6  hover:w-[140%] hover:max-w-[440px] hover:h-[500px]     hover:-mt-28 hover:mb-11 hover:z-10"
+          className="w-72 h-96  hover:w-80 hover:h-[410px]    hover:-mt-10 hover:mb-[14px] hover:z-10"
         >
           <CardHeader floated={false} className="h-80 flex justify-center items-center">
             {info.image ? (

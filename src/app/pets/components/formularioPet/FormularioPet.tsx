@@ -17,8 +17,8 @@ type FormData = {
   tamaño: string;
   especie: string;
   genero: string;
-  // telefono: string;
-  // email: string;
+  telefono: string;
+  email: string;
   // otros: string;
   // edadUnidad: string;
 };
@@ -38,10 +38,10 @@ export default function Formulario() {
     tamaño: '',
     especie: '',
     genero: '',
-    // telefono: '',
-    // email: '',
+    telefono: '',
+    email: '',
     // otros: '',
-    // edadUnidad: '',
+     
   });
 
   
@@ -56,8 +56,8 @@ export default function Formulario() {
       tamaño,
       especie,
       genero,
-      // telefono,
-      // email,
+      telefono,
+      email,
     } = formData;
 
     const isComplete =
@@ -69,9 +69,9 @@ export default function Formulario() {
       descripcion.trim() !== '' &&
       tamaño !== '' &&
       especie !== '' &&
-      genero !== '';
-      // telefono.trim() !== '' &&
-      // email.trim() !== '';
+      genero !== '' &&
+      telefono.trim() !== '' &&
+       email.trim() !== '';
 
     setIsFormComplete(isComplete);
   };
@@ -124,8 +124,11 @@ export default function Formulario() {
       status: 'homeless',
       as_id: sesion?.id,
       weight: formData.tamaño,
+      phone: formData.telefono,
+      email: formData.email,
+      age_Y: formData.edad,
     };
-
+    console.log(PetData);
     const formDataToSend = new FormData();
 
     for (const key in PetData) {
